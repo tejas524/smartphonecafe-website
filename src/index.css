@@ -1,0 +1,248 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   SmartphoneCafe — design tokens
+   Palette: near-black "ink" surfaces + a single cobalt accent + WhatsApp green
+   reserved exclusively for WhatsApp actions so it never becomes decorative.
+   ========================================================================== */
+
+@theme {
+  /* Ink (surfaces & type) */
+  --color-ink-950: #08090c;
+  --color-ink-900: #0d1015;
+  --color-ink-850: #12161c;
+  --color-ink-800: #171c24;
+  --color-ink-700: #232a34;
+  --color-ink-600: #39424f;
+  --color-ink-500: #566173;
+  --color-ink-400: #7b8698;
+  --color-ink-300: #a8b1c0;
+  --color-ink-200: #ccd3dd;
+  --color-ink-100: #e6eaf0;
+  --color-ink-50: #f4f6f9;
+
+  /* Paper */
+  --color-paper: #ffffff;
+  --color-paper-soft: #fafbfc;
+  --color-paper-mute: #f2f4f8;
+  --color-line: #e4e8ee;
+  --color-line-strong: #d3d9e2;
+
+  /* Accent — cobalt */
+  --color-accent-50: #eef4ff;
+  --color-accent-100: #dbe7ff;
+  --color-accent-200: #bcd2ff;
+  --color-accent-400: #5b8cff;
+  --color-accent-500: #2f6bff;
+  --color-accent-600: #0b53e8;
+  --color-accent-700: #0842bb;
+  --color-accent-900: #08276b;
+
+  /* WhatsApp — reserved */
+  --color-wa-500: #25d366;
+  --color-wa-600: #1da851;
+  --color-wa-700: #128c3f;
+
+  /* Type */
+  --font-display: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, sans-serif;
+
+  /* Radii */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+
+  /* Shadows — restrained, layered, never neon */
+  --shadow-card: 0 1px 2px rgb(8 9 12 / 0.04), 0 4px 16px -6px rgb(8 9 12 / 0.08);
+  --shadow-lift: 0 2px 4px rgb(8 9 12 / 0.05), 0 18px 40px -14px rgb(8 9 12 / 0.16);
+  --shadow-deep: 0 40px 80px -30px rgb(8 9 12 / 0.35);
+
+  /* Easing */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink-900);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    color: var(--color-ink-950);
+    letter-spacing: -0.022em;
+    line-height: 1.12;
+    font-weight: 700;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Visible, consistent focus ring everywhere */
+  :focus-visible {
+    outline: 2px solid var(--color-accent-600);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Only show focus ring for keyboard users on pointer targets */
+  a:focus:not(:focus-visible),
+  button:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  ::selection {
+    background: var(--color-accent-600);
+    color: #fff;
+  }
+}
+
+/* ==========================================================================
+   Components
+   ========================================================================== */
+
+@layer components {
+  .shell {
+    width: 100%;
+    max-width: 82rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .shell {
+      padding-inline: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .shell {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  /* Eyebrow / kicker */
+  .eyebrow {
+    font-family: var(--font-display);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  /* Hairline rule used to separate major blocks */
+  .hairline {
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--color-line-strong),
+      transparent
+    );
+  }
+
+  /* Subtle engineered grid backdrop for dark panels */
+  .grid-veil {
+    background-image: linear-gradient(
+        to right,
+        rgb(255 255 255 / 0.045) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.045) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+}
+
+/* ==========================================================================
+   Utilities
+   ========================================================================== */
+
+@utility text-balance-tight {
+  text-wrap: balance;
+}
+
+/* Reveal-on-scroll: opt-in, transform+opacity only (no layout thrash) */
+@layer utilities {
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.7s var(--ease-out-soft),
+      transform 0.7s var(--ease-out-soft);
+    will-change: opacity, transform;
+  }
+
+  .reveal.is-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Native fallback: if IO never runs, content must still be visible */
+  .no-io .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   Reduced motion — hard stop on all decorative movement
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

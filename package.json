@@ -1,0 +1,27 @@
+{
+  "name": "smartphonecafe-website",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "SmartphoneCafe — smartphones, repairs & accessories in Talegaon Dabhade, Maharashtra.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "assets": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/generate-brand-assets.ps1",
+    "photos": "node scripts/process-shop-photos.mjs",
+    "ocr": "powershell -NoProfile -ExecutionPolicy Bypass -File _tools/ocr-shop-photos.ps1"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.28.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.11",
+    "@vitejs/plugin-react": "^4.3.4",
+    "sharp": "^0.35.4",
+    "tailwindcss": "^4.1.11",
+    "vite": "^6.0.7"
+  }
+}

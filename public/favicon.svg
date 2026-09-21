@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44" width="44" height="44" role="img" aria-label="SmartphoneCafe">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#171c24"/>
+      <stop offset="100%" stop-color="#08090c"/>
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="40" height="40" rx="13" fill="url(#g)"/>
+  <rect x="2.75" y="2.75" width="38.5" height="38.5" rx="12.35" fill="none" stroke="#ffffff" stroke-opacity="0.16" stroke-width="1.5"/>
+  <path d="M28.6 14.6H19.7a4.05 4.05 0 0 0 0 8.1h4.6a4.05 4.05 0 0 1 0 8.1h-8.9" fill="none" stroke="#ffffff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="30.6" cy="30.4" r="2.3" fill="#5b8cff"/>
+</svg>

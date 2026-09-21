@@ -1,0 +1,23 @@
+{
+  "name": "SmartphoneCafe — Smartphones & Mobile Repair, Talegaon Dabhade",
+  "short_name": "SmartphoneCafe",
+  "description": "Smartphone sales, repairs and accessories on Talegaon Station Road, Talegaon Dabhade.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#08090c",
+  "lang": "en-IN",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
