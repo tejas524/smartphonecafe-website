@@ -21,7 +21,7 @@ function OfferCard(offer) {
       target="_blank"
       rel="noopener noreferrer"
       aria-label={`${offer.alt} — enquire on WhatsApp`}
-      className="flex aspect-square w-full items-center justify-center overflow-hidden rounded-[var(--radius-md)] border border-line bg-white p-1.5 shadow-[var(--shadow-card)] transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-0.5 hover:border-line-strong hover:shadow-[var(--shadow-lift)]"
+      className="flex aspect-square w-full items-center justify-center overflow-hidden rounded-[var(--radius-md)] border border-line bg-white p-1 shadow-[var(--shadow-card)] transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-0.5 hover:border-line-strong hover:shadow-[var(--shadow-lift)]"
     >
       <img
         src={offer.src}
@@ -44,20 +44,27 @@ export default function OffersSection() {
       aria-labelledby="offers-heading"
       style={{ scrollMarginTop: "5.5rem" }}
     >
-      <div className="shell py-12 lg:py-16">
+      <div className="shell py-10 lg:py-14">
         <SectionHeading
           eyebrow="Offers"
           id="offers-heading"
           title="Deals for you"
-          lead="Tap an offer to ask us on WhatsApp what's available today."
+          size="sm"
         />
+        <Reveal
+          as="p"
+          delay={120}
+          className="mt-1.5 max-w-xl text-[0.875rem] leading-relaxed text-ink-500"
+        >
+          Tap an offer to ask us on WhatsApp what's available today.
+        </Reveal>
 
-        <Reveal className="mt-6">
+        <Reveal className="mt-5">
           <CardCarousel
             items={offerBanners}
             ariaLabel="offer"
-            gapClass="gap-5"
-            cardBasis="basis-[78%] sm:basis-[calc(50%-0.625rem)] lg:basis-[calc(25%-0.9375rem)]"
+            gapClass="gap-4"
+            cardBasis="basis-[80%] sm:basis-[calc(50%-0.5rem)] lg:basis-[calc(25%-0.75rem)]"
             renderItem={(offer) => <OfferCard key={offer.id} {...offer} />}
           />
         </Reveal>
