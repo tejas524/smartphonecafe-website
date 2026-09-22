@@ -40,9 +40,9 @@ export default function Hero() {
   return (
     <section className="bg-white" aria-labelledby="hero-heading">
       <div className="shell pb-16 pt-28 sm:pt-32 lg:pb-24 lg:pt-36">
-        <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
+        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
           {/* ------------------------------------------------------- copy */}
-          <div className="lg:col-span-5">
+          <div className="min-w-0">
             <Reveal
               as="p"
               className="eyebrow text-ink-400"
@@ -54,7 +54,7 @@ export default function Hero() {
               as="h1"
               id="hero-heading"
               delay={70}
-              className="mt-5 max-w-[17ch] text-[2.125rem] leading-[1.08] tracking-[-0.03em] sm:text-[2.625rem] lg:text-[2.875rem] xl:text-[3.125rem]"
+              className="mt-5 max-w-[21ch] text-[2.125rem] leading-[1.06] tracking-[-0.03em] sm:text-[2.625rem] lg:text-[2.5rem] xl:text-[3.25rem]"
             >
               Your next phone. Your local repair shop.
             </Reveal>
@@ -110,13 +110,13 @@ export default function Hero() {
           </div>
 
           {/* -------------------------------------------------- photograph */}
-          <Reveal delay={120} className="lg:col-span-7">
+          <Reveal delay={120} className="min-w-0">
             <figure className="m-0">
               <Photo
                 photo={HERO_PHOTO}
                 priority
                 aspect="3 / 2"
-                sizes="(min-width: 1024px) 58vw, 100vw"
+                sizes="(min-width: 1024px) 48vw, 100vw"
                 rounded="rounded-[var(--radius-xl)]"
                 className="bg-paper-mute"
               />

@@ -469,7 +469,13 @@ export default function Home() {
                     <dt className="w-[5.5rem] shrink-0 text-[0.75rem] font-semibold uppercase tracking-wider text-ink-400">
                       {row.k}
                     </dt>
-                    <dd className="text-[0.875rem] leading-snug text-ink-700">
+                    {/*
+                      min-w-0 + overflow-wrap:anywhere lets this cell shrink below
+                      its min-content width. The Place ID is a single 27-character
+                      token with no break opportunity, which would otherwise force
+                      the whole page wider than a 320px viewport.
+                    */}
+                    <dd className="min-w-0 text-[0.875rem] leading-snug text-ink-700 [overflow-wrap:anywhere]">
                       {row.v}
                     </dd>
                   </div>

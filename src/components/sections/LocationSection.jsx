@@ -143,7 +143,9 @@ export default function LocationSection({ tone = "light" }) {
                       />
                       {row.label}
                     </dt>
-                    <dd className="text-[0.9375rem] leading-relaxed text-ink-700">
+                    {/* min-w-0 + anywhere: the plus code is a long unbreakable
+                        token, so this cell must be allowed to shrink and wrap. */}
+                    <dd className="min-w-0 text-[0.9375rem] leading-relaxed text-ink-700 [overflow-wrap:anywhere]">
                       {row.value}
                     </dd>
                   </div>

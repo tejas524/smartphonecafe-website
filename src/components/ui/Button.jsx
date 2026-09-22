@@ -26,10 +26,17 @@ const VARIANTS = {
   ghost: "text-ink-700 hover:text-ink-950 hover:bg-paper-mute",
 };
 
+/**
+ * Sizes use `min-h` + vertical padding rather than a fixed height, so a label
+ * that wraps on a very narrow screen grows the button instead of clipping.
+ * Below 360px the `whitespace-nowrap` in the base is relaxed: a long label such
+ * as "Check availability on WhatsApp" otherwise enforces a ~298px min-content
+ * width and pushes the whole page wider than a 320px viewport.
+ */
 const SIZES = {
-  sm: "h-9 px-3.5 text-[0.8125rem] gap-1.5 rounded-[10px]",
-  md: "h-11 px-5 text-[0.875rem] gap-2 rounded-[12px]",
-  lg: "h-[3.25rem] px-6 text-[0.9375rem] gap-2 rounded-[14px]",
+  sm: "min-h-9 px-3.5 py-1.5 text-[0.8125rem] gap-1.5 rounded-[10px]",
+  md: "min-h-11 px-5 py-2 text-[0.875rem] gap-2 rounded-[12px]",
+  lg: "min-h-[3.25rem] px-6 py-2.5 text-[0.9375rem] gap-2 rounded-[14px]",
 };
 
 export default function Button({
@@ -46,9 +53,9 @@ export default function Button({
   ...rest
 }) {
   const cls = [
-    "group/btn inline-flex items-center justify-center font-display font-semibold tracking-[-0.01em]",
+    "group/btn inline-flex items-center justify-center text-center font-display font-semibold tracking-[-0.01em]",
     "transition-[background-color,border-color,color,transform,box-shadow] duration-200 ease-out",
-    "active:translate-y-px select-none whitespace-nowrap",
+    "active:translate-y-px select-none whitespace-nowrap max-[359px]:whitespace-normal",
     VARIANTS[variant] || VARIANTS.primary,
     SIZES[size] || SIZES.md,
     full ? "w-full" : "",

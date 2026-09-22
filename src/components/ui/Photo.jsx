@@ -34,7 +34,11 @@ export default function Photo({
         alt={photo.alt}
         loading={priority ? "eager" : "lazy"}
         decoding={priority ? "sync" : "async"}
-        fetchPriority={priority ? "high" : "auto"}
+        // Lowercase on purpose: React 18 does not recognise the camelCase
+        // `fetchPriority` and logs a "React does not recognize the prop"
+        // warning. A lowercase attribute is passed through to the DOM
+        // verbatim, which is what the HTML spec actually defines.
+        {...(priority ? { fetchpriority: "high" } : {})}
         className={`h-full w-full object-cover ${imgClassName}`}
       />
 
