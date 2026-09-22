@@ -11,20 +11,18 @@
  * topic and every card routes to WhatsApp to confirm what is available today.
  */
 
+// Each category carries an owner-supplied banner image (public/accessory-images),
+// re-encoded to webp from the artwork in public/accessory-image. `image` may be
+// missing without breaking the card — the UI falls back to the icon tile.
 export const accessoryCategories = [
   {
     id: "protection",
     icon: "shield",
-    title: "Covers & cases",
+    title: "Mobile covers",
     blurb:
       "Back covers and protective cases to keep a new handset safe from day one.",
-  },
-  {
-    id: "glass",
-    icon: "screenCrack",
-    title: "Screen protection",
-    blurb:
-      "Screen guards and tempered glass, fitted at the counter so it lines up properly.",
+    image: "/accessory-images/covers.webp",
+    alt: "Mobile covers and cases in a range of styles and colours",
   },
   {
     id: "power",
@@ -32,6 +30,17 @@ export const accessoryCategories = [
     title: "Chargers & cables",
     blurb:
       "Chargers and data cables for the common handsets people bring in every day.",
+    image: "/accessory-images/chargers-cables.webp",
+    alt: "Fast chargers and cables for everyday devices",
+  },
+  {
+    id: "glass",
+    icon: "screenCrack",
+    title: "Tempered glass",
+    blurb:
+      "Screen guards and tempered glass, fitted at the counter so it lines up properly.",
+    image: "/accessory-images/tempered-glass.webp",
+    alt: "Premium tempered glass screen protectors",
   },
   {
     id: "audio",
@@ -39,6 +48,8 @@ export const accessoryCategories = [
     title: "Earphones & audio",
     blurb:
       "Wired and wireless earphones for calls, music and everything in between.",
+    image: "/accessory-images/earphones-audio.webp",
+    alt: "Earphones and audio accessories",
   },
   {
     id: "backup",
@@ -46,13 +57,17 @@ export const accessoryCategories = [
     title: "Power banks",
     blurb:
       "Portable backup power for long days, travel and load-shedding hours.",
+    image: "/accessory-images/power-banks.webp",
+    alt: "Portable power banks for charging on the go",
   },
   {
     id: "storage",
     icon: "chip",
-    title: "Memory cards & storage",
+    title: "More accessories",
     blurb:
-      "Memory cards and storage extras to give your phone more room.",
+      "SIM & memory cards, phone stands, car accessories, cleaning kits and more.",
+    image: "/accessory-images/other-accessories.webp",
+    alt: "Other accessories including memory cards, stands and cleaning kits",
   },
 ];
 

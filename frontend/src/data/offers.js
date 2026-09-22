@@ -24,47 +24,50 @@
  */
 
 import { waLink, waMessages } from "../utils/whatsapp.js";
-import { business } from "./site.js";
 
-export const offers = [
+/**
+ * OFFER BANNERS — owner-supplied promotional artwork, used AS-IS.
+ *
+ * The four images live in public/offers-images/ exactly as the owner provided
+ * them (only losslessly renamed to clean slugs). Per the brief: one image = one
+ * offer; do not generate, combine, replace or invent offer content. So each
+ * banner is shown whole, with no overlaid text. The banners carry their own
+ * calls to action; tapping one simply opens a WhatsApp enquiry so the customer
+ * can confirm the current terms with the store. `alt` is transcribed from each
+ * banner (OCR) — no claim is added that the artwork does not already make.
+ */
+export const offerBanners = [
   {
-    id: "deals",
-    icon: "tag",
-    badge: "Ask in store",
-    title: "Exclusive deals, in store",
-    subtitle: "Current offers change often",
-    body: "The shop advertises exclusive deals in store. Stock and pricing move quickly, so message us to hear exactly what is running right now — no guesswork, no out-of-date figures.",
-    // Directly quotes the business's own Google listing description.
-    source: "From the shop's own Google listing description",
-    ctaLabel: "Ask about deals",
-    ctaHref: waLink(waMessages.offers()),
-    external: true,
+    id: "accessories",
+    src: "/offers-images/offer-accessories.png",
+    width: 1672,
+    height: 941,
+    alt: "Accessories offer: save on selected accessories — covers, chargers, earphones, power banks and more. Offer on selected accessories only; check in-store for details.",
+    ctaMessage: waMessages.accessories(),
   },
   {
-    id: "emi",
-    icon: "rupee",
-    badge: "At the counter",
-    title: "Easy EMI options in store",
-    subtitle: "Instalments discussed at the counter",
-    body: "EMI and cashback signage is displayed inside the shop, including Bajaj Finserv. Exact schemes, eligibility and rates are set by the finance provider and are not published online — ask at the counter for the current terms.",
-    // Photographed in-store signage; flagged as in-store information.
-    source: "In-store signage · terms set by the finance provider",
-    needsConfirmation: true,
-    ctaLabel: "Ask in store",
-    ctaHref: business.phoneTel,
-    external: false,
+    id: "galaxy-a55",
+    src: "/offers-images/offer-galaxy-a55.png",
+    width: 1672,
+    height: 941,
+    alt: "Samsung Galaxy A55 5G — 50MP triple camera, Super AMOLED display, IP67 water resistant. Visit store for best price; offer valid for a limited time, T&C apply.",
+    ctaMessage: waMessages.smartphones(),
   },
   {
-    id: "repairs",
-    icon: "wrench",
-    badge: "Service",
-    title: "Quick repairs, checked first",
-    subtitle: "Faults assessed before any work",
-    body: "We are a dedicated mobile phone repair shop. Bring the phone in and the fault is checked in front of you — no work begins until you agree. The listing promises quick repairs but states no timeframe, so none is promised here.",
-    source: "Google listing categories and description",
-    ctaLabel: "WhatsApp your problem",
-    ctaHref: waLink(waMessages.repairs()),
-    external: true,
+    id: "covers-glass",
+    src: "/offers-images/offer-covers-glass.png",
+    width: 1672,
+    height: 941,
+    alt: "Special combo: buy a cover and tempered glass together. Scratch resistant, fingerprint protection and crystal-clear display. Check in-store for details.",
+    ctaMessage: waMessages.accessories(),
+  },
+  {
+    id: "exchange",
+    src: "/offers-images/offer-exchange.png",
+    width: 1672,
+    height: 941,
+    alt: "Exchange offer: upgrade to a new smartphone and get value for your old phone. Final value depends on condition and model; bring your phone to the store, T&C apply.",
+    ctaMessage: waMessages.smartphones(),
   },
 ];
 

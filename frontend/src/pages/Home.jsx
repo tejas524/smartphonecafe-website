@@ -3,6 +3,7 @@ import Hero from "../components/sections/Hero.jsx";
 import TrustBar from "../components/sections/TrustBar.jsx";
 import OffersSection from "../components/sections/OffersSection.jsx";
 import BrandGrid, { BrandCta } from "../components/sections/BrandGrid.jsx";
+import LatestSmartphones from "../components/sections/LatestSmartphones.jsx";
 import LocationSection from "../components/sections/LocationSection.jsx";
 import CtaBand from "../components/sections/CtaBand.jsx";
 import SectionHeading from "../components/ui/SectionHeading.jsx";
@@ -10,8 +11,8 @@ import Button from "../components/ui/Button.jsx";
 import Icon from "../components/Icon.jsx";
 import Reveal from "../components/ui/Reveal.jsx";
 import Photo from "../components/ui/Photo.jsx";
+import AssetImage from "../components/ui/AssetImage.jsx";
 import { business } from "../data/site.js";
-import { smartphoneCategories } from "../data/brands.js";
 import { repairIssues } from "../data/repairs.js";
 import { accessoryCategories } from "../data/accessories.js";
 import { photos } from "../data/photos.js";
@@ -19,39 +20,28 @@ import { waLink, waMessages } from "../utils/whatsapp.js";
 import usePageMeta from "../utils/usePageMeta.js";
 
 /**
- * Homepage.
- *
- * Section order follows the approved prototype structure:
- *   1. Top bar        (layout/TopBar, inside Header)
- *   2. Navigation     (layout/Header)
- *   3. Hero
- *   4. Trust / features   (TrustBar)
- *   5. Offers             (OffersSection — honest, no invented figures)
- *   6. Brands
- *   7. Smartphones
- *   8. Repairs
- *   9. Accessories
- *  10. Gallery
- *  11. About             (with the verified Google-listing facts folded in)
- *  12. Store + Map       (LocationSection)
- *  13. Footer            (layout/Footer)
+ * Homepage — image-led, in the approved 13-section order:
+ *   1 Top bar · 2 Navigation  (layout/Header + TopBar)
+ *   3 Hero (full-width, real store photo)
+ *   4 Trust / features (TrustBar)
+ *   5 Offers (owner-supplied banners, as-is)
+ *   6 Shop by brand (official logos)
+ *   7 Latest smartphones (official product renders, representative)
+ *   8 Repairs (real store photo)
+ *   9 Accessories (owner-supplied category banners)
+ *  10 Gallery (real store photos)
+ *  11 About (real store photo + verified listing quote)
+ *  12 Store + Map (LocationSection)
+ *  13 Footer (layout/Footer)
  * A closing WhatsApp/call band (CtaBand) sits just above the footer.
  *
- * IMAGE CURATION (every assignment below is evidence-based)
- *  hero      → interior          In-store display signage legible (OPPO, vivo,
- *                                Samsung Galaxy A14 5G). Sharpest frame.
- *  about     → ownerWithCustomer Owner and customer at the counter.
- *  phones    → products          Promotional boards for OPPO/vivo models.
- *  repairs   → counterService    Service at the counter — captioned as the
- *                                counter, NOT a repair bench (no repair photo
- *                                exists).
- *  gallery   → three strongest wide frames.
- * No photograph is captioned as showing something the pixels do not support.
+ * No price, stock or availability is asserted anywhere; catalog imagery is
+ * representative and every card routes to a "Check Availability" enquiry.
  */
 
 export default function Home() {
   usePageMeta({
-    title: null, // Home uses the full default title from index.html
+    title: null,
     description:
       "SmartphoneCafe is a mobile phone store and repair shop on Talegaon Station Road, Talegaon Dabhade. Browse smartphones, pick up accessories and get your phone repaired. Open 10 am – 9:30 pm daily.",
     path: "/",
@@ -68,8 +58,8 @@ export default function Home() {
       {/* 5 — Offers */}
       <OffersSection />
 
-      {/* 6 — Brands */}
-      <section className="bg-paper-soft" aria-labelledby="brands-heading">
+      {/* 6 — Shop by brand */}
+      <section className="bg-white" aria-labelledby="brands-heading">
         <div className="shell py-16 lg:py-24">
           <SectionHeading
             eyebrow="Shop by brand"
@@ -88,71 +78,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 7 — Smartphones */}
-      <section className="bg-white" aria-labelledby="phones-heading">
-        <div className="shell py-16 lg:py-24">
-          <SectionHeading
-            eyebrow="Smartphones"
-            id="phones-heading"
-            title="Find the right phone, not just any phone"
-            lead="Tell us your budget and how you use your phone. We will show you what fits — and what is actually available today."
-          />
-
-          <div className="mt-10 grid gap-10 lg:grid-cols-12 lg:gap-16">
-            <Reveal delay={100} className="lg:col-span-6">
-              <Photo
-                photo={photos.products}
-                aspect="4 / 3"
-                sizes="(min-width: 1024px) 48vw, 100vw"
-                rounded="rounded-[var(--radius-lg)]"
-                className="bg-white"
-              />
-              <p className="mt-3 text-[0.75rem] text-ink-400">
-                {photos.products.caption} — handset model boards and easy-EMI
-                offers posted in store
-              </p>
-            </Reveal>
-
-            <div className="lg:col-span-6">
-              <ul className="border-t border-line">
-                {smartphoneCategories.map((c, i) => (
-                  <li key={c.id}>
-                    <Reveal delay={i * 60}>
-                      <Link
-                        to="/smartphones"
-                        className="group/row flex items-start gap-5 border-b border-line py-5 transition-colors hover:bg-paper-soft"
-                      >
-                        <span className="mt-0.5 font-display text-[0.75rem] font-bold tabular-nums text-ink-300">
-                          {String(i + 1).padStart(2, "0")}
-                        </span>
-                        <span className="min-w-0 flex-1">
-                          <span className="block font-display text-[1.0625rem] font-bold tracking-[-0.02em] text-ink-950">
-                            {c.title}
-                          </span>
-                          <span className="mt-1.5 block text-[0.9375rem] leading-relaxed text-ink-600">
-                            {c.blurb}
-                          </span>
-                        </span>
-                        <Icon
-                          name="arrowRight"
-                          size={17}
-                          className="mt-1 shrink-0 text-ink-300 transition-transform duration-200 group-hover/row:translate-x-0.5 group-hover/row:text-accent-600"
-                        />
-                      </Link>
-                    </Reveal>
-                  </li>
-                ))}
-              </ul>
-
-              <Reveal delay={280} className="mt-8">
-                <Button to="/smartphones" variant="primary" size="lg" iconRight="arrowRight">
-                  Browse smartphones
-                </Button>
-              </Reveal>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* 7 — Latest smartphones */}
+      <LatestSmartphones />
 
       {/* 8 — Repairs */}
       <section className="bg-ink-950" aria-labelledby="repairs-heading">
@@ -246,57 +173,70 @@ export default function Home() {
       {/* 9 — Accessories */}
       <section className="bg-paper-soft" aria-labelledby="accessories-heading">
         <div className="shell py-16 lg:py-24">
-          <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
-            <div className="lg:col-span-5">
-              <SectionHeading
-                eyebrow="Accessories"
-                id="accessories-heading"
-                title="Everything you need"
-                lead="Covers, screen protection, chargers, earphones and power banks — the everyday items you end up needing the same day."
-              />
-
-              <Reveal delay={200} className="mt-8 flex flex-wrap items-center gap-4">
-                <Button
-                  href={waLink(waMessages.accessories())}
-                  external
-                  variant="wa"
-                  size="lg"
-                  icon="whatsapp"
-                >
-                  Ask what is in stock
-                </Button>
-                <p className="max-w-[24ch] text-[0.8125rem] leading-snug text-ink-500">
-                  Accessory stock changes often — message us and we will check.
-                </p>
-              </Reveal>
-            </div>
-
-            <div className="lg:col-span-7">
-              <ul className="grid border-t border-line sm:grid-cols-2 sm:gap-x-10">
-                {accessoryCategories.map((a, i) => (
-                  <li key={a.id}>
-                    <Reveal delay={i * 45}>
-                      <div className="flex items-start gap-3.5 border-b border-line py-4">
-                        <Icon
-                          name={a.icon}
-                          size={17}
-                          className="mt-0.5 shrink-0 text-accent-600"
-                        />
-                        <div className="min-w-0">
-                          <h3 className="font-display text-[0.9375rem] font-bold tracking-[-0.015em] text-ink-950">
-                            {a.title}
-                          </h3>
-                          <p className="mt-1 text-[0.875rem] leading-relaxed text-ink-600">
-                            {a.blurb}
-                          </p>
-                        </div>
-                      </div>
-                    </Reveal>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <SectionHeading
+              eyebrow="Accessories"
+              id="accessories-heading"
+              title="Everything you need"
+              lead="Covers, screen protection, chargers, earphones and power banks — the everyday items you end up needing the same day."
+            />
+            <Reveal delay={140} className="shrink-0">
+              <Button
+                href={waLink(waMessages.accessories())}
+                external
+                variant="wa"
+                size="lg"
+                icon="whatsapp"
+              >
+                Ask what is in stock
+              </Button>
+            </Reveal>
           </div>
+
+          <ul className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {accessoryCategories.map((a, i) => (
+              <li key={a.id} className="h-full">
+                <Reveal delay={i * 60} className="h-full">
+                  <a
+                    href={waLink(waMessages.accessories())}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Ask about ${a.title} on WhatsApp`}
+                    className="group/acc flex h-full flex-col overflow-hidden rounded-[var(--radius-lg)] border border-line bg-white transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-line-strong hover:shadow-[var(--shadow-lift)]"
+                  >
+                    <AssetImage
+                      src={a.image}
+                      alt={a.alt}
+                      aspect="3 / 2"
+                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                      imgClassName="transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/acc:scale-[1.03]"
+                      className="bg-paper-mute"
+                      fallback={
+                        <div className="flex h-full w-full items-center justify-center bg-[radial-gradient(120%_120%_at_50%_0%,#f4f6fb_0%,#e9edf6_100%)]">
+                          <Icon name={a.icon} size={40} className="text-accent-600" />
+                        </div>
+                      }
+                    />
+                    <div className="flex flex-1 items-center justify-between gap-3 border-t border-line p-4">
+                      <div className="min-w-0">
+                        <h3 className="font-display text-[0.9375rem] font-bold tracking-[-0.015em] text-ink-950">
+                          {a.title}
+                        </h3>
+                        <p className="mt-0.5 line-clamp-1 text-[0.8125rem] text-ink-500">
+                          {a.blurb}
+                        </p>
+                      </div>
+                      <Icon
+                        name="arrowRight"
+                        size={16}
+                        className="shrink-0 text-ink-300 transition-transform duration-200 group-hover/acc:translate-x-0.5 group-hover/acc:text-accent-600"
+                      />
+                    </div>
+                  </a>
+                </Reveal>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
@@ -341,7 +281,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 11 — About (with verified Google-listing facts) */}
+      {/* 11 — About */}
       <section className="bg-paper-soft" aria-labelledby="intro-heading">
         <div className="shell py-16 lg:py-24">
           <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
@@ -365,7 +305,6 @@ export default function Home() {
                 </p>
               </Reveal>
 
-              {/* What you can do here — typographic, no cards. */}
               <dl className="mt-9 border-t border-line">
                 {[
                   { k: "Smartphones", v: "Compare handsets and take one home set up" },

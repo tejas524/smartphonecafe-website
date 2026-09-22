@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Button from "../ui/Button.jsx";
 import Icon from "../Icon.jsx";
 import Reveal from "../ui/Reveal.jsx";
@@ -5,59 +6,62 @@ import { brands } from "../../data/brands.js";
 import { waLink, waMessages } from "../../utils/whatsapp.js";
 
 /**
- * Brand showcase.
+ * Brand logo of the given brand, served from public/brand-logos/<slug>.svg.
  *
- * Rendered as text wordmarks rather than logos: the shop's authorised-dealer
- * status is unverified, so reproducing manufacturer marks would imply a
- * relationship that has not been confirmed. Typographic cards also stay crisp
- * at every size and cost nothing to load.
+ * These are the real, official brand marks (sourced as vector SVG). If a logo
+ * ever fails to load the card falls back to a clean typographic wordmark, so
+ * the grid is never broken. Logos are used nominatively to show which brands
+ * the shop sells — no dealership or partnership is claimed.
  */
-export default function BrandGrid({ tone = "light", limit }) {
+function BrandLogo({ brand }) {
+  const [failed, setFailed] = useState(!brand.logo);
+  if (failed) {
+    return (
+      <span className="font-display text-[1.125rem] font-extrabold tracking-[-0.03em] text-ink-900">
+        {brand.name}
+      </span>
+    );
+  }
+  return (
+    <img
+      src={brand.logo}
+      alt={`${brand.name} logo`}
+      loading="lazy"
+      decoding="async"
+      onError={() => setFailed(true)}
+      className="max-h-8 w-auto max-w-[8rem] object-contain"
+    />
+  );
+}
+
+/**
+ * Shop-by-brand grid — official logos on clean cards, each opening a WhatsApp
+ * availability enquiry for that brand.
+ */
+export default function BrandGrid({ limit }) {
   const list = limit ? brands.slice(0, limit) : brands;
-  const isDark = tone === "dark";
 
   return (
-    <ul
-      className={`grid grid-cols-2 gap-px overflow-hidden rounded-[var(--radius-lg)] sm:grid-cols-3 lg:grid-cols-5 ${
-        isDark ? "bg-white/10" : "bg-line"
-      }`}
-    >
+    <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
       {list.map((brand, i) => (
-        <li key={brand.name} className={isDark ? "bg-ink-900" : "bg-white"}>
-          <Reveal delay={i * 35}>
+        <li key={brand.name}>
+          <Reveal delay={i * 35} className="h-full">
             <a
               href={waLink(waMessages.brand(brand.name))}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`Enquire about ${brand.name} smartphones on WhatsApp`}
-              className={`group/brand flex h-full min-h-[7rem] flex-col justify-between p-5 transition-colors duration-200 ${
-                isDark ? "hover:bg-ink-850" : "hover:bg-paper-soft"
-              }`}
+              className="group/brand flex h-full flex-col items-center justify-center gap-4 rounded-[var(--radius-lg)] border border-line bg-white p-5 transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-line-strong hover:shadow-[var(--shadow-lift)]"
             >
-              <span
-                className={`font-display text-[1.25rem] font-extrabold leading-none tracking-[-0.035em] transition-colors sm:text-[1.375rem] ${
-                  isDark
-                    ? "text-white/85 group-hover/brand:text-white"
-                    : "text-ink-900 group-hover/brand:text-accent-600"
-                }`}
-              >
-                {brand.name}
+              <span className="flex h-12 items-center justify-center">
+                <BrandLogo brand={brand} />
               </span>
-
-              <span className="mt-4 flex items-end justify-between gap-2">
-                <span
-                  className={`text-[0.75rem] leading-tight ${
-                    isDark ? "text-ink-500" : "text-ink-400"
-                  }`}
-                >
-                  {brand.note}
-                </span>
+              <span className="flex items-center gap-1 text-[0.75rem] font-medium text-ink-400 transition-colors group-hover/brand:text-accent-600">
+                {brand.note}
                 <Icon
                   name="arrowUpRight"
-                  size={15}
-                  className={`shrink-0 transition-transform duration-200 group-hover/brand:-translate-y-0.5 group-hover/brand:translate-x-0.5 ${
-                    isDark ? "text-ink-600" : "text-ink-300"
-                  }`}
+                  size={13}
+                  className="opacity-0 transition-opacity duration-200 group-hover/brand:opacity-100"
                 />
               </span>
             </a>

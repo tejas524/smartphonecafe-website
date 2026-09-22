@@ -1,27 +1,23 @@
 import { useEffect, useState } from "react";
 import Button from "../ui/Button.jsx";
-import Reveal from "../ui/Reveal.jsx";
-import Photo from "../ui/Photo.jsx";
+import Icon from "../Icon.jsx";
 import { business } from "../../data/site.js";
 import { photos } from "../../data/photos.js";
 import { waLink, waMessages } from "../../utils/whatsapp.js";
 import { getStoreStatus } from "../../utils/hours.js";
 
 /**
- * Homepage hero — editorial split layout.
+ * Homepage hero — large, image-led, full-width.
  *
- * Left:  clean type on plain paper. One headline, one short paragraph, two
- *        actions, one line of location/hours. The headline follows the
- *        prototype's direction ("Your trusted mobile shop … in Talegaon
- *        Dabhade") and the sub-line reuses the shop's own listing wording —
- *        "latest smartphones, reliable accessories … quick repairs" — so it
- *        matches the prototype without inventing any claim.
- * Right: a real photograph of the store at full strength, with no dark scrim
- *        and no UI laid over it. The photography is the authenticity.
+ * A real photograph of the store fills the frame edge-to-edge, under a dark
+ * gradient tuned for legibility. On top: a high-contrast headline, a short
+ * supporting line, a primary + secondary CTA, and a live "open now / hours"
+ * trust row. The headline follows the reference's direction while the
+ * supporting copy reuses the shop's own Google-listing wording, so nothing is
+ * invented.
  *
- * The photograph is `store photo from inside.jpg` (source 4000x2250) — the
- * sharpest, most detailed frame supplied, and the one whose in-store display
- * signage is legible enough to confirm genuine retail displays.
+ * Photo: `store photo from inside.jpg` (source 4000x2250) — the sharpest frame
+ * supplied and the one whose in-store display signage is legible.
  */
 
 const HERO_PHOTO = photos.interior;
@@ -39,91 +35,95 @@ export default function Hero() {
   const isOpen = status.known ? status.isOpen : null;
 
   return (
-    <section className="bg-white" aria-labelledby="hero-heading">
-      <div className="shell pb-16 pt-12 sm:pt-14 lg:pb-24 lg:pt-20">
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-          {/* ------------------------------------------------------- copy */}
-          <div className="min-w-0">
-            <Reveal as="p" className="eyebrow text-accent-600">
-              Smartphones · Repairs · Accessories
-            </Reveal>
+    <section
+      className="relative isolate overflow-hidden bg-ink-950"
+      aria-labelledby="hero-heading"
+    >
+      {/* Background photograph */}
+      <img
+        src={HERO_PHOTO.src}
+        srcSet={HERO_PHOTO.srcset}
+        sizes="100vw"
+        width={HERO_PHOTO.width}
+        height={HERO_PHOTO.height}
+        alt={HERO_PHOTO.alt}
+        fetchpriority="high"
+        decoding="sync"
+        className="absolute inset-0 -z-10 h-full w-full object-cover"
+      />
 
-            <Reveal
-              as="h1"
-              id="hero-heading"
-              delay={70}
-              className="mt-5 max-w-[20ch] text-[2.125rem] leading-[1.05] tracking-[-0.03em] sm:text-[2.75rem] lg:text-[2.75rem] xl:text-[3.5rem]"
+      {/* Gradient overlay for text contrast (kept out of the a11y tree) */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10"
+        style={{
+          background:
+            "linear-gradient(90deg, rgb(6 7 10 / 0.92) 0%, rgb(6 7 10 / 0.78) 38%, rgb(6 7 10 / 0.45) 70%, rgb(6 7 10 / 0.25) 100%)",
+        }}
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10"
+        style={{
+          background:
+            "linear-gradient(0deg, rgb(6 7 10 / 0.65) 0%, rgb(6 7 10 / 0) 45%)",
+        }}
+      />
+
+      <div className="shell flex min-h-[34rem] flex-col justify-center py-16 sm:min-h-[38rem] lg:min-h-[42rem] lg:py-24">
+        <div className="max-w-2xl">
+          <p className="eyebrow text-accent-300">
+            Smartphones · Repairs · Accessories
+          </p>
+
+          <h1
+            id="hero-heading"
+            className="mt-5 max-w-[18ch] text-[2.25rem] font-extrabold leading-[1.03] tracking-[-0.035em] text-white sm:text-[3rem] lg:text-[3.75rem]"
+          >
+            Your trusted mobile destination in Talegaon&nbsp;Dabhade
+          </h1>
+
+          <p className="mt-6 max-w-xl text-[1.0625rem] leading-relaxed text-white/80 sm:text-[1.1875rem]">
+            The latest smartphones, reliable accessories and quick repairs — all
+            under one roof on Talegaon Station Road.
+          </p>
+
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+            <Button to="/smartphones" variant="primary" size="lg" icon="smartphone">
+              Explore Smartphones
+            </Button>
+            <Button
+              href={waLink(waMessages.general())}
+              external
+              variant="wa"
+              size="lg"
+              icon="whatsapp"
             >
-              Your trusted mobile shop in Talegaon&nbsp;Dabhade
-            </Reveal>
-
-            <Reveal
-              as="p"
-              delay={130}
-              className="mt-6 max-w-[48ch] text-[1.0625rem] leading-relaxed text-ink-600 sm:text-[1.125rem]"
-            >
-              The latest smartphones, reliable accessories and quick repairs —
-              all under one roof on Talegaon Station Road. Come in to compare
-              handsets, pick up the essentials, or have a fault checked at the
-              counter.
-            </Reveal>
-
-            <Reveal delay={190} className="mt-9 flex flex-wrap items-center gap-3">
-              <Button to="/smartphones" variant="primary" size="lg" icon="smartphone">
-                Explore Smartphones
-              </Button>
-              <Button
-                href={waLink(waMessages.general())}
-                external
-                variant="wa"
-                size="lg"
-                icon="whatsapp"
-              >
-                WhatsApp Us
-              </Button>
-            </Reveal>
-
-            {/* Location + hours: small, single line, no card. */}
-            <Reveal
-              delay={250}
-              className="mt-8 flex flex-wrap items-center gap-x-2.5 gap-y-1.5 text-[0.8125rem] text-ink-500"
-            >
-              <span className="inline-flex items-center gap-2">
-                <span
-                  aria-hidden="true"
-                  className={`h-1.5 w-1.5 shrink-0 rounded-full ${
-                    isOpen === false ? "bg-ink-300" : "bg-wa-500"
-                  }`}
-                />
-                Talegaon Dabhade
-              </span>
-              <span aria-hidden="true" className="text-ink-300">
-                ·
-              </span>
-              <span>Open 10 AM – 9:30 PM</span>
-              <span aria-hidden="true" className="text-ink-300">
-                ·
-              </span>
-              <span>All 7 days</span>
-            </Reveal>
+              WhatsApp Us
+            </Button>
           </div>
 
-          {/* -------------------------------------------------- photograph */}
-          <Reveal delay={120} className="min-w-0">
-            <figure className="m-0">
-              <Photo
-                photo={HERO_PHOTO}
-                priority
-                aspect="3 / 2"
-                sizes="(min-width: 1024px) 48vw, 100vw"
-                rounded="rounded-[var(--radius-xl)]"
-                className="bg-paper-mute"
+          {/* Trust / location row */}
+          <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-[0.8125rem] text-white/70">
+            <span className="inline-flex items-center gap-2">
+              <span
+                aria-hidden="true"
+                className={`h-2 w-2 shrink-0 rounded-full ${
+                  isOpen === false ? "bg-white/40" : "bg-wa-500"
+                }`}
+                style={isOpen !== false ? { boxShadow: "0 0 0 4px rgb(37 211 102 / 0.22)" } : undefined}
               />
-              <figcaption className="mt-3 text-[0.75rem] text-ink-400">
-                {HERO_PHOTO.caption} — {business.address.short}
-              </figcaption>
-            </figure>
-          </Reveal>
+              {isOpen === false ? "Currently closed" : "Open now"} · {business.hours.label}
+            </span>
+            <span className="inline-flex items-center gap-2">
+              <Icon name="mapPin" size={15} className="text-white/50" />
+              Talegaon Station Road
+            </span>
+            <span className="inline-flex items-center gap-2">
+              <Icon name="clock" size={15} className="text-white/50" />
+              Open all 7 days
+            </span>
+          </div>
         </div>
       </div>
     </section>

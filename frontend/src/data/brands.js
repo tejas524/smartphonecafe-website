@@ -7,16 +7,16 @@
  */
 
 export const brands = [
-  { name: "Apple", note: "iPhone", category: "premium" },
-  { name: "Samsung", note: "Galaxy", category: "mainstream" },
-  { name: "Motorola", note: "Moto G & Edge", category: "mainstream" },
-  { name: "Redmi", note: "Note & budget", category: "value" },
-  { name: "Realme", note: "Narzo & number series", category: "value" },
-  { name: "Vivo", note: "Y & V series", category: "mainstream" },
-  { name: "OPPO", note: "A & Reno series", category: "mainstream" },
-  { name: "POCO", note: "X, M & C series", category: "value" },
-  { name: "Tecno", note: "Spark & Camon", category: "value" },
-  { name: "Lava", note: "Blaze & Agni", category: "value" },
+  { name: "Apple", slug: "apple", note: "iPhone", category: "premium", logo: "/brand-logos/apple.svg" },
+  { name: "Samsung", slug: "samsung", note: "Galaxy", category: "mainstream", logo: "/brand-logos/samsung.svg" },
+  { name: "Motorola", slug: "motorola", note: "Moto G & Edge", category: "mainstream", logo: "/brand-logos/motorola.svg" },
+  { name: "Redmi", slug: "redmi", note: "Note & budget", category: "value", logo: "/brand-logos/redmi.svg" },
+  { name: "Realme", slug: "realme", note: "Narzo & number series", category: "value", logo: "/brand-logos/realme.svg" },
+  { name: "Vivo", slug: "vivo", note: "Y & V series", category: "mainstream", logo: "/brand-logos/vivo.svg" },
+  { name: "OPPO", slug: "oppo", note: "A & Reno series", category: "mainstream", logo: "/brand-logos/oppo.svg" },
+  { name: "POCO", slug: "poco", note: "X, M & C series", category: "value", logo: "/brand-logos/poco.svg" },
+  { name: "Tecno", slug: "tecno", note: "Spark & Camon", category: "value", logo: "/brand-logos/tecno.svg" },
+  { name: "Lava", slug: "lava", note: "Blaze & Agni", category: "value", logo: "/brand-logos/lava.svg" },
 ];
 
 /**

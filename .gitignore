@@ -44,3 +44,6 @@ desktop.ini
 
 # Scratch / extraction tooling (not part of the shipped site)
 _tools/
+
+# Generated image-processing reports
+**/scripts/*.report.json
