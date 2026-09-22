@@ -26,7 +26,7 @@ const PUB = path.resolve(HERE, "..", "public");
 const SRC = path.resolve(HERE, "..", "catalog-src");
 
 const products = [
-  { slug: "iphone-16", src: "iphone-16-finish-select-202409-6-1inch_AV1.webp" },
+  { slug: "iphone-16", src: "iphone-16.png" },
   { slug: "galaxy-s26-fe", src: "in-galaxy-s26-fe-sm-s741-sm-s741blgcins-thumb-554411440.avif" },
   { slug: "motorola-edge-60", src: "0veg5y4aeufycq5soj0hy9vgxn6op9585371.avif" },
   { slug: "redmi-note-14", src: "7c9ac30b8bfe2a6d2a02cdba118b29f8.webp" },

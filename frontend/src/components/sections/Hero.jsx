@@ -58,7 +58,7 @@ export default function Hero() {
         className="absolute inset-0 -z-10"
         style={{
           background:
-            "linear-gradient(90deg, rgb(6 7 10 / 0.92) 0%, rgb(6 7 10 / 0.78) 38%, rgb(6 7 10 / 0.45) 70%, rgb(6 7 10 / 0.25) 100%)",
+            "linear-gradient(90deg, rgb(6 7 10 / 0.92) 50%, rgb(6 7 10 / 0.78) 58%, rgb(6 7 10 / 0.45) 70%, rgb(6 7 10 / 0.25) 100%)",
         }}
       />
       <div
