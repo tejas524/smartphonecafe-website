@@ -21,7 +21,7 @@ function OfferCard(offer) {
       target="_blank"
       rel="noopener noreferrer"
       aria-label={`${offer.alt} — enquire on WhatsApp`}
-      className="flex aspect-square w-full items-center justify-center overflow-hidden rounded-[var(--radius-md)] border border-line bg-white p-3 shadow-[var(--shadow-card)] transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-0.5 hover:border-line-strong hover:shadow-[var(--shadow-lift)]"
+      className="flex aspect-square w-full items-center justify-center overflow-hidden rounded-[var(--radius-md)] border border-line bg-white p-1.5 shadow-[var(--shadow-card)] transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-0.5 hover:border-line-strong hover:shadow-[var(--shadow-lift)]"
     >
       <img
         src={offer.src}
@@ -30,7 +30,7 @@ function OfferCard(offer) {
         alt={offer.alt}
         loading="lazy"
         decoding="async"
-        className="max-h-full max-w-full object-contain"
+        className="h-auto w-full object-contain"
       />
     </a>
   );
@@ -44,7 +44,7 @@ export default function OffersSection() {
       aria-labelledby="offers-heading"
       style={{ scrollMarginTop: "5.5rem" }}
     >
-      <div className="shell py-16 lg:py-24">
+      <div className="shell py-12 lg:py-16">
         <SectionHeading
           eyebrow="Offers"
           id="offers-heading"
@@ -52,7 +52,7 @@ export default function OffersSection() {
           lead="Tap an offer to ask us on WhatsApp what's available today."
         />
 
-        <Reveal className="mt-8">
+        <Reveal className="mt-6">
           <CardCarousel
             items={offerBanners}
             ariaLabel="offer"
