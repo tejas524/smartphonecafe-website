@@ -10,6 +10,7 @@
     "preview": "npm --prefix frontend run preview",
     "assets": "npm --prefix frontend run assets",
     "photos": "npm --prefix frontend run photos",
-    "ocr": "npm --prefix frontend run ocr"
+    "ocr": "npm --prefix frontend run ocr",
+    "db:seed:generate": "node database/generate-seed.mjs"
   }
 }
