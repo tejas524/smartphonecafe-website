@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import Hero from "../components/sections/Hero.jsx";
-import TrustBar from "../components/sections/TrustBar.jsx";
+import StoreHighlights from "../components/sections/StoreHighlights.jsx";
 import OffersSection from "../components/sections/OffersSection.jsx";
 import BrandGrid, { BrandCta } from "../components/sections/BrandGrid.jsx";
 import LatestSmartphones from "../components/sections/LatestSmartphones.jsx";
@@ -11,7 +11,6 @@ import Button from "../components/ui/Button.jsx";
 import Icon from "../components/Icon.jsx";
 import Reveal from "../components/ui/Reveal.jsx";
 import Photo from "../components/ui/Photo.jsx";
-import AssetImage from "../components/ui/AssetImage.jsx";
 import { business } from "../data/site.js";
 import { repairIssues } from "../data/repairs.js";
 import { accessoryCategories } from "../data/accessories.js";
@@ -20,25 +19,26 @@ import { waLink, waMessages } from "../utils/whatsapp.js";
 import usePageMeta from "../utils/usePageMeta.js";
 
 /**
- * Homepage — image-led, in the approved 13-section order:
- *   1 Top bar · 2 Navigation  (layout/Header + TopBar)
- *   3 Hero (full-width, real store photo)
- *   4 Trust / features (TrustBar)
- *   5 Offers (owner-supplied banners, as-is)
- *   6 Shop by brand (official logos)
- *   7 Latest smartphones (official product renders, representative)
- *   8 Repairs (real store photo)
- *   9 Accessories (owner-supplied category banners)
- *  10 Gallery (real store photos)
- *  11 About (real store photo + verified listing quote)
- *  12 Store + Map (LocationSection)
- *  13 Footer (layout/Footer)
- * A closing WhatsApp/call band (CtaBand) sits just above the footer.
+ * Homepage — editorial skeleton, typography- and photography-led, in the
+ * approved 14-section order:
+ *   1 Utility bar · 2 Navigation        (layout/Header + TopBar)
+ *   3 Hero            (full-width real store photo + readability gradient)
+ *   4 Store highlights (quiet divider strip)
+ *   5 Offers          (editorial text cards, no artwork)
+ *   6 Brands          (editorial logo wall)
+ *   7 Smartphones     (text cards + neutral image area, shared carousel)
+ *   8 Repairs         (real store photo + text rows)
+ *   9 Accessories     (text category grid, no images)
+ *  10 Inside SmartphoneCafe (asymmetric real-photo gallery)
+ *  11 About           (editorial split + real photo)
+ *  12 Visit store     (clean split: details + Google map)
+ *  13 Final CTA       (dark band)
+ *  14 Footer          (layout/Footer)
  *
- * No price, stock or availability is asserted anywhere; catalog imagery is
- * representative and every card routes to a "Check Availability" enquiry.
+ * No price, stock, spec or availability is asserted anywhere. Offers,
+ * smartphones and accessories carry no images in this phase; every card routes
+ * to a WhatsApp enquiry so terms are confirmed with the store.
  */
-
 export default function Home() {
   usePageMeta({
     title: null,
@@ -52,20 +52,20 @@ export default function Home() {
       {/* 3 — Hero */}
       <Hero />
 
-      {/* 4 — Trust / features */}
-      <TrustBar />
+      {/* 4 — Store highlights */}
+      <StoreHighlights />
 
       {/* 5 — Offers */}
       <OffersSection />
 
-      {/* 6 — Shop by brand */}
+      {/* 6 — Brands */}
       <section className="bg-white" aria-labelledby="brands-heading">
-        <div className="shell py-14 lg:py-20">
+        <div className="shell py-16 lg:py-24">
           <SectionHeading
             eyebrow="Shop by brand"
             id="brands-heading"
-            title="The brands people come in asking for"
-            lead="Tap any brand to start a WhatsApp enquiry. This is the list of brands we are asked about most — it is not a stock list, so we will confirm what is in store when you message."
+            title="The brands people ask for"
+            lead="Tap a brand to start a WhatsApp enquiry. This is the list we are asked about most — not a stock list, so we confirm what is in store when you message."
           />
 
           <div className="mt-10">
@@ -78,23 +78,40 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 7 — Latest smartphones */}
+      {/* 7 — Smartphones */}
       <LatestSmartphones />
 
       {/* 8 — Repairs */}
-      <section className="bg-ink-950" aria-labelledby="repairs-heading">
-        <div className="shell py-14 lg:py-20">
+      <section
+        className="border-y border-line bg-paper-soft"
+        aria-labelledby="repairs-heading"
+      >
+        <div className="shell py-16 lg:py-24">
           <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
-            <div className="lg:col-span-5">
+            {/* Photo */}
+            <Reveal className="lg:col-span-6">
+              <Photo
+                photo={photos.counterService}
+                aspect="4 / 3"
+                sizes="(min-width: 1024px) 48vw, 100vw"
+                rounded="rounded-[var(--radius-lg)]"
+                className="bg-paper-mute"
+              />
+              <p className="mt-3 text-[0.75rem] text-ink-400">
+                {photos.counterService.caption} — at the SmartphoneCafe counter
+              </p>
+            </Reveal>
+
+            {/* Copy + repair types */}
+            <div className="lg:col-span-6">
               <SectionHeading
-                eyebrow="Our services"
+                eyebrow="Repairs"
                 id="repairs-heading"
-                tone="light"
                 title="Mobile repair services"
                 lead="We are a dedicated mobile phone repair shop. Bring the phone in and the fault is checked at the counter before anything goes ahead."
               />
 
-              <Reveal delay={200} className="mt-8 flex flex-wrap gap-3">
+              <Reveal delay={160} className="mt-7 flex flex-wrap gap-3">
                 <Button
                   href={waLink(waMessages.repairs())}
                   external
@@ -104,61 +121,31 @@ export default function Home() {
                 >
                   WhatsApp your problem
                 </Button>
-                <Button href={business.phoneTel} variant="onDark" size="lg" icon="phone">
+                <Button href={business.phoneTel} variant="outline" size="lg" icon="phone">
                   Call {business.phoneDisplay}
                 </Button>
               </Reveal>
 
-              <Reveal delay={240} className="mt-8">
-                <Link
-                  to="/repairs"
-                  className="group/link inline-flex items-center gap-2 font-display text-[0.9375rem] font-semibold text-accent-400 transition-colors hover:text-accent-200"
-                >
-                  See repair services
-                  <Icon
-                    name="arrowRight"
-                    size={16}
-                    className="transition-transform duration-200 group-hover/link:translate-x-0.5"
-                  />
-                </Link>
-              </Reveal>
-            </div>
-
-            <div className="lg:col-span-7">
-              <Reveal>
-                <Photo
-                  photo={photos.counterService}
-                  aspect="16 / 9"
-                  sizes="(min-width: 1024px) 56vw, 100vw"
-                  rounded="rounded-[var(--radius-lg)]"
-                  className="bg-ink-900"
-                />
-                <p className="mt-3 text-[0.75rem] text-ink-500">
-                  {photos.counterService.caption} — customer service at the
-                  SmartphoneCafe counter
-                </p>
-              </Reveal>
-
-              <ul className="mt-10 grid gap-x-10 sm:grid-cols-2">
+              <ul className="mt-9 grid gap-x-10 sm:grid-cols-2">
                 {repairIssues.slice(0, 8).map((issue, i) => (
                   <li key={issue.id}>
-                    <Reveal delay={i * 40}>
+                    <Reveal delay={i * 35}>
                       <Link
                         to="/repairs"
-                        className="group/rep flex items-center gap-3 border-t border-white/10 py-3.5 transition-colors"
+                        className="group/rep flex items-center gap-3 border-t border-line py-3 transition-colors"
                       >
                         <Icon
                           name={issue.icon}
-                          size={17}
-                          className="shrink-0 text-accent-400"
+                          size={16}
+                          className="shrink-0 text-accent-600"
                         />
-                        <span className="min-w-0 flex-1 font-display text-[0.9375rem] font-semibold tracking-[-0.015em] text-white">
+                        <span className="min-w-0 flex-1 font-display text-[0.9375rem] font-semibold tracking-[-0.015em] text-ink-900">
                           {issue.title}
                         </span>
                         <Icon
                           name="arrowRight"
                           size={15}
-                          className="shrink-0 text-ink-600 transition-transform duration-200 group-hover/rep:translate-x-0.5"
+                          className="shrink-0 text-ink-300 transition-transform duration-200 group-hover/rep:translate-x-0.5 group-hover/rep:text-accent-600"
                         />
                       </Link>
                     </Reveal>
@@ -172,12 +159,12 @@ export default function Home() {
 
       {/* 9 — Accessories */}
       <section
-        className="bg-paper-soft"
+        className="bg-white"
         id="accessories"
         aria-labelledby="accessories-heading"
         style={{ scrollMarginTop: "5.5rem" }}
       >
-        <div className="shell py-14 lg:py-20">
+        <div className="shell py-16 lg:py-24">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <SectionHeading
               eyebrow="Accessories"
@@ -198,45 +185,33 @@ export default function Home() {
             </Reveal>
           </div>
 
-          <ul className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="mt-10 grid grid-cols-1 gap-px overflow-hidden rounded-[var(--radius-md)] bg-line sm:grid-cols-2 lg:grid-cols-3">
             {accessoryCategories.map((a, i) => (
-              <li key={a.id} className="h-full">
-                <Reveal delay={i * 60} className="h-full">
+              <li key={a.id} className="bg-white">
+                <Reveal delay={i * 45} className="h-full">
                   <a
                     href={waLink(waMessages.accessories())}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`Ask about ${a.title} on WhatsApp`}
-                    className="group/acc flex h-full flex-col overflow-hidden rounded-[var(--radius-lg)] border border-line bg-white transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-line-strong hover:shadow-[var(--shadow-lift)]"
+                    className="group/acc flex h-full flex-col justify-between gap-6 p-6 transition-colors duration-300 hover:bg-paper-soft"
                   >
-                    <AssetImage
-                      src={a.image}
-                      alt={a.alt}
-                      aspect="3 / 2"
-                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                      imgClassName="transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/acc:scale-[1.03]"
-                      className="bg-paper-mute"
-                      fallback={
-                        <div className="flex h-full w-full items-center justify-center bg-[radial-gradient(120%_120%_at_50%_0%,#f4f6fb_0%,#e9edf6_100%)]">
-                          <Icon name={a.icon} size={40} className="text-accent-600" />
-                        </div>
-                      }
-                    />
-                    <div className="flex flex-1 items-center justify-between gap-3 border-t border-line p-4">
-                      <div className="min-w-0">
-                        <h3 className="font-display text-[0.9375rem] font-bold tracking-[-0.015em] text-ink-950">
-                          {a.title}
-                        </h3>
-                        <p className="mt-0.5 line-clamp-1 text-[0.8125rem] text-ink-500">
-                          {a.blurb}
-                        </p>
-                      </div>
+                    <div>
+                      <h3 className="font-display text-[1.0625rem] font-bold tracking-[-0.02em] text-ink-950">
+                        {a.title}
+                      </h3>
+                      <p className="mt-2 text-[0.9375rem] leading-relaxed text-ink-600">
+                        {a.blurb}
+                      </p>
+                    </div>
+                    <span className="inline-flex items-center gap-1.5 font-display text-[0.8125rem] font-semibold text-accent-600">
+                      Ask on WhatsApp
                       <Icon
                         name="arrowRight"
-                        size={16}
-                        className="shrink-0 text-ink-300 transition-transform duration-200 group-hover/acc:translate-x-0.5 group-hover/acc:text-accent-600"
+                        size={14}
+                        className="transition-transform duration-200 group-hover/acc:translate-x-0.5"
                       />
-                    </div>
+                    </span>
                   </a>
                 </Reveal>
               </li>
@@ -245,9 +220,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 10 — Gallery */}
-      <section className="bg-white" aria-labelledby="gallery-heading">
-        <div className="shell py-14 lg:py-20">
+      {/* 10 — Inside SmartphoneCafe */}
+      <section
+        className="border-t border-line bg-paper-soft"
+        aria-labelledby="gallery-heading"
+      >
+        <div className="shell py-16 lg:py-24">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <SectionHeading
               eyebrow="Our store"
@@ -262,15 +240,32 @@ export default function Home() {
             </Reveal>
           </div>
 
-          <div className="mt-10 grid gap-4 sm:grid-cols-3">
-            {[photos.interiorWide, photos.inStoreService, photos.customerService].map(
-              (p, i) => (
-                <Reveal key={p.id} delay={i * 70}>
+          {/* Asymmetric gallery: one large feature + two supporting images */}
+          <div className="mt-10 grid gap-4 lg:grid-cols-12">
+            <Reveal className="lg:col-span-7">
+              <Link to="/gallery" className="group/gal block">
+                <Photo
+                  photo={photos.interiorWide}
+                  aspect="16 / 10"
+                  sizes="(min-width: 1024px) 56vw, 100vw"
+                  rounded="rounded-[var(--radius-lg)]"
+                  className="bg-paper-mute"
+                  imgClassName="transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/gal:scale-[1.03]"
+                />
+                <span className="mt-3 block text-[0.75rem] text-ink-400">
+                  {photos.interiorWide.caption}
+                </span>
+              </Link>
+            </Reveal>
+
+            <div className="grid gap-4 sm:grid-cols-2 lg:col-span-5 lg:grid-cols-1">
+              {[photos.ownerWithCustomer, photos.inStoreService].map((p, i) => (
+                <Reveal key={p.id} delay={80 + i * 80}>
                   <Link to="/gallery" className="group/gal block">
                     <Photo
                       photo={p}
-                      aspect="4 / 3"
-                      sizes="(min-width: 640px) 33vw, 100vw"
+                      aspect="16 / 10"
+                      sizes="(min-width: 1024px) 28vw, (min-width: 640px) 50vw, 100vw"
                       rounded="rounded-[var(--radius-lg)]"
                       className="bg-paper-mute"
                       imgClassName="transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/gal:scale-[1.03]"
@@ -280,15 +275,15 @@ export default function Home() {
                     </span>
                   </Link>
                 </Reveal>
-              )
-            )}
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* 11 — About */}
-      <section className="bg-paper-soft" aria-labelledby="intro-heading">
-        <div className="shell py-14 lg:py-20">
+      <section className="bg-white" aria-labelledby="intro-heading">
+        <div className="shell py-16 lg:py-24">
           <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-5">
               <SectionHeading
@@ -310,24 +305,15 @@ export default function Home() {
                 </p>
               </Reveal>
 
-              <dl className="mt-9 border-t border-line">
-                {[
-                  { k: "Smartphones", v: "Compare handsets and take one home set up" },
-                  { k: "Repairs", v: "Faults assessed at the counter" },
-                  { k: "Accessories", v: "Covers, glass, chargers, earphones" },
-                ].map((row, i) => (
-                  <Reveal key={row.k} delay={180 + i * 50}>
-                    <div className="flex flex-col gap-1 border-b border-line py-3.5 sm:flex-row sm:items-baseline sm:gap-6">
-                      <dt className="font-display text-[0.9375rem] font-bold tracking-[-0.015em] text-ink-950 sm:w-[9.5rem] sm:shrink-0">
-                        {row.k}
-                      </dt>
-                      <dd className="text-[0.9375rem] leading-relaxed text-ink-600">
-                        {row.v}
-                      </dd>
-                    </div>
-                  </Reveal>
-                ))}
-              </dl>
+              <blockquote className="mt-8 border-l-2 border-accent-600 pl-5">
+                <p className="text-[1rem] leading-relaxed text-ink-700 italic">
+                  “{business.listingDescription}”
+                </p>
+                <footer className="mt-3 text-[0.75rem] text-ink-400">
+                  — {business.listingName}, description published on their Google
+                  Business Profile
+                </footer>
+              </blockquote>
 
               <Reveal delay={330} className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
                 <Link
@@ -365,25 +351,15 @@ export default function Home() {
               <p className="mt-3 text-[0.75rem] text-ink-400">
                 {photos.ownerWithCustomer.caption}
               </p>
-
-              <blockquote className="mt-8 border-l-2 border-accent-600 pl-5">
-                <p className="text-[1rem] leading-relaxed text-ink-700 italic">
-                  “{business.listingDescription}”
-                </p>
-                <footer className="mt-3 text-[0.75rem] text-ink-400">
-                  — {business.listingName}, description published on their Google
-                  Business Profile
-                </footer>
-              </blockquote>
             </Reveal>
           </div>
         </div>
       </section>
 
-      {/* 12 — Store + Map */}
+      {/* 12 — Visit store */}
       <LocationSection />
 
-      {/* Closing conversion band, then 13 — Footer (in Layout) */}
+      {/* 13 — Final CTA, then 14 — Footer (in Layout) */}
       <CtaBand />
     </>
   );

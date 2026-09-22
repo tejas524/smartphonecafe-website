@@ -34,25 +34,29 @@ function BrandLogo({ brand }) {
 }
 
 /**
- * Shop-by-brand grid — official logos on clean cards, each opening a WhatsApp
- * availability enquiry for that brand.
+ * Shop-by-brand grid — an editorial logo wall.
+ *
+ * Logos sit on a clean hairline grid (1px gap over a line-coloured backing),
+ * not inside heavy rounded cards. Generous vertical space, one consistent logo
+ * height, subtle separators. Each cell opens a WhatsApp availability enquiry
+ * for that brand.
  */
 export default function BrandGrid({ limit }) {
   const list = limit ? brands.slice(0, limit) : brands;
 
   return (
-    <ul className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+    <ul className="grid grid-cols-2 gap-px overflow-hidden rounded-[var(--radius-md)] bg-line sm:grid-cols-3 lg:grid-cols-5">
       {list.map((brand, i) => (
-        <li key={brand.name}>
+        <li key={brand.name} className="bg-white">
           <Reveal delay={i * 30} className="h-full">
             <a
               href={waLink(waMessages.brand(brand.name))}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`Enquire about ${brand.name} smartphones on WhatsApp`}
-              className="group/brand flex h-full min-h-[5.5rem] items-center justify-center rounded-[var(--radius-md)] border border-line bg-white px-4 py-5 transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-line-strong hover:shadow-[var(--shadow-card)]"
+              className="group/brand flex h-full min-h-[6.5rem] items-center justify-center px-5 py-8 transition-colors duration-300 hover:bg-paper-soft"
             >
-              <span className="flex items-center justify-center opacity-90 transition-opacity duration-300 group-hover/brand:opacity-100">
+              <span className="flex items-center justify-center opacity-85 transition-opacity duration-300 group-hover/brand:opacity-100">
                 <BrandLogo brand={brand} />
               </span>
             </a>

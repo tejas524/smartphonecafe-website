@@ -1,53 +1,65 @@
-import { useState } from "react";
 import Icon from "../Icon.jsx";
 import Reveal from "../ui/Reveal.jsx";
 import SectionHeading from "../ui/SectionHeading.jsx";
 import Button from "../ui/Button.jsx";
+import CardCarousel from "../ui/CardCarousel.jsx";
 import { smartphoneModels, smartphoneModelsNote } from "../../data/products.js";
 import { waLink, waMessages } from "../../utils/whatsapp.js";
 
 /**
- * Product image with a brand-logo fallback.
+ * Latest smartphones — text cards on the shared CardCarousel skeleton.
  *
- * If the official render is missing, the card shows the brand logo on the same
- * gradient so the grid never breaks and never fabricates a product photo.
+ * No product images in this phase: each card reserves a clean, neutral area
+ * where a real render will later drop in without changing the layout. No price,
+ * spec, stock or discount is shown — only Brand → Model → Check availability.
+ * With five models the row overflows on desktop, so the carousel activates
+ * (four visible, one waiting); four or fewer would render as a static row.
  */
-function ProductImage({ model }) {
-  const [failed, setFailed] = useState(!model.image);
-
+function PhoneCard(model) {
   return (
-    <div className="relative flex aspect-square items-center justify-center bg-[radial-gradient(120%_120%_at_50%_0%,#f4f6fb_0%,#e9edf6_100%)] p-6">
-      {failed ? (
-        <img
-          src={`/brand-logos/${model.brandSlug}.svg`}
-          alt={`${model.brand} logo`}
-          loading="lazy"
-          decoding="async"
-          className="max-h-12 w-auto max-w-[9rem] object-contain opacity-80"
-        />
-      ) : (
-        <img
-          src={model.image}
-          alt={model.alt}
-          loading="lazy"
-          decoding="async"
-          onError={() => setFailed(true)}
-          className="h-full w-full object-contain transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/card:scale-[1.05]"
-        />
-      )}
-    </div>
+    <a
+      href={waLink(waMessages.availability(`${model.brand} ${model.model}`))}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`Check availability of the ${model.brand} ${model.model} on WhatsApp`}
+      className="group/card flex h-full w-full flex-col overflow-hidden rounded-[var(--radius-md)] border border-line bg-white transition-colors duration-300 hover:border-ink-300"
+    >
+      {/* Neutral product area — intentionally image-free, sized so a real
+          render can be inserted later without touching the card design. */}
+      <div
+        aria-hidden="true"
+        className="flex items-center justify-center bg-paper-mute"
+        style={{ aspectRatio: "4 / 5" }}
+      >
+        <span className="font-display text-[0.8125rem] font-semibold uppercase tracking-[0.14em] text-ink-300">
+          {model.brand}
+        </span>
+      </div>
+
+      <div className="flex flex-1 flex-col p-5">
+        <p className="text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-ink-400">
+          {model.brand}
+        </p>
+        <h3 className="mt-1 font-display text-[1.0625rem] font-bold tracking-[-0.015em] text-ink-950">
+          {model.model}
+        </h3>
+        <span className="mt-4 inline-flex items-center gap-1.5 font-display text-[0.875rem] font-semibold text-accent-600">
+          Check availability
+          <Icon
+            name="arrowRight"
+            size={15}
+            className="transition-transform duration-200 group-hover/card:translate-x-0.5"
+          />
+        </span>
+      </div>
+    </a>
   );
 }
 
-/**
- * "Latest Smartphones" — a visual, representative line-up (not a stock list).
- * Official renders on clean cards; each opens a "Check Availability" WhatsApp
- * enquiry. No price, stock or availability is stated anywhere.
- */
 export default function LatestSmartphones() {
   return (
     <section className="bg-white" aria-labelledby="latest-heading">
-      <div className="shell py-14 lg:py-20">
+      <div className="shell py-16 lg:py-24">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading
             eyebrow="Latest smartphones"
@@ -68,44 +80,17 @@ export default function LatestSmartphones() {
           </Reveal>
         </div>
 
-        <ul className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-          {smartphoneModels.map((model, i) => (
-            <li key={model.slug}>
-              <Reveal delay={i * 60} className="h-full">
-                <a
-                  href={waLink(waMessages.availability(`${model.brand} ${model.model}`))}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Check availability of the ${model.brand} ${model.model} on WhatsApp`}
-                  className="group/card flex h-full flex-col overflow-hidden rounded-[var(--radius-lg)] border border-line bg-white transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-line-strong hover:shadow-[var(--shadow-lift)]"
-                >
-                  <ProductImage model={model} />
-                  <div className="flex flex-1 flex-col border-t border-line p-4">
-                    <span className="text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-ink-400">
-                      {model.brand}
-                    </span>
-                    <span className="mt-1 font-display text-[0.9375rem] font-bold tracking-[-0.015em] text-ink-950">
-                      {model.model}
-                    </span>
-                    <span className="mt-3 inline-flex items-center gap-1.5 text-[0.8125rem] font-semibold text-accent-600">
-                      Check availability
-                      <Icon
-                        name="arrowRight"
-                        size={14}
-                        className="transition-transform duration-200 group-hover/card:translate-x-0.5"
-                      />
-                    </span>
-                  </div>
-                </a>
-              </Reveal>
-            </li>
-          ))}
-        </ul>
+        <Reveal className="mt-10">
+          <CardCarousel
+            items={smartphoneModels}
+            ariaLabel="smartphone"
+            renderItem={(model) => <PhoneCard key={model.slug} {...model} />}
+          />
+        </Reveal>
 
-        <Reveal delay={220}>
-          <p className="mt-6 flex items-start gap-2 text-[0.8125rem] leading-relaxed text-ink-400">
-            <Icon name="info" size={14} className="mt-0.5 shrink-0 text-ink-300" />
-            <span>{smartphoneModelsNote}</span>
+        <Reveal delay={160}>
+          <p className="mt-6 text-[0.8125rem] leading-relaxed text-ink-400">
+            {smartphoneModelsNote}
           </p>
         </Reveal>
       </div>

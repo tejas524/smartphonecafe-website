@@ -72,6 +72,51 @@ export const offerBanners = [
 ];
 
 /**
+ * OFFERS — editorial, text-only cards for the homepage skeleton.
+ *
+ * These mirror the store's real running promotions (the same four subjects the
+ * owner's in-store banners cover), presented as plain text so the homepage
+ * stays typographic and image-light. Crucially, NO figure is invented: there is
+ * no discount %, price, saving or expiry here, because none is published. Each
+ * card is an enquiry prompt that routes to WhatsApp so the customer confirms
+ * the current terms with the store.
+ */
+export const offers = [
+  {
+    id: "accessories",
+    eyebrow: "Accessories",
+    title: "Deals on everyday accessories",
+    body: "Save on selected covers, chargers, cables, earphones and power banks. Ask which items are on offer this week.",
+    ctaLabel: "Ask on WhatsApp",
+    ctaMessage: waMessages.accessories(),
+  },
+  {
+    id: "galaxy-a55",
+    eyebrow: "Featured smartphone",
+    title: "Samsung Galaxy A55 5G",
+    body: "A popular pick in store — 50MP triple camera, Super AMOLED display and IP67 build. Visit the store for the current best price.",
+    ctaLabel: "Check price",
+    ctaMessage: waMessages.smartphones(),
+  },
+  {
+    id: "covers-glass",
+    eyebrow: "Protection combo",
+    title: "Cover + tempered glass together",
+    body: "Pair a back cover with tempered glass and have it fitted at the counter. Ask about the combo when you visit.",
+    ctaLabel: "Ask on WhatsApp",
+    ctaMessage: waMessages.accessories(),
+  },
+  {
+    id: "exchange",
+    eyebrow: "Exchange & upgrade",
+    title: "Trade in your old phone",
+    body: "Put the value of your current handset towards a new one. Final value depends on the phone's condition and model — bring it in for a check.",
+    ctaLabel: "Ask about exchange",
+    ctaMessage: waMessages.smartphones(),
+  },
+];
+
+/**
  * Short, verified reasons to choose the store — the "trust / features" strip
  * that sits directly under the hero.
  *

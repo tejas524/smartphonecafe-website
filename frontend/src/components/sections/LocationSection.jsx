@@ -190,39 +190,14 @@ export default function LocationSection({ tone = "light" }) {
 
           {/* Map */}
           <Reveal delay={140} className="lg:col-span-7">
-            <div className="overflow-hidden rounded-[var(--radius-lg)] border border-line bg-paper-mute shadow-[var(--shadow-card)]">
+            <div className="overflow-hidden rounded-[var(--radius-lg)] border border-line bg-paper-mute">
               <iframe
                 title={`Map showing the location of ${business.name} in Talegaon Dabhade`}
                 src={mapEmbedUrl}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                className="block h-[22rem] w-full border-0 sm:h-[26rem] lg:h-[32rem]"
+                className="block h-[22rem] w-full border-0 sm:h-[26rem] lg:h-[34rem]"
               />
-            </div>
-
-            <div className="mt-5 grid gap-3 sm:grid-cols-3">
-              {[
-                { icon: "store", label: "In-store sales", note: "Talegaon Station Rd" },
-                { icon: "wrench", label: "Repairs on site", note: "Assessed at the counter" },
-                { icon: "clock", label: "Open all week", note: business.hours.label },
-              ].map((item) => (
-                <div
-                  key={item.label}
-                  className="flex items-center gap-3 rounded-[var(--radius-md)] border border-line bg-white p-3.5"
-                >
-                  <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] bg-accent-50 text-accent-600">
-                    <Icon name={item.icon} size={16} />
-                  </span>
-                  <span className="min-w-0">
-                    <span className="block font-display text-[0.8125rem] font-bold text-ink-900">
-                      {item.label}
-                    </span>
-                    <span className="block truncate text-[0.75rem] text-ink-500">
-                      {item.note}
-                    </span>
-                  </span>
-                </div>
-              ))}
             </div>
           </Reveal>
         </div>
