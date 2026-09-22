@@ -19,7 +19,11 @@ export default function Layout({ children }) {
       <ScrollToTop />
       <Header />
 
-      <main id="main" className="flex-1 pt-16 lg:pt-[4.5rem]">
+      {/*
+        No top offset here: the navigation is `sticky`, so it occupies real
+        layout space and the page content already begins beneath it.
+      */}
+      <main id="main" className="flex-1">
         {children}
       </main>
 

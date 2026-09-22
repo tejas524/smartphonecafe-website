@@ -11,16 +11,17 @@ import { getStoreStatus } from "../../utils/hours.js";
  * Homepage hero — editorial split layout.
  *
  * Left:  clean type on plain paper. One headline, one short paragraph, two
- *        actions, one line of location/hours.
- * Right: a real photograph of the store, shown at full strength with NO dark
- *        scrim and no UI laid over it. The photography is the authenticity;
- *        covering it with a glass card would only hide the one asset that
- *        proves this is a real shop on a real street.
+ *        actions, one line of location/hours. The headline follows the
+ *        prototype's direction ("Your trusted mobile shop … in Talegaon
+ *        Dabhade") and the sub-line reuses the shop's own listing wording —
+ *        "latest smartphones, reliable accessories … quick repairs" — so it
+ *        matches the prototype without inventing any claim.
+ * Right: a real photograph of the store at full strength, with no dark scrim
+ *        and no UI laid over it. The photography is the authenticity.
  *
  * The photograph is `store photo from inside.jpg` (source 4000x2250) — the
- * sharpest and most detailed frame in the supplied set, and the one whose
- * in-store display signage is legible enough to confirm it shows genuine
- * retail displays rather than a staged interior.
+ * sharpest, most detailed frame supplied, and the one whose in-store display
+ * signage is legible enough to confirm genuine retail displays.
  */
 
 const HERO_PHOTO = photos.interior;
@@ -39,14 +40,11 @@ export default function Hero() {
 
   return (
     <section className="bg-white" aria-labelledby="hero-heading">
-      <div className="shell pb-16 pt-28 sm:pt-32 lg:pb-24 lg:pt-36">
+      <div className="shell pb-16 pt-12 sm:pt-14 lg:pb-24 lg:pt-20">
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
           {/* ------------------------------------------------------- copy */}
           <div className="min-w-0">
-            <Reveal
-              as="p"
-              className="eyebrow text-ink-400"
-            >
+            <Reveal as="p" className="eyebrow text-accent-600">
               Smartphones · Repairs · Accessories
             </Reveal>
 
@@ -54,18 +52,19 @@ export default function Hero() {
               as="h1"
               id="hero-heading"
               delay={70}
-              className="mt-5 max-w-[21ch] text-[2.125rem] leading-[1.06] tracking-[-0.03em] sm:text-[2.625rem] lg:text-[2.5rem] xl:text-[3.25rem]"
+              className="mt-5 max-w-[20ch] text-[2.125rem] leading-[1.05] tracking-[-0.03em] sm:text-[2.75rem] lg:text-[2.75rem] xl:text-[3.5rem]"
             >
-              Your next phone. Your local repair shop.
+              Your trusted mobile shop in Talegaon&nbsp;Dabhade
             </Reveal>
 
             <Reveal
               as="p"
               delay={130}
-              className="mt-6 max-w-[46ch] text-[1.0625rem] leading-relaxed text-ink-600"
+              className="mt-6 max-w-[48ch] text-[1.0625rem] leading-relaxed text-ink-600 sm:text-[1.125rem]"
             >
-              {business.name} sits on Talegaon Station Road. Come in to compare
-              handsets, pick up the essentials, or have a fault looked at the
+              The latest smartphones, reliable accessories and quick repairs —
+              all under one roof on Talegaon Station Road. Come in to compare
+              handsets, pick up the essentials, or have a fault checked at the
               counter.
             </Reveal>
 

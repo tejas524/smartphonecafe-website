@@ -86,7 +86,7 @@ export default function LocationSection({ tone = "light" }) {
           {/* Details */}
           <div className="lg:col-span-5">
             <Reveal as="p" className="eyebrow text-accent-600">
-              Find the store
+              Our store
             </Reveal>
 
             <Reveal
@@ -95,7 +95,7 @@ export default function LocationSection({ tone = "light" }) {
               delay={60}
               className="mt-4 text-[1.75rem] sm:text-[2.125rem] lg:text-[2.5rem]"
             >
-              On Talegaon Station Road, easy to reach.
+              Visit our store
             </Reveal>
 
             <Reveal
