@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Icon from "../Icon.jsx";
+import Reveal from "./Reveal.jsx";
 
 /**
  * CardCarousel — a shared skeleton for the Offers and Smartphones rows.
@@ -22,6 +23,7 @@ export default function CardCarousel({
   renderItem,
   ariaLabel,
   cardBasis = "basis-[86%] sm:basis-[calc(50%-0.5rem)] lg:basis-[calc(25%-0.75rem)]",
+  gapClass = "gap-4",
 }) {
   const trackRef = useRef(null);
   const [scrollable, setScrollable] = useState(false);
@@ -73,14 +75,16 @@ export default function CardCarousel({
       {/* Track */}
       <ul
         ref={trackRef}
-        className="no-scrollbar -mx-1 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-1 pb-1"
+        className={`no-scrollbar -mx-1 flex snap-x snap-mandatory ${gapClass} overflow-x-auto scroll-smooth px-1 pb-1`}
       >
         {items.map((item, i) => (
           <li
             key={item.id ?? i}
             className={`flex shrink-0 snap-start ${cardBasis}`}
           >
-            {renderItem(item, i)}
+            <Reveal delay={Math.min(i, 4) * 80} className="flex h-full w-full">
+              {renderItem(item, i)}
+            </Reveal>
           </li>
         ))}
       </ul>

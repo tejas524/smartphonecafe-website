@@ -49,49 +49,56 @@ export default function Hero() {
         alt={HERO_PHOTO.alt}
         fetchpriority="high"
         decoding="sync"
-        className="absolute inset-0 -z-10 h-full w-full object-cover"
+        className="hero-img absolute inset-0 -z-10 h-full w-full object-cover"
       />
 
-      {/* Gradient overlay for readability (kept out of the a11y tree). Tuned to
-          keep the photograph visible — darker only on the left where the copy
-          sits, easing to a light veil on the right. */}
+      {/* Gradient overlay for readability (kept out of the a11y tree). A strong,
+          sophisticated dark wash — heavier on the left where the copy sits, but
+          the photograph stays visible on the right (never fully black). */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10"
+        className="hero-overlay absolute inset-0 -z-10"
         style={{
           background:
-            "linear-gradient(90deg, rgb(8 10 14 / 0.82) 0%, rgb(8 10 14 / 0.64) 40%, rgb(8 10 14 / 0.30) 68%, rgb(8 10 14 / 0.10) 100%)",
+            "linear-gradient(90deg, rgb(6 8 12 / 0.95) 0%, rgb(6 8 12 / 0.82) 44%, rgb(6 8 12 / 0.58) 72%, rgb(6 8 12 / 0.40) 100%)",
         }}
       />
-      {/* Soft top + bottom vignette for depth and a clean edge into the white section below */}
+      {/* Top + bottom vignette for depth and a clean edge into the white section below */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10"
+        className="hero-overlay absolute inset-0 -z-10"
         style={{
           background:
-            "linear-gradient(180deg, rgb(8 10 14 / 0.28) 0%, rgb(8 10 14 / 0) 22%, rgb(8 10 14 / 0) 74%, rgb(8 10 14 / 0.40) 100%)",
+            "linear-gradient(180deg, rgb(6 8 12 / 0.45) 0%, rgb(6 8 12 / 0.10) 30%, rgb(6 8 12 / 0.14) 64%, rgb(6 8 12 / 0.58) 100%)",
         }}
       />
 
       <div className="shell flex min-h-[30rem] flex-col justify-center py-16 sm:min-h-[34rem] lg:min-h-[38rem] lg:py-24">
         <div className="max-w-xl">
-          <p className="eyebrow text-accent-300">
+          <p className="hero-rise eyebrow text-accent-300" style={{ animationDelay: "180ms" }}>
             Smartphones · Repairs · Accessories
           </p>
 
           <h1
             id="hero-heading"
-            className="mt-5 max-w-[16ch] text-[2rem] font-extrabold leading-[1.06] tracking-[-0.03em] text-white sm:text-[2.5rem] lg:text-[3rem]"
+            className="hero-rise mt-5 max-w-[16ch] text-[2rem] font-extrabold leading-[1.06] tracking-[-0.03em] text-white sm:text-[2.5rem] lg:text-[3rem]"
+            style={{ animationDelay: "280ms" }}
           >
             Your trusted mobile destination in Talegaon&nbsp;Dabhade
           </h1>
 
-          <p className="mt-5 max-w-lg text-[1rem] leading-relaxed text-white/75 sm:text-[1.0625rem]">
+          <p
+            className="hero-rise mt-5 max-w-lg text-[1rem] leading-relaxed text-white/75 sm:text-[1.0625rem]"
+            style={{ animationDelay: "400ms" }}
+          >
             The latest smartphones, reliable accessories and quick repairs — all
             under one roof on Talegaon Station Road.
           </p>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+          <div
+            className="hero-rise mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center"
+            style={{ animationDelay: "520ms" }}
+          >
             <Button to="/smartphones" variant="primary" size="lg" icon="smartphone">
               Explore Smartphones
             </Button>
@@ -107,7 +114,10 @@ export default function Hero() {
           </div>
 
           {/* Trust / location row */}
-          <div className="mt-9 flex flex-wrap items-center gap-x-5 gap-y-2.5 text-[0.8125rem] text-white/70">
+          <div
+            className="hero-rise mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-[0.8125rem] text-white/70"
+            style={{ animationDelay: "640ms" }}
+          >
             <span className="inline-flex items-center gap-2">
               <span
                 aria-hidden="true"

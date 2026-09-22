@@ -3,6 +3,7 @@ import Hero from "../components/sections/Hero.jsx";
 import StoreHighlights from "../components/sections/StoreHighlights.jsx";
 import OffersSection from "../components/sections/OffersSection.jsx";
 import BrandGrid, { BrandCta } from "../components/sections/BrandGrid.jsx";
+import ReviewsSection from "../components/sections/ReviewsSection.jsx";
 import LatestSmartphones from "../components/sections/LatestSmartphones.jsx";
 import LocationSection from "../components/sections/LocationSection.jsx";
 import CtaBand from "../components/sections/CtaBand.jsx";
@@ -26,14 +27,15 @@ import usePageMeta from "../utils/usePageMeta.js";
  *   4 Store highlights (quiet divider strip)
  *   5 Offers          (editorial text cards, no artwork)
  *   6 Brands          (editorial logo wall)
- *   7 Smartphones     (text cards + neutral image area, shared carousel)
- *   8 Repairs         (real store photo + text rows)
- *   9 Accessories     (text category grid, no images)
- *  10 Inside SmartphoneCafe (asymmetric real-photo gallery)
- *  11 About           (editorial split + real photo)
- *  12 Visit store     (clean split: details + Google map)
- *  13 Final CTA       (dark band)
- *  14 Footer          (layout/Footer)
+ *   7 Google reviews  (data-driven; animated review count)
+ *   8 Smartphones     (text cards + neutral image area, shared carousel)
+ *   9 Repairs         (real store photo + text rows)
+ *  10 Accessories     (text category grid, no images)
+ *  11 Inside SmartphoneCafe (asymmetric real-photo gallery)
+ *  12 About           (editorial split + real photo)
+ *  13 Visit store     (clean split: details + Google map)
+ *  14 Final CTA       (dark band)
+ *  15 Footer          (layout/Footer)
  *
  * No price, stock, spec or availability is asserted anywhere. Offers,
  * smartphones and accessories carry no images in this phase; every card routes
@@ -78,10 +80,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 7 — Smartphones */}
+      {/* 7 — Google reviews */}
+      <ReviewsSection />
+
+      {/* 8 — Smartphones */}
       <LatestSmartphones />
 
-      {/* 8 — Repairs */}
+      {/* 9 — Repairs */}
       <section
         className="border-y border-line bg-paper-soft"
         aria-labelledby="repairs-heading"
@@ -157,7 +162,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 9 — Accessories */}
+      {/* 10 — Accessories */}
       <section
         className="bg-white"
         id="accessories"
@@ -220,7 +225,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 10 — Inside SmartphoneCafe */}
+      {/* 11 — Inside SmartphoneCafe */}
       <section
         className="border-t border-line bg-paper-soft"
         aria-labelledby="gallery-heading"
@@ -281,7 +286,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 11 — About */}
+      {/* 12 — About */}
       <section className="bg-white" aria-labelledby="intro-heading">
         <div className="shell py-16 lg:py-24">
           <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
@@ -356,10 +361,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 12 — Visit store */}
+      {/* 13 — Visit store */}
       <LocationSection />
 
-      {/* 13 — Final CTA, then 14 — Footer (in Layout) */}
+      {/* 14 — Final CTA, then 15 — Footer (in Layout) */}
       <CtaBand />
     </>
   );

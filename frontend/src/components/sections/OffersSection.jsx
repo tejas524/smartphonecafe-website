@@ -1,17 +1,18 @@
-import Icon from "../Icon.jsx";
 import Reveal from "../ui/Reveal.jsx";
 import SectionHeading from "../ui/SectionHeading.jsx";
 import CardCarousel from "../ui/CardCarousel.jsx";
-import { offers } from "../../data/offers.js";
+import { offerBanners } from "../../data/offers.js";
 import { waLink } from "../../utils/whatsapp.js";
 
 /**
- * Offers — editorial, text-only cards (no artwork).
+ * Offers — the approved promotional artwork as the visual focus.
  *
- * Four offers or fewer sit in one linear row; more than four would activate the
- * shared CardCarousel automatically. No discount, price or expiry is stated —
- * each card routes to a WhatsApp enquiry so the current terms are confirmed
- * with the store.
+ * Each card is a SQUARE container holding the complete landscape artwork via
+ * object-fit: contain on a clean neutral background — the full artwork stays
+ * visible (never cropped or stretched) and the image dominates the section. No
+ * per-card title/description is duplicated. Four banners or fewer sit in one
+ * linear row; more than four would activate the shared CardCarousel. The whole
+ * card opens a WhatsApp enquiry so terms are confirmed with the store.
  */
 function OfferCard(offer) {
   return (
@@ -19,25 +20,18 @@ function OfferCard(offer) {
       href={waLink(offer.ctaMessage)}
       target="_blank"
       rel="noopener noreferrer"
-      className="group/offer flex h-full w-full flex-col justify-between rounded-[var(--radius-md)] border border-line bg-white p-6 transition-colors duration-300 hover:border-ink-300"
+      aria-label={`${offer.alt} — enquire on WhatsApp`}
+      className="flex aspect-square w-full items-center justify-center overflow-hidden rounded-[var(--radius-md)] border border-line bg-white p-3 shadow-[var(--shadow-card)] transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-0.5 hover:border-line-strong hover:shadow-[var(--shadow-lift)]"
     >
-      <div>
-        <p className="eyebrow text-accent-600">{offer.eyebrow}</p>
-        <h3 className="mt-3 font-display text-[1.1875rem] font-bold leading-snug tracking-[-0.02em] text-ink-950">
-          {offer.title}
-        </h3>
-        <p className="mt-2.5 text-[0.9375rem] leading-relaxed text-ink-600">
-          {offer.body}
-        </p>
-      </div>
-      <span className="mt-6 inline-flex items-center gap-1.5 font-display text-[0.875rem] font-semibold text-accent-600">
-        {offer.ctaLabel}
-        <Icon
-          name="arrowRight"
-          size={15}
-          className="transition-transform duration-200 group-hover/offer:translate-x-0.5"
-        />
-      </span>
+      <img
+        src={offer.src}
+        width={offer.width}
+        height={offer.height}
+        alt={offer.alt}
+        loading="lazy"
+        decoding="async"
+        className="max-h-full max-w-full object-contain"
+      />
     </a>
   );
 }
@@ -52,25 +46,20 @@ export default function OffersSection() {
     >
       <div className="shell py-16 lg:py-24">
         <SectionHeading
-          eyebrow="Special deals"
+          eyebrow="Offers"
           id="offers-heading"
-          title="Current offers"
-          lead="Promotions running at the store right now. Deals and pricing are confirmed in store — tap an offer to ask us on WhatsApp what is available today."
+          title="Deals for you"
+          lead="Tap an offer to ask us on WhatsApp what's available today."
         />
 
-        <Reveal className="mt-10">
+        <Reveal className="mt-8">
           <CardCarousel
-            items={offers}
+            items={offerBanners}
             ariaLabel="offer"
+            gapClass="gap-5"
+            cardBasis="basis-[78%] sm:basis-[calc(50%-0.625rem)] lg:basis-[calc(25%-0.9375rem)]"
             renderItem={(offer) => <OfferCard key={offer.id} {...offer} />}
           />
-        </Reveal>
-
-        <Reveal delay={120}>
-          <p className="mt-6 text-[0.8125rem] leading-relaxed text-ink-400">
-            Discounts, prices and eligibility are confirmed in store and may
-            change — please check current terms with us before visiting.
-          </p>
         </Reveal>
       </div>
     </section>

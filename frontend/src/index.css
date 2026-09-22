@@ -221,6 +221,51 @@
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
+  /* --------------------------------------------------------------------------
+     Hero load animation — a SEPARATE system from the scroll reveal above.
+     Runs once on initial render (these elements are above the fold), with a
+     short stagger so the hero "opens" like a premium site. Transform + opacity
+     only; `both` holds the start frame until each element's delay elapses.
+     -------------------------------------------------------------------------- */
+  @keyframes heroImgIn {
+    from {
+      opacity: 0;
+      transform: scale(1.04);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes heroOverlayIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes heroRise {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero-img {
+    animation: heroImgIn 1300ms var(--ease-out-soft) both;
+  }
+  .hero-overlay {
+    animation: heroOverlayIn 900ms var(--ease-out-soft) both;
+  }
+  .hero-rise {
+    animation: heroRise 680ms var(--ease-out-soft) both;
+  }
 }
 
 /* ==========================================================================
@@ -242,6 +287,15 @@
   }
 
   .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Hero load animation is decorative — show final frame instantly */
+  .hero-img,
+  .hero-overlay,
+  .hero-rise {
+    animation: none !important;
     opacity: 1 !important;
     transform: none !important;
   }
