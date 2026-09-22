@@ -6,11 +6,14 @@
   "description": "SmartphoneCafe - website and CMS monorepo (React/Vite frontend, Node/Express backend, MySQL).",
   "scripts": {
     "dev": "npm --prefix frontend run dev",
+    "dev:api": "npm --prefix backend run dev",
     "build": "npm --prefix frontend run build",
     "preview": "npm --prefix frontend run preview",
     "assets": "npm --prefix frontend run assets",
     "photos": "npm --prefix frontend run photos",
     "ocr": "npm --prefix frontend run ocr",
+    "api": "npm --prefix backend start",
+    "create-admin": "npm --prefix backend run create-admin --",
     "db:seed:generate": "node database/generate-seed.mjs"
   }
 }
