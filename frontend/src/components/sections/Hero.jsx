@@ -52,43 +52,46 @@ export default function Hero() {
         className="absolute inset-0 -z-10 h-full w-full object-cover"
       />
 
-      {/* Gradient overlay for text contrast (kept out of the a11y tree) */}
+      {/* Gradient overlay for readability (kept out of the a11y tree). Tuned to
+          keep the photograph visible — darker only on the left where the copy
+          sits, easing to a light veil on the right. */}
       <div
         aria-hidden="true"
         className="absolute inset-0 -z-10"
         style={{
           background:
-            "linear-gradient(90deg, rgb(6 7 10 / 0.92) 50%, rgb(6 7 10 / 0.78) 58%, rgb(6 7 10 / 0.45) 70%, rgb(6 7 10 / 0.25) 100%)",
+            "linear-gradient(90deg, rgb(8 10 14 / 0.82) 0%, rgb(8 10 14 / 0.64) 40%, rgb(8 10 14 / 0.30) 68%, rgb(8 10 14 / 0.10) 100%)",
         }}
       />
+      {/* Soft top + bottom vignette for depth and a clean edge into the white section below */}
       <div
         aria-hidden="true"
         className="absolute inset-0 -z-10"
         style={{
           background:
-            "linear-gradient(0deg, rgb(6 7 10 / 0.65) 0%, rgb(6 7 10 / 0) 45%)",
+            "linear-gradient(180deg, rgb(8 10 14 / 0.28) 0%, rgb(8 10 14 / 0) 22%, rgb(8 10 14 / 0) 74%, rgb(8 10 14 / 0.40) 100%)",
         }}
       />
 
-      <div className="shell flex min-h-[34rem] flex-col justify-center py-16 sm:min-h-[38rem] lg:min-h-[42rem] lg:py-24">
-        <div className="max-w-2xl">
+      <div className="shell flex min-h-[30rem] flex-col justify-center py-16 sm:min-h-[34rem] lg:min-h-[38rem] lg:py-24">
+        <div className="max-w-xl">
           <p className="eyebrow text-accent-300">
             Smartphones · Repairs · Accessories
           </p>
 
           <h1
             id="hero-heading"
-            className="mt-5 max-w-[18ch] text-[2.25rem] font-extrabold leading-[1.03] tracking-[-0.035em] text-white sm:text-[3rem] lg:text-[3.75rem]"
+            className="mt-5 max-w-[16ch] text-[2rem] font-extrabold leading-[1.06] tracking-[-0.03em] text-white sm:text-[2.5rem] lg:text-[3rem]"
           >
             Your trusted mobile destination in Talegaon&nbsp;Dabhade
           </h1>
 
-          <p className="mt-6 max-w-xl text-[1.0625rem] leading-relaxed text-white/80 sm:text-[1.1875rem]">
+          <p className="mt-5 max-w-lg text-[1rem] leading-relaxed text-white/75 sm:text-[1.0625rem]">
             The latest smartphones, reliable accessories and quick repairs — all
             under one roof on Talegaon Station Road.
           </p>
 
-          <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
             <Button to="/smartphones" variant="primary" size="lg" icon="smartphone">
               Explore Smartphones
             </Button>
@@ -104,7 +107,7 @@ export default function Hero() {
           </div>
 
           {/* Trust / location row */}
-          <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-[0.8125rem] text-white/70">
+          <div className="mt-9 flex flex-wrap items-center gap-x-5 gap-y-2.5 text-[0.8125rem] text-white/70">
             <span className="inline-flex items-center gap-2">
               <span
                 aria-hidden="true"

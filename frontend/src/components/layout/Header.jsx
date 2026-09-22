@@ -88,33 +88,46 @@ export default function Header() {
           {/* Desktop navigation */}
           <nav aria-label="Primary" className="hidden lg:block">
             <ul className="flex items-center gap-0.5">
-              {nav.map((item) => (
-                <li key={item.to}>
-                  <NavLink
-                    to={item.to}
-                    end={item.to === "/"}
-                    className={({ isActive }) =>
-                      `relative inline-flex h-10 items-center rounded-[10px] px-3.5 font-display text-[0.875rem] font-semibold tracking-[-0.01em] transition-colors duration-200 ${
-                        isActive
-                          ? "text-ink-950"
-                          : "text-ink-500 hover:text-ink-950"
-                      }`
-                    }
-                  >
-                    {({ isActive }) => (
-                      <>
-                        {item.label}
-                        <span
-                          aria-hidden="true"
-                          className={`absolute inset-x-3.5 bottom-1 h-[2px] rounded-full bg-accent-600 transition-transform duration-300 ease-out ${
-                            isActive ? "scale-x-100" : "scale-x-0"
-                          }`}
-                        />
-                      </>
-                    )}
-                  </NavLink>
-                </li>
-              ))}
+              {nav.map((item) =>
+                item.to.includes("#") ? (
+                  // Homepage-section links (Accessories, Offers): plain links,
+                  // no persistent active underline.
+                  <li key={item.to}>
+                    <Link
+                      to={item.to}
+                      className="relative inline-flex h-10 items-center rounded-[10px] px-3 font-display text-[0.875rem] font-semibold tracking-[-0.01em] text-ink-500 transition-colors duration-200 hover:text-ink-950"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ) : (
+                  <li key={item.to}>
+                    <NavLink
+                      to={item.to}
+                      end={item.to === "/"}
+                      className={({ isActive }) =>
+                        `relative inline-flex h-10 items-center rounded-[10px] px-3 font-display text-[0.875rem] font-semibold tracking-[-0.01em] transition-colors duration-200 ${
+                          isActive
+                            ? "text-ink-950"
+                            : "text-ink-500 hover:text-ink-950"
+                        }`
+                      }
+                    >
+                      {({ isActive }) => (
+                        <>
+                          {item.label}
+                          <span
+                            aria-hidden="true"
+                            className={`absolute inset-x-3 bottom-1 h-[2px] rounded-full bg-accent-600 transition-transform duration-300 ease-out ${
+                              isActive ? "scale-x-100" : "scale-x-0"
+                            }`}
+                          />
+                        </>
+                      )}
+                    </NavLink>
+                  </li>
+                )
+              )}
             </ul>
           </nav>
 
@@ -134,15 +147,29 @@ export default function Header() {
               <Icon name="phone" size={16} />
               <span className="tabular-nums">{business.phoneDisplay}</span>
             </a>
-            <Button
+
+            {/* lg → xl: compact icon-only WhatsApp (keeps the 8-item nav within
+                a 1024px viewport). xl+: full labelled button. */}
+            <a
               href={waLink(waMessages.general())}
-              external
-              variant="wa"
-              size="md"
-              icon="whatsapp"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="WhatsApp us"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-[10px] bg-wa-600 text-white transition-colors hover:bg-wa-700 xl:hidden"
             >
-              WhatsApp Us
-            </Button>
+              <Icon name="whatsapp" size={18} />
+            </a>
+            <div className="hidden xl:block">
+              <Button
+                href={waLink(waMessages.general())}
+                external
+                variant="wa"
+                size="md"
+                icon="whatsapp"
+              >
+                WhatsApp Us
+              </Button>
+            </div>
           </div>
 
           {/* Mobile: call + menu */}
@@ -177,23 +204,36 @@ export default function Header() {
           <div className="overflow-y-auto border-b border-line bg-white px-5 pb-7 pt-4 shadow-[0_18px_40px_-14px_rgb(8_9_12/0.24)]">
             <nav aria-label="Mobile">
               <ul className="flex flex-col">
-                {nav.map((item, i) => (
-                  <li key={item.to}>
-                    <NavLink
-                      to={item.to}
-                      end={item.to === "/"}
-                      className={({ isActive }) =>
-                        `flex items-center justify-between border-b border-line py-3.5 font-display text-[1.0625rem] font-semibold tracking-[-0.015em] transition-colors ${
-                          isActive ? "text-accent-600" : "text-ink-800"
-                        }`
-                      }
-                      style={{ animationDelay: `${i * 28}ms` }}
-                    >
-                      {item.label}
-                      <Icon name="chevronRight" size={17} className="text-ink-300" />
-                    </NavLink>
-                  </li>
-                ))}
+                {nav.map((item, i) => {
+                  const cls =
+                    "flex items-center justify-between border-b border-line py-3.5 font-display text-[1.0625rem] font-semibold tracking-[-0.015em] transition-colors";
+                  return (
+                    <li key={item.to}>
+                      {item.to.includes("#") ? (
+                        <Link
+                          to={item.to}
+                          className={`${cls} text-ink-800`}
+                          style={{ animationDelay: `${i * 28}ms` }}
+                        >
+                          {item.label}
+                          <Icon name="chevronRight" size={17} className="text-ink-300" />
+                        </Link>
+                      ) : (
+                        <NavLink
+                          to={item.to}
+                          end={item.to === "/"}
+                          className={({ isActive }) =>
+                            `${cls} ${isActive ? "text-accent-600" : "text-ink-800"}`
+                          }
+                          style={{ animationDelay: `${i * 28}ms` }}
+                        >
+                          {item.label}
+                          <Icon name="chevronRight" size={17} className="text-ink-300" />
+                        </NavLink>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </nav>
 

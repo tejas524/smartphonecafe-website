@@ -47,7 +47,7 @@ function ProductImage({ model }) {
 export default function LatestSmartphones() {
   return (
     <section className="bg-white" aria-labelledby="latest-heading">
-      <div className="shell py-16 lg:py-24">
+      <div className="shell py-14 lg:py-20">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading
             eyebrow="Latest smartphones"

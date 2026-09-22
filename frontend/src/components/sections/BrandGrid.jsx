@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Button from "../ui/Button.jsx";
-import Icon from "../Icon.jsx";
 import Reveal from "../ui/Reveal.jsx";
 import { brands } from "../../data/brands.js";
 import { waLink, waMessages } from "../../utils/whatsapp.js";
@@ -17,7 +16,7 @@ function BrandLogo({ brand }) {
   const [failed, setFailed] = useState(!brand.logo);
   if (failed) {
     return (
-      <span className="font-display text-[1.125rem] font-extrabold tracking-[-0.03em] text-ink-900">
+      <span className="font-display text-[1.0625rem] font-extrabold tracking-[-0.03em] text-ink-900">
         {brand.name}
       </span>
     );
@@ -29,7 +28,7 @@ function BrandLogo({ brand }) {
       loading="lazy"
       decoding="async"
       onError={() => setFailed(true)}
-      className="max-h-8 w-auto max-w-[8rem] object-contain"
+      className="h-7 w-auto max-w-[6.5rem] object-contain sm:h-8"
     />
   );
 }
@@ -42,27 +41,19 @@ export default function BrandGrid({ limit }) {
   const list = limit ? brands.slice(0, limit) : brands;
 
   return (
-    <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+    <ul className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
       {list.map((brand, i) => (
         <li key={brand.name}>
-          <Reveal delay={i * 35} className="h-full">
+          <Reveal delay={i * 30} className="h-full">
             <a
               href={waLink(waMessages.brand(brand.name))}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`Enquire about ${brand.name} smartphones on WhatsApp`}
-              className="group/brand flex h-full flex-col items-center justify-center gap-4 rounded-[var(--radius-lg)] border border-line bg-white p-5 transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-line-strong hover:shadow-[var(--shadow-lift)]"
+              className="group/brand flex h-full min-h-[5.5rem] items-center justify-center rounded-[var(--radius-md)] border border-line bg-white px-4 py-5 transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-line-strong hover:shadow-[var(--shadow-card)]"
             >
-              <span className="flex h-12 items-center justify-center">
+              <span className="flex items-center justify-center opacity-90 transition-opacity duration-300 group-hover/brand:opacity-100">
                 <BrandLogo brand={brand} />
-              </span>
-              <span className="flex items-center gap-1 text-[0.75rem] font-medium text-ink-400 transition-colors group-hover/brand:text-accent-600">
-                {brand.note}
-                <Icon
-                  name="arrowUpRight"
-                  size={13}
-                  className="opacity-0 transition-opacity duration-200 group-hover/brand:opacity-100"
-                />
               </span>
             </a>
           </Reveal>

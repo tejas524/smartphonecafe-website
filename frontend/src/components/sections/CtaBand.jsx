@@ -16,7 +16,7 @@ export default function CtaBand({
 }) {
   return (
     <section className="bg-ink-950">
-      <div className="shell py-16 lg:py-24">
+      <div className="shell py-14 lg:py-20">
         <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-7">
             <Reveal as="p" className="eyebrow text-accent-400">

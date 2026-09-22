@@ -60,7 +60,7 @@ export default function Home() {
 
       {/* 6 — Shop by brand */}
       <section className="bg-white" aria-labelledby="brands-heading">
-        <div className="shell py-16 lg:py-24">
+        <div className="shell py-14 lg:py-20">
           <SectionHeading
             eyebrow="Shop by brand"
             id="brands-heading"
@@ -83,7 +83,7 @@ export default function Home() {
 
       {/* 8 — Repairs */}
       <section className="bg-ink-950" aria-labelledby="repairs-heading">
-        <div className="shell py-16 lg:py-24">
+        <div className="shell py-14 lg:py-20">
           <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-5">
               <SectionHeading
@@ -171,8 +171,13 @@ export default function Home() {
       </section>
 
       {/* 9 — Accessories */}
-      <section className="bg-paper-soft" aria-labelledby="accessories-heading">
-        <div className="shell py-16 lg:py-24">
+      <section
+        className="bg-paper-soft"
+        id="accessories"
+        aria-labelledby="accessories-heading"
+        style={{ scrollMarginTop: "5.5rem" }}
+      >
+        <div className="shell py-14 lg:py-20">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <SectionHeading
               eyebrow="Accessories"
@@ -242,7 +247,7 @@ export default function Home() {
 
       {/* 10 — Gallery */}
       <section className="bg-white" aria-labelledby="gallery-heading">
-        <div className="shell py-16 lg:py-24">
+        <div className="shell py-14 lg:py-20">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <SectionHeading
               eyebrow="Our store"
@@ -283,7 +288,7 @@ export default function Home() {
 
       {/* 11 — About */}
       <section className="bg-paper-soft" aria-labelledby="intro-heading">
-        <div className="shell py-16 lg:py-24">
+        <div className="shell py-14 lg:py-20">
           <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-5">
               <SectionHeading
