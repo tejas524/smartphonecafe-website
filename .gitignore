@@ -6,6 +6,14 @@ dist/
 dist-ssr/
 *.local
 
+# Vite dep-optimiser cache
+.vite/
+
+# Runtime CMS uploads. The directory must exist after a clone, but the files
+# the admin panel writes into it are user data — never committed.
+uploads/*
+!uploads/.gitkeep
+
 # Local npm cache (used when the global cache is unavailable)
 .npm-cache/
 

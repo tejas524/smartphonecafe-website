@@ -1,0 +1,5 @@
+# This file exists only so the uploads/ directory survives a fresh clone.
+#
+# The admin panel will write uploaded images here at runtime and store their
+# paths in MySQL. Every file in this directory except this one is git-ignored,
+# because uploads are user data rather than source code.

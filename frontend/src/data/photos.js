@@ -1,8 +1,9 @@
 /**
  * SmartphoneCafe shop photographs - GENERATED FILE, DO NOT EDIT BY HAND.
  *
- * Produced by scripts/process-shop-photos.mjs from the owner-supplied originals
- * in ./shop photo/. Re-run `npm run photos` after adding or replacing photos.
+ * Produced by frontend/scripts/process-shop-photos.mjs from the owner-supplied
+ * originals in <repo>/shop photo/. Re-run `npm run photos` after adding or
+ * replacing photos.
  *
  * Every image is served as responsive WebP with a JPEG fallback, and all EXIF
  * and GPS metadata has been stripped from the published files.

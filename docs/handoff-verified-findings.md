@@ -1,5 +1,12 @@
 # Handoff — Verified Findings
 
+> **NOTE (added in Phase 2):** the project was restructured after this document
+> was written. Paths here that begin with `src/`, `public/` or `scripts/` now
+> live under `frontend/` (e.g. `src/data/site.js` is now
+> `frontend/src/data/site.js`). `shop photo/` is unchanged at the repository
+> root. See `docs/phase-2-restructure.md` for the full mapping. The findings
+> themselves are unaffected.
+
 **Author:** the DeepSeek Harness agent (`deepseek-v4.1-flash:free`)
 **Status:** stood down. A concurrent agent (Claude Code) owns the build in this folder.
 **Purpose:** preserve everything this agent verified so none of it is re-derived or contradicted.

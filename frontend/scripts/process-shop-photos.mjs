@@ -1,12 +1,18 @@
 import sharp from "sharp";
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 /**
  * Processes the owner-supplied shop photographs into optimised web assets.
  *
- * Source:  ./shop photo/      (original camera files, 0.5–9 MP)
- * Output:  ./public/shop-images/
+ * Source:  <repo>/shop photo/          (original camera files, 0.5–9 MP)
+ * Output:  <repo>/frontend/public/shop-images/
+ *
+ * Every path below is resolved from THIS FILE's location, not the process CWD,
+ * so the pipeline behaves identically whether it is run from the repo root or
+ * from frontend/. The owner's originals deliberately stay at the repository
+ * root: they are source material, not part of the deployed frontend bundle.
  *
  * For every photo this generates a responsive set of WebP files plus one JPEG
  * fallback, and strips all metadata (EXIF/GPS) so no camera or location data
@@ -22,8 +28,12 @@ import path from "node:path";
  * availability claim is made from a photograph.
  */
 
-const SRC = "shop photo";
-const OUT = path.join("public", "shop-images");
+const HERE = path.dirname(fileURLToPath(import.meta.url)); // <repo>/frontend/scripts
+const FRONTEND = path.resolve(HERE, ".."); // <repo>/frontend
+const REPO = path.resolve(FRONTEND, ".."); // <repo>
+
+const SRC = path.join(REPO, "shop photo");
+const OUT = path.join(FRONTEND, "public", "shop-images");
 
 /** Output name → source file, category, alt text, caption. */
 const PLAN = [
@@ -170,8 +180,9 @@ for (const item of PLAN) {
   );
 }
 
+fs.mkdirSync(path.join(REPO, "_tools"), { recursive: true });
 fs.writeFileSync(
-  path.join("_tools", "shop-images-manifest.json"),
+  path.join(REPO, "_tools", "shop-images-manifest.json"),
   JSON.stringify(manifest, null, 2)
 );
 
@@ -206,8 +217,9 @@ const gallery = entries.filter((e) => e.id !== "storefront" || true);
 const header = `/**
  * SmartphoneCafe shop photographs - GENERATED FILE, DO NOT EDIT BY HAND.
  *
- * Produced by scripts/process-shop-photos.mjs from the owner-supplied originals
- * in ./shop photo/. Re-run \`npm run photos\` after adding or replacing photos.
+ * Produced by frontend/scripts/process-shop-photos.mjs from the owner-supplied
+ * originals in <repo>/shop photo/. Re-run \`npm run photos\` after adding or
+ * replacing photos.
  *
  * Every image is served as responsive WebP with a JPEG fallback, and all EXIF
  * and GPS metadata has been stripped from the published files.
@@ -229,8 +241,8 @@ const body =
     2
   )};\n\nexport const heroPhoto = photos.interior;\nexport const storefrontPhoto = photos.storefront;\n`;
 
-fs.mkdirSync(path.join("src", "data"), { recursive: true });
-fs.writeFileSync(path.join("src", "data", "photos.js"), body);
+fs.mkdirSync(path.join(FRONTEND, "src", "data"), { recursive: true });
+fs.writeFileSync(path.join(FRONTEND, "src", "data", "photos.js"), body);
 console.log(`wrote src/data/photos.js (${entries.length} photos)`);
 
 // Report output size

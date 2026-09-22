@@ -17,4 +17,5 @@
 
 # Generated / vendored — collapse in diffs and language stats.
 package-lock.json -diff linguist-generated=true
-public/shop-images/** linguist-generated=true
+frontend/public/shop-images/** linguist-generated=true
+frontend/src/data/photos.js linguist-generated=true
