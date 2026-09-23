@@ -3,7 +3,8 @@ import Reveal from "../ui/Reveal.jsx";
 import SectionHeading from "../ui/SectionHeading.jsx";
 import Button from "../ui/Button.jsx";
 import CardCarousel from "../ui/CardCarousel.jsx";
-import { smartphoneModels, smartphoneModelsNote } from "../../data/products.js";
+import { useSiteData } from "../../context/SiteData.jsx";
+import { smartphoneModelsNote } from "../../data/products.js";
 import { waLink, waMessages } from "../../utils/whatsapp.js";
 
 /**
@@ -24,16 +25,28 @@ function PhoneCard(model) {
       aria-label={`Check availability of the ${model.brand} ${model.model} on WhatsApp`}
       className="group/card flex h-full w-full flex-col overflow-hidden rounded-[var(--radius-md)] border border-line bg-white transition-colors duration-300 hover:border-ink-300"
     >
-      {/* Neutral product area — intentionally image-free, sized so a real
-          render can be inserted later without touching the card design. */}
+      {/* Product area — shows the real render when the CMS has one, otherwise a
+          clean neutral placeholder sized identically so layout never shifts. */}
       <div
-        aria-hidden="true"
-        className="flex items-center justify-center bg-paper-mute"
+        className="flex items-center justify-center overflow-hidden bg-paper-mute"
         style={{ aspectRatio: "4 / 5" }}
       >
-        <span className="font-display text-[0.8125rem] font-semibold uppercase tracking-[0.14em] text-ink-300">
-          {model.brand}
-        </span>
+        {model.image ? (
+          <img
+            src={model.image}
+            alt={`${model.brand} ${model.model}`}
+            loading="lazy"
+            decoding="async"
+            className="h-full w-full object-cover"
+          />
+        ) : (
+          <span
+            aria-hidden="true"
+            className="font-display text-[0.8125rem] font-semibold uppercase tracking-[0.14em] text-ink-300"
+          >
+            {model.brand}
+          </span>
+        )}
       </div>
 
       <div className="flex flex-1 flex-col p-5">
@@ -56,7 +69,40 @@ function PhoneCard(model) {
   );
 }
 
+/** Polished empty state shown when the catalogue has no active products yet. */
+function PhonesEmptyState() {
+  return (
+    <div className="mt-10 flex flex-col items-center rounded-[var(--radius-lg)] border border-dashed border-line-strong bg-paper-soft px-6 py-14 text-center">
+      <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-accent-600 shadow-[var(--shadow-card)]">
+        <Icon name="smartphone" size={22} />
+      </span>
+      <h3 className="mt-5 font-display text-[1.125rem] font-bold tracking-[-0.02em] text-ink-950">
+        Tell us what you're looking for
+      </h3>
+      <p className="mt-2 max-w-md text-[0.9375rem] leading-relaxed text-ink-600">
+        We stock a changing range of handsets across every budget. Message us
+        the model or budget you have in mind and we'll tell you what's available
+        in store today.
+      </p>
+      <div className="mt-6">
+        <Button
+          href={waLink(waMessages.smartphones())}
+          external
+          variant="wa"
+          size="lg"
+          icon="whatsapp"
+        >
+          Ask about a phone
+        </Button>
+      </div>
+    </div>
+  );
+}
+
 export default function LatestSmartphones() {
+  const { smartphones } = useSiteData();
+  const hasPhones = smartphones.length > 0;
+
   return (
     <section className="bg-white" aria-labelledby="latest-heading">
       <div className="shell py-16 lg:py-24">
@@ -80,19 +126,27 @@ export default function LatestSmartphones() {
           </Reveal>
         </div>
 
-        <Reveal className="mt-10">
-          <CardCarousel
-            items={smartphoneModels}
-            ariaLabel="smartphone"
-            renderItem={(model) => <PhoneCard key={model.slug} {...model} />}
-          />
-        </Reveal>
+        {hasPhones ? (
+          <>
+            <Reveal className="mt-10">
+              <CardCarousel
+                items={smartphones}
+                ariaLabel="smartphone"
+                renderItem={(model) => <PhoneCard key={model.slug} {...model} />}
+              />
+            </Reveal>
 
-        <Reveal delay={160}>
-          <p className="mt-6 text-[0.8125rem] leading-relaxed text-ink-400">
-            {smartphoneModelsNote}
-          </p>
-        </Reveal>
+            <Reveal delay={160}>
+              <p className="mt-6 text-[0.8125rem] leading-relaxed text-ink-400">
+                {smartphoneModelsNote}
+              </p>
+            </Reveal>
+          </>
+        ) : (
+          <Reveal>
+            <PhonesEmptyState />
+          </Reveal>
+        )}
       </div>
     </section>
   );

@@ -1,7 +1,7 @@
 import Button from "../ui/Button.jsx";
 import Icon from "../Icon.jsx";
 import Reveal from "../ui/Reveal.jsx";
-import { business } from "../../data/site.js";
+import { useSiteData } from "../../context/SiteData.jsx";
 import { waLink, waMessages } from "../../utils/whatsapp.js";
 
 /**
@@ -14,6 +14,7 @@ export default function CtaBand({
   body = "Ask about a phone, check a price or describe a fault. We reply on WhatsApp during shop hours, every day of the week.",
   message,
 }) {
+  const { business } = useSiteData();
   return (
     <section className="bg-ink-950">
       <div className="shell py-14 lg:py-20">

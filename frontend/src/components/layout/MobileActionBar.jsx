@@ -1,5 +1,5 @@
 import Icon from "../Icon.jsx";
-import { business } from "../../data/site.js";
+import { useSiteData } from "../../context/SiteData.jsx";
 import { waLink, waMessages } from "../../utils/whatsapp.js";
 
 /**
@@ -10,6 +10,7 @@ import { waLink, waMessages } from "../../utils/whatsapp.js";
  * hidden from desktop, where the header already exposes the same actions.
  */
 export default function MobileActionBar() {
+  const { business } = useSiteData();
   const item =
     "flex flex-1 flex-col items-center justify-center gap-1 py-2.5 font-display text-[0.6875rem] font-semibold tracking-[-0.005em] transition-colors active:bg-white/5";
 

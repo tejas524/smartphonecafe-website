@@ -1,5 +1,5 @@
 import Icon from "../Icon.jsx";
-import { business } from "../../data/site.js";
+import { useSiteData } from "../../context/SiteData.jsx";
 
 /**
  * Slim utility strip that sits above the main navigation, mirroring the
@@ -14,6 +14,7 @@ import { business } from "../../data/site.js";
  * centred, so nothing is ever clipped at 320px.
  */
 export default function TopBar() {
+  const { business } = useSiteData();
   return (
     <div className="bg-ink-950 text-ink-300">
       <div className="shell flex h-9 items-center justify-center gap-4 sm:justify-between">

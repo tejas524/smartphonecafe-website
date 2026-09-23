@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Button from "../ui/Button.jsx";
 import Reveal from "../ui/Reveal.jsx";
-import { brands } from "../../data/brands.js";
+import { useSiteData } from "../../context/SiteData.jsx";
 import { waLink, waMessages } from "../../utils/whatsapp.js";
 
 /**
@@ -42,7 +42,10 @@ function BrandLogo({ brand }) {
  * for that brand.
  */
 export default function BrandGrid({ limit }) {
+  const { brands } = useSiteData();
   const list = limit ? brands.slice(0, limit) : brands;
+
+  if (!list.length) return null;
 
   return (
     <ul className="grid grid-cols-2 gap-px overflow-hidden rounded-[var(--radius-md)] bg-line sm:grid-cols-3 lg:grid-cols-5">

@@ -4,7 +4,7 @@ import { Logo } from "../Logo.jsx";
 import Icon from "../Icon.jsx";
 import Button from "../ui/Button.jsx";
 import TopBar from "./TopBar.jsx";
-import { business, nav } from "../../data/site.js";
+import { useSiteData } from "../../context/SiteData.jsx";
 import { waLink, waMessages } from "../../utils/whatsapp.js";
 
 /**
@@ -19,6 +19,7 @@ import { waLink, waMessages } from "../../utils/whatsapp.js";
  * shadow appears once the page is scrolled to lift the bar off the content.
  */
 export default function Header() {
+  const { business, nav } = useSiteData();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();

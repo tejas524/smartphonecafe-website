@@ -39,6 +39,14 @@ const SiteDataContext = createContext(null);
 /** Assemble the unified site-data object from a raw /bootstrap payload. */
 function assemble(bootstrap) {
   const business = adaptBusiness(bootstrap.business);
+  const brands = adaptBrands(bootstrap.brands);
+  const brandNameById = new Map(brands.map((b) => [b.id, b.name]));
+  const smartphones = adaptSmartphones(bootstrap.smartphones).map((s) => ({
+    ...s,
+    brand: brandNameById.get(s.brand_id) || "",
+    model: s.model_name,
+    image: s.image_path || null,
+  }));
   return {
     business,
     serviceAreas: adaptServiceAreas(bootstrap.business),
@@ -47,11 +55,11 @@ function assemble(bootstrap) {
     mapEmbedUrl: buildMapEmbedUrl(business),
     nav,
     home: indexHomeSections(bootstrap.home),
-    brands: adaptBrands(bootstrap.brands),
+    brands,
     offers: adaptOffers(bootstrap.offers),
     repairs: adaptRepairs(bootstrap.repairs),
     gallery: adaptGallery(bootstrap.gallery),
-    smartphones: adaptSmartphones(bootstrap.smartphones),
+    smartphones,
     accessories: {
       categories: adaptAccessoryCategories(bootstrap.accessories?.categories),
       items: adaptAccessoryItems(bootstrap.accessories?.items),

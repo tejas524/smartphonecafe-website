@@ -2,11 +2,7 @@ import { useEffect, useState } from "react";
 import Button from "../ui/Button.jsx";
 import Icon from "../Icon.jsx";
 import Reveal from "../ui/Reveal.jsx";
-import {
-  business,
-  directionsUrl,
-  mapEmbedUrl,
-} from "../../data/site.js";
+import { useSiteData } from "../../context/SiteData.jsx";
 import { waLink, waMessages } from "../../utils/whatsapp.js";
 import { getStoreStatus } from "../../utils/hours.js";
 
@@ -17,6 +13,7 @@ import { getStoreStatus } from "../../utils/hours.js";
  * fabricated coordinates and no API key.
  */
 export default function LocationSection({ tone = "light" }) {
+  const { business, directionsUrl, mapEmbedUrl } = useSiteData();
   const [status, setStatus] = useState({ known: false });
 
   // Computed after mount so the server-rendered HTML never carries a stale

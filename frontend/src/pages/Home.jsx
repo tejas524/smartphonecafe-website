@@ -12,9 +12,7 @@ import Button from "../components/ui/Button.jsx";
 import Icon from "../components/Icon.jsx";
 import Reveal from "../components/ui/Reveal.jsx";
 import Photo from "../components/ui/Photo.jsx";
-import { business } from "../data/site.js";
-import { repairIssues } from "../data/repairs.js";
-import { accessoryCategories } from "../data/accessories.js";
+import { useSiteData } from "../context/SiteData.jsx";
 import { photos } from "../data/photos.js";
 import { waLink, waMessages } from "../utils/whatsapp.js";
 import usePageMeta from "../utils/usePageMeta.js";
@@ -42,6 +40,8 @@ import usePageMeta from "../utils/usePageMeta.js";
  * to a WhatsApp enquiry so terms are confirmed with the store.
  */
 export default function Home() {
+  const { business, repairs, accessories } = useSiteData();
+
   usePageMeta({
     title: null,
     description:
@@ -132,7 +132,7 @@ export default function Home() {
               </Reveal>
 
               <ul className="mt-9 grid gap-x-10 sm:grid-cols-2">
-                {repairIssues.slice(0, 8).map((issue, i) => (
+                {repairs.slice(0, 8).map((issue, i) => (
                   <li key={issue.id}>
                     <Reveal delay={i * 35}>
                       <Link
@@ -191,7 +191,7 @@ export default function Home() {
           </div>
 
           <ul className="mt-10 grid grid-cols-1 gap-px overflow-hidden rounded-[var(--radius-md)] bg-line sm:grid-cols-2 lg:grid-cols-3">
-            {accessoryCategories.map((a, i) => (
+            {accessories.categories.map((a, i) => (
               <li key={a.id} className="bg-white">
                 <Reveal delay={i * 45} className="h-full">
                   <a

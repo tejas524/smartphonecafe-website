@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { Logo } from "../Logo.jsx";
 import Icon from "../Icon.jsx";
-import { business, nav, serviceAreas } from "../../data/site.js";
+import { useSiteData } from "../../context/SiteData.jsx";
 import { waLink, waMessages } from "../../utils/whatsapp.js";
 
 export default function Footer() {
+  const { business, nav, serviceAreas } = useSiteData();
   const year = new Date().getFullYear();
 
   const linkCls =

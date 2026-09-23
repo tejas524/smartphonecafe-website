@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Button from "../ui/Button.jsx";
 import Icon from "../Icon.jsx";
-import { business } from "../../data/site.js";
+import { useSiteData } from "../../context/SiteData.jsx";
 import { photos } from "../../data/photos.js";
 import { waLink, waMessages } from "../../utils/whatsapp.js";
 import { getStoreStatus } from "../../utils/hours.js";
@@ -23,6 +23,8 @@ import { getStoreStatus } from "../../utils/hours.js";
 const HERO_PHOTO = photos.interior;
 
 export default function Hero() {
+  const { business, home } = useSiteData();
+  const hero = home.hero || {};
   const [status, setStatus] = useState({ known: false });
 
   useEffect(() => {
@@ -76,7 +78,7 @@ export default function Hero() {
       <div className="shell flex min-h-[30rem] flex-col justify-center py-16 sm:min-h-[34rem] lg:min-h-[38rem] lg:py-24">
         <div className="max-w-xl">
           <p className="hero-rise eyebrow text-accent-300" style={{ animationDelay: "180ms" }}>
-            Smartphones · Repairs · Accessories
+            {hero.eyebrow || "Smartphones · Repairs · Accessories"}
           </p>
 
           <h1
@@ -84,23 +86,29 @@ export default function Hero() {
             className="hero-rise mt-5 max-w-[16ch] text-[2rem] font-extrabold leading-[1.06] tracking-[-0.03em] text-white sm:text-[2.5rem] lg:text-[3rem]"
             style={{ animationDelay: "280ms" }}
           >
-            Your trusted mobile destination in Talegaon&nbsp;Dabhade
+            {hero.heading || "Your trusted mobile destination in Talegaon Dabhade"}
           </h1>
 
           <p
             className="hero-rise mt-5 max-w-lg text-[1rem] leading-relaxed text-white/75 sm:text-[1.0625rem]"
             style={{ animationDelay: "400ms" }}
           >
-            The latest smartphones, reliable accessories and quick repairs — all
-            under one roof on Talegaon Station Road.
+            {hero.body ||
+              hero.subheading ||
+              "The latest smartphones, reliable accessories and quick repairs — all under one roof on Talegaon Station Road."}
           </p>
 
           <div
             className="hero-rise mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center"
             style={{ animationDelay: "520ms" }}
           >
-            <Button to="/smartphones" variant="primary" size="lg" icon="smartphone">
-              Explore Smartphones
+            <Button
+              to={hero.cta_url || "/smartphones"}
+              variant="primary"
+              size="lg"
+              icon="smartphone"
+            >
+              {hero.cta_label || "Explore Smartphones"}
             </Button>
             <Button
               href={waLink(waMessages.general())}

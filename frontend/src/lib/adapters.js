@@ -109,10 +109,43 @@ const byOrder = (rows) =>
     (a, b) => (a.display_order ?? 0) - (b.display_order ?? 0)
   );
 
-export const adaptBrands = (rows) => byOrder(rows);
-export const adaptOffers = (rows) => byOrder(rows);
-export const adaptRepairs = (rows) => byOrder(rows);
+export const adaptBrands = (rows) =>
+  byOrder(rows).map((r) => ({ ...r, logo: r.logo_path || null }));
+
+export const adaptOffers = (rows) =>
+  byOrder(rows).map((r) => ({
+    id: r.id,
+    title: r.title,
+    subtitle: r.subtitle || null,
+    src: r.image_path || null,
+    alt: r.subtitle || r.title || "Current offer",
+    href: r.cta_url || null,
+    ctaLabel: r.cta_label || null,
+  }));
+
+export const adaptRepairs = (rows) =>
+  byOrder(rows).map((r) => ({
+    id: r.id,
+    slug: r.slug,
+    icon: r.icon || "wrench",
+    title: r.title,
+    description: r.description || "",
+    tags: r.tags || "",
+  }));
+
 export const adaptGallery = (rows) => byOrder(rows);
+
+// Brand name is joined from brand_id in the SiteData provider (assemble()).
 export const adaptSmartphones = (rows) => byOrder(rows);
-export const adaptAccessoryCategories = (rows) => byOrder(rows);
+
+export const adaptAccessoryCategories = (rows) =>
+  byOrder(rows).map((r) => ({
+    id: r.id,
+    slug: r.slug,
+    title: r.title,
+    blurb: r.description || "",
+    icon: r.icon || null,
+    image: r.image_path || null,
+  }));
+
 export const adaptAccessoryItems = (rows) => byOrder(rows);
