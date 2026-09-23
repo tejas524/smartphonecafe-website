@@ -168,6 +168,7 @@ export const adaptAccessoryCategories = (rows) =>
     blurb: r.description || "",
     icon: r.icon || null,
     image: r.image_path || null,
+    alt: r.title ? `${r.title} at SmartphoneCafe` : "Accessory category",
   }));
 
 export const adaptAccessoryItems = (rows) => byOrder(rows);

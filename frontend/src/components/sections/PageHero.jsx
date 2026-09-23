@@ -1,19 +1,33 @@
 import Reveal from "../ui/Reveal.jsx";
 
 /**
- * Compact editorial page header used by every inner page.
- * Keeps a consistent rhythm without repeating the homepage's dark hero.
+ * Inner-page header — a compact, premium retail masthead.
+ *
+ * A near-white surface with a faint grid and a soft cobalt glow sets every
+ * inner page apart from the homepage's dark photographic hero while keeping
+ * one consistent rhythm. An accent rule leads the eyebrow so the header reads
+ * as branded rather than generic.
  */
 export default function PageHero({ eyebrow, title, lead, children, aside }) {
   return (
-    <section className="relative border-b border-line bg-paper-soft">
+    <section className="relative overflow-hidden border-b border-line bg-paper-soft">
+      {/* Faint grid */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 opacity-[0.55]"
+        className="absolute inset-0 opacity-[0.5]"
         style={{
           backgroundImage:
             "linear-gradient(to right, rgb(8 9 12 / 0.028) 1px, transparent 1px), linear-gradient(to bottom, rgb(8 9 12 / 0.028) 1px, transparent 1px)",
           backgroundSize: "56px 56px",
+        }}
+      />
+      {/* Soft cobalt glow, upper-right */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-24 -top-32 h-80 w-80 rounded-full opacity-60 blur-3xl"
+        style={{
+          background:
+            "radial-gradient(circle, rgb(47 107 255 / 0.14) 0%, transparent 70%)",
         }}
       />
 
@@ -21,15 +35,19 @@ export default function PageHero({ eyebrow, title, lead, children, aside }) {
         <div className="grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-12">
           <div className={aside ? "lg:col-span-7" : "lg:col-span-9"}>
             {eyebrow && (
-              <Reveal as="p" className="eyebrow text-accent-600">
-                {eyebrow}
+              <Reveal className="flex items-center gap-3">
+                <span
+                  aria-hidden="true"
+                  className="h-px w-8 bg-accent-500"
+                />
+                <span className="eyebrow text-accent-600">{eyebrow}</span>
               </Reveal>
             )}
 
             <Reveal
               as="h1"
               delay={60}
-              className="mt-4 text-[2rem] leading-[1.08] sm:text-[2.5rem] lg:text-[3rem]"
+              className="mt-4 text-[2rem] font-extrabold leading-[1.06] tracking-[-0.03em] text-ink-950 sm:text-[2.5rem] lg:text-[3rem]"
             >
               {title}
             </Reveal>

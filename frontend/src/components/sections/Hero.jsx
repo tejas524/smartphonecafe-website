@@ -9,21 +9,17 @@ import { getStoreStatus } from "../../utils/hours.js";
 /**
  * Homepage hero — large, image-led, full-width.
  *
- * A real photograph of the store fills the frame edge-to-edge, under a dark
- * gradient tuned for legibility. On top: a high-contrast headline, a short
- * supporting line, a primary + secondary CTA, and a live "open now / hours"
- * trust row. The headline follows the reference's direction while the
- * supporting copy reuses the shop's own Google-listing wording, so nothing is
- * invented.
- *
- * Photo: `store photo from inside.jpg` (source 4000x2250) — the sharpest frame
- * supplied and the one whose in-store display signage is legible.
+ * A real photograph of the store fills the frame edge-to-edge under a dark,
+ * legibility-tuned gradient. On top sit a high-contrast headline, a short
+ * supporting line (both editable from the CMS `hero` row), two CTAs, a live
+ * open/closed indicator and a Google-rating trust chip. The load animation is
+ * a SEPARATE system from the scroll reveals (see index.css .hero-*): it runs
+ * once on first paint and honours prefers-reduced-motion.
  */
-
 const HERO_PHOTO = photos.interior;
 
 export default function Hero() {
-  const { business, home } = useSiteData();
+  const { business, home, reviewsSummary } = useSiteData();
   const hero = home.hero || {};
   const [status, setStatus] = useState({ known: false });
 
@@ -54,9 +50,7 @@ export default function Hero() {
         className="hero-img absolute inset-0 -z-10 h-full w-full object-cover"
       />
 
-      {/* Gradient overlay for readability (kept out of the a11y tree). A strong,
-          sophisticated dark wash — heavier on the left where the copy sits, but
-          the photograph stays visible on the right (never fully black). */}
+      {/* Legibility gradient — heavier on the left where the copy sits */}
       <div
         aria-hidden="true"
         className="hero-overlay absolute inset-0 -z-10"
@@ -65,33 +59,54 @@ export default function Hero() {
             "linear-gradient(90deg, rgb(6 8 12 / 0.95) 0%, rgb(6 8 12 / 0.82) 44%, rgb(6 8 12 / 0.58) 72%, rgb(6 8 12 / 0.40) 100%)",
         }}
       />
-      {/* Top + bottom vignette for depth and a clean edge into the white section below */}
       <div
         aria-hidden="true"
         className="hero-overlay absolute inset-0 -z-10"
         style={{
           background:
-            "linear-gradient(180deg, rgb(6 8 12 / 0.45) 0%, rgb(6 8 12 / 0.10) 30%, rgb(6 8 12 / 0.14) 64%, rgb(6 8 12 / 0.58) 100%)",
+            "linear-gradient(180deg, rgb(6 8 12 / 0.45) 0%, rgb(6 8 12 / 0.10) 30%, rgb(6 8 12 / 0.14) 64%, rgb(6 8 12 / 0.62) 100%)",
         }}
       />
 
-      <div className="shell flex min-h-[30rem] flex-col justify-center py-16 sm:min-h-[34rem] lg:min-h-[38rem] lg:py-24">
-        <div className="max-w-xl">
-          <p className="hero-rise eyebrow text-accent-300" style={{ animationDelay: "180ms" }}>
-            {hero.eyebrow || "Smartphones · Repairs · Accessories"}
-          </p>
+      <div className="shell flex min-h-[32rem] flex-col justify-center py-16 sm:min-h-[36rem] lg:min-h-[42rem] lg:py-28">
+        <div className="max-w-2xl">
+          {/* Rating chip */}
+          {reviewsSummary?.rating ? (
+            <a
+              href={reviewsSummary.googleUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hero-rise inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3.5 py-1.5 text-[0.8125rem] font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/15"
+              style={{ animationDelay: "120ms" }}
+            >
+              <span aria-hidden="true" style={{ color: "#fbbc04" }}>
+                ★★★★★
+              </span>
+              <span className="tabular-nums">{reviewsSummary.rating.toFixed(1)}</span>
+              <span className="text-white/70">
+                · {reviewsSummary.reviewCount} Google reviews
+              </span>
+            </a>
+          ) : (
+            <p
+              className="hero-rise eyebrow text-accent-300"
+              style={{ animationDelay: "120ms" }}
+            >
+              {hero.eyebrow || "Smartphones · Repairs · Accessories"}
+            </p>
+          )}
 
           <h1
             id="hero-heading"
-            className="hero-rise mt-5 max-w-[16ch] text-[2rem] font-extrabold leading-[1.06] tracking-[-0.03em] text-white sm:text-[2.5rem] lg:text-[3rem]"
-            style={{ animationDelay: "280ms" }}
+            className="hero-rise mt-5 max-w-[18ch] text-[2.125rem] font-extrabold leading-[1.05] tracking-[-0.03em] text-white sm:text-[2.75rem] lg:text-[3.5rem]"
+            style={{ animationDelay: "240ms" }}
           >
             {hero.heading || "Your trusted mobile destination in Talegaon Dabhade"}
           </h1>
 
           <p
-            className="hero-rise mt-5 max-w-lg text-[1rem] leading-relaxed text-white/75 sm:text-[1.0625rem]"
-            style={{ animationDelay: "400ms" }}
+            className="hero-rise mt-5 max-w-xl text-[1.0625rem] leading-relaxed text-white/78 sm:text-[1.125rem]"
+            style={{ animationDelay: "360ms" }}
           >
             {hero.body ||
               hero.subheading ||
@@ -100,11 +115,11 @@ export default function Hero() {
 
           <div
             className="hero-rise mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center"
-            style={{ animationDelay: "520ms" }}
+            style={{ animationDelay: "480ms" }}
           >
             <Button
               to={hero.cta_url || "/smartphones"}
-              variant="primary"
+              variant="accent"
               size="lg"
               icon="smartphone"
             >
@@ -124,7 +139,7 @@ export default function Hero() {
           {/* Trust / location row */}
           <div
             className="hero-rise mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-[0.8125rem] text-white/70"
-            style={{ animationDelay: "640ms" }}
+            style={{ animationDelay: "600ms" }}
           >
             <span className="inline-flex items-center gap-2">
               <span
@@ -132,7 +147,11 @@ export default function Hero() {
                 className={`h-2 w-2 shrink-0 rounded-full ${
                   isOpen === false ? "bg-white/40" : "bg-wa-500"
                 }`}
-                style={isOpen !== false ? { boxShadow: "0 0 0 4px rgb(37 211 102 / 0.22)" } : undefined}
+                style={
+                  isOpen !== false
+                    ? { boxShadow: "0 0 0 4px rgb(37 211 102 / 0.22)" }
+                    : undefined
+                }
               />
               {isOpen === false ? "Currently closed" : "Open now"} · {business.hours.label}
             </span>
@@ -141,8 +160,8 @@ export default function Hero() {
               Talegaon Station Road
             </span>
             <span className="inline-flex items-center gap-2">
-              <Icon name="clock" size={15} className="text-white/50" />
-              Open all 7 days
+              <Icon name="wrench" size={15} className="text-white/50" />
+              Repairs checked at the counter
             </span>
           </div>
         </div>

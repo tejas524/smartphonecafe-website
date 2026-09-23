@@ -2,7 +2,7 @@ import Reveal from "../ui/Reveal.jsx";
 import SectionHeading from "../ui/SectionHeading.jsx";
 import CardCarousel from "../ui/CardCarousel.jsx";
 import Icon from "../Icon.jsx";
-import { reviews, reviewsSummary } from "../../data/reviews.js";
+import { useSiteData } from "../../context/SiteData.jsx";
 import useCountUp from "../../utils/useCountUp.js";
 
 /**
@@ -75,6 +75,7 @@ function ReviewCard(review) {
 }
 
 export default function ReviewsSection() {
+  const { reviews, reviewsSummary } = useSiteData();
   const { ref, value } = useCountUp(reviewsSummary.reviewCount, { duration: 1300 });
 
   return (

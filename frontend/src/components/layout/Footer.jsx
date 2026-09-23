@@ -5,7 +5,7 @@ import { useSiteData } from "../../context/SiteData.jsx";
 import { waLink, waMessages } from "../../utils/whatsapp.js";
 
 export default function Footer() {
-  const { business, nav, serviceAreas } = useSiteData();
+  const { business, nav, serviceAreas, reviewsSummary } = useSiteData();
   const year = new Date().getFullYear();
 
   const linkCls =
@@ -27,6 +27,25 @@ export default function Footer() {
               A mobile phone store and repair shop on Talegaon Station Road,
               serving Talegaon Dabhade and the surrounding area.
             </p>
+
+            {reviewsSummary?.rating ? (
+              <a
+                href={reviewsSummary.googleUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-6 inline-flex items-center gap-2.5 rounded-full border border-white/12 bg-white/5 px-4 py-2 text-[0.8125rem] text-ink-300 transition-colors hover:border-white/25 hover:text-white"
+              >
+                <span aria-hidden="true" style={{ color: "#fbbc04" }}>
+                  ★★★★★
+                </span>
+                <span className="font-semibold tabular-nums text-white">
+                  {reviewsSummary.rating.toFixed(1)}
+                </span>
+                <span className="text-ink-500">
+                  · {reviewsSummary.reviewCount} Google reviews
+                </span>
+              </a>
+            ) : null}
 
             <div className="mt-6 flex flex-wrap gap-2.5">
               <a

@@ -1,6 +1,8 @@
 import Reveal from "../ui/Reveal.jsx";
 import SectionHeading from "../ui/SectionHeading.jsx";
 import CardCarousel from "../ui/CardCarousel.jsx";
+import Icon from "../Icon.jsx";
+import { Link } from "react-router-dom";
 import { useSiteData } from "../../context/SiteData.jsx";
 import { waLink, waMessages } from "../../utils/whatsapp.js";
 
@@ -44,8 +46,9 @@ function OfferCard(offer) {
 }
 
 export default function OffersSection() {
-  const { offers } = useSiteData();
+  const { offers, home } = useSiteData();
   if (!offers.length) return null;
+  const content = home.offers || {};
 
   return (
     <section
@@ -55,19 +58,38 @@ export default function OffersSection() {
       style={{ scrollMarginTop: "5.5rem" }}
     >
       <div className="shell py-10 lg:py-14">
-        <SectionHeading
-          eyebrow="Offers"
-          id="offers-heading"
-          title="Deals for you"
-          size="sm"
-        />
-        <Reveal
-          as="p"
-          delay={120}
-          className="mt-1.5 max-w-xl text-[0.875rem] leading-relaxed text-ink-500"
-        >
-          Tap an offer to ask us on WhatsApp what's available today.
-        </Reveal>
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <SectionHeading
+              eyebrow={content.eyebrow || "Offers"}
+              id="offers-heading"
+              title={content.heading || "Deals for you"}
+              size="sm"
+            />
+            <Reveal
+              as="p"
+              delay={120}
+              className="mt-1.5 max-w-xl text-[0.875rem] leading-relaxed text-ink-500"
+            >
+              {content.subheading ||
+                "Tap an offer to ask us on WhatsApp what's available today."}
+            </Reveal>
+          </div>
+
+          <Reveal delay={120}>
+            <Link
+              to="/offers"
+              className="group/link inline-flex items-center gap-1.5 font-display text-[0.875rem] font-semibold text-accent-600 transition-colors hover:text-accent-700"
+            >
+              See all offers
+              <Icon
+                name="arrowRight"
+                size={15}
+                className="transition-transform duration-200 group-hover/link:translate-x-0.5"
+              />
+            </Link>
+          </Reveal>
+        </div>
 
         <Reveal className="mt-5">
           <CardCarousel

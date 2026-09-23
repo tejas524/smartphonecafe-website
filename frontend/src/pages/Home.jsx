@@ -5,6 +5,7 @@ import OffersSection from "../components/sections/OffersSection.jsx";
 import BrandGrid, { BrandCta } from "../components/sections/BrandGrid.jsx";
 import ReviewsSection from "../components/sections/ReviewsSection.jsx";
 import LatestSmartphones from "../components/sections/LatestSmartphones.jsx";
+import AccessoriesSection from "../components/sections/AccessoriesSection.jsx";
 import LocationSection from "../components/sections/LocationSection.jsx";
 import CtaBand from "../components/sections/CtaBand.jsx";
 import SectionHeading from "../components/ui/SectionHeading.jsx";
@@ -40,7 +41,7 @@ import usePageMeta from "../utils/usePageMeta.js";
  * to a WhatsApp enquiry so terms are confirmed with the store.
  */
 export default function Home() {
-  const { business, repairs, accessories } = useSiteData();
+  const { business, repairs, home } = useSiteData();
 
   usePageMeta({
     title: null,
@@ -64,10 +65,13 @@ export default function Home() {
       <section className="bg-white" aria-labelledby="brands-heading">
         <div className="shell py-16 lg:py-24">
           <SectionHeading
-            eyebrow="Shop by brand"
+            eyebrow={home.brands?.eyebrow || "Shop by brand"}
             id="brands-heading"
-            title="The brands people ask for"
-            lead="Tap a brand to start a WhatsApp enquiry. This is the list we are asked about most — not a stock list, so we confirm what is in store when you message."
+            title={home.brands?.heading || "The brands people ask for"}
+            lead={
+              home.brands?.subheading ||
+              "Tap a brand to start a WhatsApp enquiry. This is the list we are asked about most — not a stock list, so we confirm what is in store when you message."
+            }
           />
 
           <div className="mt-10">
@@ -110,10 +114,13 @@ export default function Home() {
             {/* Copy + repair types */}
             <div className="lg:col-span-6">
               <SectionHeading
-                eyebrow="Repairs"
+                eyebrow={home.repairs?.eyebrow || "Repairs"}
                 id="repairs-heading"
-                title="Mobile repair services"
-                lead="We are a dedicated mobile phone repair shop. Bring the phone in and the fault is checked at the counter before anything goes ahead."
+                title={home.repairs?.heading || "Mobile repair services"}
+                lead={
+                  home.repairs?.subheading ||
+                  "We are a dedicated mobile phone repair shop. Bring the phone in and the fault is checked at the counter before anything goes ahead."
+                }
               />
 
               <Reveal delay={160} className="mt-7 flex flex-wrap gap-3">
@@ -163,67 +170,7 @@ export default function Home() {
       </section>
 
       {/* 10 — Accessories */}
-      <section
-        className="bg-white"
-        id="accessories"
-        aria-labelledby="accessories-heading"
-        style={{ scrollMarginTop: "5.5rem" }}
-      >
-        <div className="shell py-16 lg:py-24">
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-            <SectionHeading
-              eyebrow="Accessories"
-              id="accessories-heading"
-              title="Everything you need"
-              lead="Covers, screen protection, chargers, earphones and power banks — the everyday items you end up needing the same day."
-            />
-            <Reveal delay={140} className="shrink-0">
-              <Button
-                href={waLink(waMessages.accessories())}
-                external
-                variant="wa"
-                size="lg"
-                icon="whatsapp"
-              >
-                Ask what is in stock
-              </Button>
-            </Reveal>
-          </div>
-
-          <ul className="mt-10 grid grid-cols-1 gap-px overflow-hidden rounded-[var(--radius-md)] bg-line sm:grid-cols-2 lg:grid-cols-3">
-            {accessories.categories.map((a, i) => (
-              <li key={a.id} className="bg-white">
-                <Reveal delay={i * 45} className="h-full">
-                  <a
-                    href={waLink(waMessages.accessories())}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`Ask about ${a.title} on WhatsApp`}
-                    className="group/acc flex h-full flex-col justify-between gap-6 p-6 transition-colors duration-300 hover:bg-paper-soft"
-                  >
-                    <div>
-                      <h3 className="font-display text-[1.0625rem] font-bold tracking-[-0.02em] text-ink-950">
-                        {a.title}
-                      </h3>
-                      <p className="mt-2 text-[0.9375rem] leading-relaxed text-ink-600">
-                        {a.blurb}
-                      </p>
-                    </div>
-                    <span className="inline-flex items-center gap-1.5 font-display text-[0.8125rem] font-semibold text-accent-600">
-                      Ask on WhatsApp
-                      <Icon
-                        name="arrowRight"
-                        size={14}
-                        className="transition-transform duration-200 group-hover/acc:translate-x-0.5"
-                      />
-                    </span>
-                  </a>
-                </Reveal>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
+      <AccessoriesSection />
 
       {/* 11 — Inside SmartphoneCafe */}
       <section

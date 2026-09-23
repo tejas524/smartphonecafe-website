@@ -35,6 +35,9 @@ export const waMessages = {
   accessories: () =>
     `${OPENER} I would like to know about the mobile accessories you have available.`,
 
+  accessoryCategory: (name) =>
+    `${OPENER} I would like to know about ${String(name || "accessories").toLowerCase()} you have available.`,
+
   repairs: () =>
     `${OPENER} I need to repair my phone. I would like to know the repair options.`,
 

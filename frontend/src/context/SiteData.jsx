@@ -33,6 +33,10 @@ import {
   mapEmbedUrl as staticMapEmbedUrl,
   nav,
 } from "../data/site.js";
+// Reviews are supplied data shaped like an API payload. Exposing them through
+// this provider keeps the whole site reading from one hook, so swapping in a
+// live Google reviews API later is a single-file change here.
+import { reviews, reviewsSummary } from "../data/reviews.js";
 
 const SiteDataContext = createContext(null);
 
@@ -64,6 +68,8 @@ function assemble(bootstrap) {
       categories: adaptAccessoryCategories(bootstrap.accessories?.categories),
       items: adaptAccessoryItems(bootstrap.accessories?.items),
     },
+    reviews,
+    reviewsSummary,
   };
 }
 
@@ -83,6 +89,8 @@ function staticFallback() {
     gallery: [],
     smartphones: [],
     accessories: { categories: [], items: [] },
+    reviews,
+    reviewsSummary,
   };
 }
 
