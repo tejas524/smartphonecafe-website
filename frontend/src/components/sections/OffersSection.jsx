@@ -48,7 +48,7 @@ export default function OffersSection() {
         <SectionHeading
           eyebrow="Offers"
           id="offers-heading"
-          title="Deals for you"
+          title="Deals  for you"
           size="sm"
         />
         <Reveal
