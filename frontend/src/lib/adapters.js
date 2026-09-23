@@ -129,11 +129,33 @@ export const adaptRepairs = (rows) =>
     slug: r.slug,
     icon: r.icon || "wrench",
     title: r.title,
+    blurb: r.description || "",
     description: r.description || "",
-    tags: r.tags || "",
+    tags: r.tags
+      ? String(r.tags)
+          .split(",")
+          .map((t) => t.trim())
+          .filter(Boolean)
+      : [],
   }));
 
-export const adaptGallery = (rows) => byOrder(rows);
+export const adaptGallery = (rows) =>
+  byOrder(rows).map((r) => {
+    const src = assetUrl(r.image_path);
+    return {
+      id: r.id,
+      slug: r.slug,
+      src,
+      srcset: r.srcset || (src ? `${src} ${r.width || 2000}w` : ""),
+      width: r.width || undefined,
+      height: r.height || undefined,
+      alt: r.alt_text || r.caption || r.title || "",
+      caption: r.caption || r.title || "",
+      aspect: r.aspect_ratio || "4 / 3",
+      category: r.category || "all",
+      feature: !!r.is_featured,
+    };
+  });
 
 // Brand name is joined from brand_id in the SiteData provider (assemble()).
 export const adaptSmartphones = (rows) => byOrder(rows);

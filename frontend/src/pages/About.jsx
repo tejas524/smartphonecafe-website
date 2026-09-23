@@ -7,7 +7,7 @@ import Button from "../components/ui/Button.jsx";
 import Icon from "../components/Icon.jsx";
 import Reveal from "../components/ui/Reveal.jsx";
 import Photo from "../components/ui/Photo.jsx";
-import { business, serviceAreas } from "../data/site.js";
+import { useSiteData } from "../context/SiteData.jsx";
 import { inStoreServices } from "../data/accessories.js";
 import { photos } from "../data/photos.js";
 import { waLink, waMessages } from "../utils/whatsapp.js";
@@ -20,30 +20,36 @@ import usePageMeta from "../utils/usePageMeta.js";
  * none of those could be verified.
  */
 
-const verifiedFacts = [
-  {
-    icon: "store",
-    label: "Listed categories",
-    value: "Mobile phone repair shop · Cell phone store · Cell phone accessory store",
-  },
-  {
-    icon: "chip",
-    label: "Also listed as",
-    value: "Phone repair service · Data recovery service",
-  },
-  {
-    icon: "clock",
-    label: "Opening hours",
-    value: `${business.hours.label}, ${business.hours.days.toLowerCase()}`,
-  },
-  {
-    icon: "mapPin",
-    label: "Location",
-    value: `${business.address.line2}, ${business.address.region} ${business.address.postalCode}`,
-  },
-];
+/** Build the verified-facts list from live business data. */
+function buildVerifiedFacts(business) {
+  return [
+    {
+      icon: "store",
+      label: "Listed categories",
+      value: "Mobile phone repair shop · Cell phone store · Cell phone accessory store",
+    },
+    {
+      icon: "chip",
+      label: "Also listed as",
+      value: "Phone repair service · Data recovery service",
+    },
+    {
+      icon: "clock",
+      label: "Opening hours",
+      value: `${business.hours.label}, ${business.hours.days.toLowerCase()}`,
+    },
+    {
+      icon: "mapPin",
+      label: "Location",
+      value: `${business.address.line2}, ${business.address.region} ${business.address.postalCode}`,
+    },
+  ];
+}
 
 export default function About() {
+  const { business, serviceAreas } = useSiteData();
+  const verifiedFacts = buildVerifiedFacts(business);
+
   usePageMeta({
     title: "About",
     description:

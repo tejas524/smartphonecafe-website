@@ -9,8 +9,8 @@ import Button from "../components/ui/Button.jsx";
 import Icon from "../components/Icon.jsx";
 import Reveal from "../components/ui/Reveal.jsx";
 import Photo from "../components/ui/Photo.jsx";
+import { useSiteData } from "../context/SiteData.jsx";
 import { photos } from "../data/photos.js";
-import { business } from "../data/site.js";
 import { smartphoneCategories, budgetBands } from "../data/brands.js";
 import { waLink, waMessages } from "../utils/whatsapp.js";
 import usePageMeta from "../utils/usePageMeta.js";
@@ -24,6 +24,8 @@ const enquiryChecklist = [
 ];
 
 export default function Smartphones() {
+  const { business } = useSiteData();
+
   usePageMeta({
     title: "Smartphones",
     description:

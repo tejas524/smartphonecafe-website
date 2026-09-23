@@ -6,8 +6,7 @@ import SectionHeading from "../components/ui/SectionHeading.jsx";
 import Button from "../components/ui/Button.jsx";
 import Icon from "../components/Icon.jsx";
 import Reveal from "../components/ui/Reveal.jsx";
-import { business } from "../data/site.js";
-import { brands } from "../data/brands.js";
+import { useSiteData } from "../context/SiteData.jsx";
 import { waLink, waMessages } from "../utils/whatsapp.js";
 import usePageMeta from "../utils/usePageMeta.js";
 
@@ -18,41 +17,45 @@ import usePageMeta from "../utils/usePageMeta.js";
  * and a repair question. Both are one tap from the top of the page.
  */
 
-const contactMethods = [
-  {
-    key: "whatsapp",
-    icon: "whatsapp",
-    title: "WhatsApp",
-    value: business.phoneDisplay,
-    note: "Fastest route. Send a message any time — we reply during shop hours.",
-    href: () => waLink(waMessages.general()),
-    external: true,
-    accent: "wa",
-  },
-  {
-    key: "call",
-    icon: "phone",
-    title: "Call the shop",
-    value: business.phoneDisplay,
-    note: "Talk to someone directly between 10:00 am and 9:30 pm, every day.",
-    href: () => business.phoneTel,
-    external: false,
-    accent: "ink",
-  },
-  {
-    key: "visit",
-    icon: "mapPin",
-    title: "Visit in person",
-    value: "Talegaon Station Road",
-    note: `${business.address.line1}, ${business.address.line2}.`,
-    href: () => business.google.shortUrl,
-    external: true,
-    accent: "ink",
-  },
-];
+/** Build the three contact-method cards from live business data. */
+function buildContactMethods(business) {
+  return [
+    {
+      key: "whatsapp",
+      icon: "whatsapp",
+      title: "WhatsApp",
+      value: business.phoneDisplay,
+      note: "Fastest route. Send a message any time — we reply during shop hours.",
+      href: () => waLink(waMessages.general()),
+      external: true,
+      accent: "wa",
+    },
+    {
+      key: "call",
+      icon: "phone",
+      title: "Call the shop",
+      value: business.phoneDisplay,
+      note: "Talk to someone directly between 10:00 am and 9:30 pm, every day.",
+      href: () => business.phoneTel,
+      external: false,
+      accent: "ink",
+    },
+    {
+      key: "visit",
+      icon: "mapPin",
+      title: "Visit in person",
+      value: "Talegaon Station Road",
+      note: `${business.address.line1}, ${business.address.line2}.`,
+      href: () => business.google.shortUrl,
+      external: true,
+      accent: "ink",
+    },
+  ];
+}
 
 /** Quick smartphone enquiry — a brand picker that jumps straight to WhatsApp. */
 function SmartphoneEnquiry() {
+  const { business, brands } = useSiteData();
   const [selected, setSelected] = useState("");
 
   return (
@@ -161,6 +164,9 @@ function SmartphoneEnquiry() {
 }
 
 export default function Contact() {
+  const { business } = useSiteData();
+  const contactMethods = buildContactMethods(business);
+
   usePageMeta({
     title: "Contact",
     description:

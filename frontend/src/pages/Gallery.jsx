@@ -6,16 +6,15 @@ import SectionHeading from "../components/ui/SectionHeading.jsx";
 import Button from "../components/ui/Button.jsx";
 import Icon from "../components/Icon.jsx";
 import Reveal from "../components/ui/Reveal.jsx";
-import { business } from "../data/site.js";
-import {
-  galleryPhotos,
-  galleryCategories,
-  photoBrief,
-} from "../data/gallery.js";
+import { useSiteData } from "../context/SiteData.jsx";
+import { galleryCategories, photoBrief } from "../data/gallery.js";
 import { waLink, waMessages } from "../utils/whatsapp.js";
 import usePageMeta from "../utils/usePageMeta.js";
 
 export default function Gallery() {
+  const { business, gallery } = useSiteData();
+  const galleryPhotos = gallery;
+
   usePageMeta({
     title: "Gallery",
     description:
@@ -40,7 +39,7 @@ export default function Gallery() {
       filter === "all"
         ? galleryPhotos
         : galleryPhotos.filter((p) => p.category === filter),
-    [filter]
+    [filter, galleryPhotos]
   );
 
   // Only offer filters that actually have something behind them.
@@ -50,7 +49,7 @@ export default function Gallery() {
     return galleryCategories.filter(
       (c) => c.id === "all" || ids.has(c.id)
     );
-  }, []);
+  }, [galleryPhotos]);
 
   // Count only real photographs — photo slots are not gallery items.
   const count = real.length;

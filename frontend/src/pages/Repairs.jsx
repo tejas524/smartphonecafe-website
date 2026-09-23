@@ -8,13 +8,16 @@ import Button from "../components/ui/Button.jsx";
 import Icon from "../components/Icon.jsx";
 import Reveal from "../components/ui/Reveal.jsx";
 import Photo from "../components/ui/Photo.jsx";
+import { useSiteData } from "../context/SiteData.jsx";
 import { photos } from "../data/photos.js";
-import { business } from "../data/site.js";
-import { repairIssues, repairSteps, repairDisclaimer } from "../data/repairs.js";
+import { repairSteps, repairDisclaimer } from "../data/repairs.js";
 import { waLink, waMessages } from "../utils/whatsapp.js";
 import usePageMeta from "../utils/usePageMeta.js";
 
 export default function Repairs() {
+  const { business, repairs } = useSiteData();
+  const repairIssues = repairs;
+
   usePageMeta({
     title: "Mobile Repair in Talegaon Dabhade",
     description:
