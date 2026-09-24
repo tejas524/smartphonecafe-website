@@ -141,9 +141,9 @@ export default function OffersSection() {
         </div>
 
         {/* Carousel */}
-        <Reveal delay={120} className="mt-6">
+        <Reveal delay={120} className="mt-5 sm:mt-6">
           <div
-            className="relative mx-auto w-full"
+            className="relative -mx-3 w-[calc(100%+1.5rem)] sm:mx-auto sm:w-full"
             role="region"
             aria-roledescription="carousel"
             aria-label="Store offers"
@@ -217,7 +217,7 @@ export default function OffersSection() {
 
           {/* Dots */}
           {count > 1 && (
-            <div className="mt-5 flex items-center justify-center gap-2.5">
+            <div className="mt-4 flex items-center justify-center gap-2.5 sm:mt-5">
               {offers.map((offer, i) => (
                 <button
                   key={offer.id}
