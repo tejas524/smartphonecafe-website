@@ -116,6 +116,25 @@ export const adminApi = {
   },
   get: (resource, id) => unwrap(`/api/admin/${resource}/${id}`),
   create: (resource, body) => unwrap(`/api/admin/${resource}`, { method: "POST", body }),
+  /**
+   * Create a record together with an image in one multipart request. Used by
+   * sections whose image column is NOT NULL (gallery), and available to any
+   * section when the operator uploads a file at create time. Scalar fields are
+   * JSON-encoded per-field so the backend's multipart parser restores their
+   * types.
+   */
+  createMultipart: (resource, fields, file) => {
+    const fd = new FormData();
+    for (const [key, value] of Object.entries(fields || {})) {
+      if (value === undefined || value === null) continue;
+      fd.append(
+        key,
+        typeof value === "string" ? value : JSON.stringify(value)
+      );
+    }
+    if (file) fd.append("image", file);
+    return unwrap(`/api/admin/${resource}`, { method: "POST", body: fd });
+  },
   update: (resource, id, body) =>
     unwrap(`/api/admin/${resource}/${id}`, { method: "PATCH", body }),
   remove: (resource, id, { deleteImage = true } = {}) =>
@@ -129,6 +148,8 @@ export const adminApi = {
     fd.append("image", file);
     return unwrap(`/api/admin/${resource}/${id}/image`, { method: "POST", body: fd });
   },
+  removeImage: (resource, id) =>
+    unwrap(`/api/admin/${resource}/${id}/image`, { method: "DELETE" }),
   stats: (resource) => unwrap(`/api/admin/${resource}/stats/summary`),
 };
 

@@ -10,8 +10,10 @@ import About from "./pages/About.jsx";
 import Gallery from "./pages/Gallery.jsx";
 import Contact from "./pages/Contact.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import AdminApp from "./admin/AdminApp.jsx";
 
-export default function App() {
+/** Public marketing site, wrapped in the shared header/footer layout. */
+function PublicSite() {
   return (
     <Layout>
       <Routes>
@@ -27,5 +29,16 @@ export default function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Layout>
+  );
+}
+
+export default function App() {
+  return (
+    <Routes>
+      {/* Admin dashboard lives outside the public layout and manages its own
+          auth, routing and chrome. */}
+      <Route path="/admin/*" element={<AdminApp />} />
+      <Route path="/*" element={<PublicSite />} />
+    </Routes>
   );
 }
