@@ -18,7 +18,7 @@ import { useSiteData } from "../../context/SiteData.jsx";
  * doesn't exist yet, so "View details" and the header CTA both route to the
  * existing /smartphones page via client-side navigation.
  */
-const MAX_CARDS = 5;
+const HOMEPAGE_MAX = 8;
 
 function formatPrice(amount, currency = "INR") {
   const n = Number(amount);
@@ -193,9 +193,10 @@ function ShowcaseEmptyState() {
 
 export default function SmartphoneShowcase() {
   const { smartphones, brands } = useSiteData();
-  const items = smartphones.slice(0, Math.max(MAX_CARDS, smartphones.length));
-  const useCarousel = smartphones.length > MAX_CARDS;
-  const shown = useCarousel ? items : smartphones.slice(0, MAX_CARDS);
+  // A homepage showcase, not the full catalogue: show the first few by order
+  // and let the carousel handle any overflow. "Explore all smartphones" is the
+  // entry point to the complete /smartphones catalogue.
+  const shown = smartphones.slice(0, HOMEPAGE_MAX);
 
   return (
     <section className="relative overflow-hidden bg-white" aria-labelledby="showcase-heading">
@@ -230,28 +231,28 @@ export default function SmartphoneShowcase() {
           <Reveal>
             <ShowcaseEmptyState />
           </Reveal>
-        ) : useCarousel ? (
-          <Reveal className="mt-10">
-            <CardCarousel
-              items={shown}
-              ariaLabel="smartphone"
-              cardBasis="basis-[80%] sm:basis-[calc(50%-0.5rem)] lg:basis-[calc(33.333%-0.667rem)] xl:basis-[calc(20%-0.8rem)]"
-              renderItem={(model) => <SmartphoneCard key={model.slug || model.id} {...model} />}
-            />
-          </Reveal>
         ) : (
-          <Reveal className="mt-10">
-            <div
-              className="grid gap-5"
-              style={{
-                gridTemplateColumns: `repeat(auto-fit, minmax(min(100%, 15rem), 1fr))`,
-              }}
-            >
-              {shown.map((model) => (
-                <SmartphoneCard key={model.slug || model.id} {...model} />
-              ))}
-            </div>
-          </Reveal>
+          <>
+            {/* Products always render inside the carousel: up to five fit in one
+                row on desktop, and the shared scroll-snap track adds arrows +
+                dots (and native swipe/drag) on tablet and mobile where they
+                overflow. */}
+            <Reveal className="mt-10">
+              <CardCarousel
+                items={shown}
+                ariaLabel="smartphone"
+                cardBasis="basis-[80%] sm:basis-[calc(50%-0.5rem)] lg:basis-[calc(33.333%-0.667rem)] xl:basis-[calc(20%-0.8rem)]"
+                renderItem={(model) => <SmartphoneCard key={model.slug || model.id} {...model} />}
+              />
+            </Reveal>
+
+            {/* Catalogue entry point at the end of the showcase */}
+            <Reveal delay={120} className="mt-10 flex justify-center">
+              <Button to="/smartphones" variant="accent" size="lg" iconRight="arrowRight">
+                Explore all smartphones
+              </Button>
+            </Reveal>
+          </>
         )}
 
         <BrandStrip brands={brands} />
