@@ -125,7 +125,7 @@ function SmartphoneCard(model) {
 
         <div className="mt-auto pt-5">
           <Link
-            to="/smartphones"
+            to={`/smartphones/${model.slug || model.id}`}
             aria-label={`View details for the ${name}`}
             className="group/link inline-flex items-center gap-1.5 font-display text-[0.875rem] font-semibold text-accent-600 transition-colors hover:text-accent-700"
           >
