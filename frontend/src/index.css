@@ -266,6 +266,29 @@
   .hero-rise {
     animation: heroRise 680ms var(--ease-out-soft) both;
   }
+
+  /* --------------------------------------------------------------------------
+     Brand marquee — a slow, seamless right-to-left logo strip. The track holds
+     the logo list twice; translating it by exactly -50% lands the second copy
+     where the first began, so the loop repeats with no visible jump. Pauses on
+     hover/focus. Reduced-motion falls back to a static scrollable row below.
+     -------------------------------------------------------------------------- */
+  @keyframes sc-marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  .sc-marquee-track {
+    animation: sc-marquee 48s linear infinite;
+    will-change: transform;
+  }
+  .sc-marquee-group:hover .sc-marquee-track,
+  .sc-marquee-group:focus-within .sc-marquee-track {
+    animation-play-state: paused;
+  }
 }
 
 /* ==========================================================================
@@ -298,5 +321,17 @@
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
+  }
+
+  /* Brand marquee — static, manually scrollable single row (no auto-scroll) */
+  .sc-marquee-track {
+    animation: none !important;
+    transform: none !important;
+  }
+  .sc-marquee-group {
+    overflow-x: auto !important;
+  }
+  .sc-marquee-dup {
+    display: none !important;
   }
 }

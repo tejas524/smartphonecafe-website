@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 import Hero from "../components/sections/Hero.jsx";
 import StoreHighlights from "../components/sections/StoreHighlights.jsx";
 import OffersSection from "../components/sections/OffersSection.jsx";
-import BrandGrid, { BrandCta } from "../components/sections/BrandGrid.jsx";
+import { BrandCta } from "../components/sections/BrandGrid.jsx";
+import BrandMarquee from "../components/sections/BrandMarquee.jsx";
 import ReviewsSection from "../components/sections/ReviewsSection.jsx";
 import SmartphoneShowcase from "../components/sections/SmartphoneShowcase.jsx";
 import AccessoriesSection from "../components/sections/AccessoriesSection.jsx";
@@ -75,7 +76,7 @@ export default function Home() {
           />
 
           <div className="mt-10">
-            <BrandGrid />
+            <BrandMarquee />
           </div>
 
           <Reveal delay={200} className="mt-8">

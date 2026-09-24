@@ -144,7 +144,7 @@ export default function OffersSection() {
         {/* Carousel */}
         <Reveal delay={120} className="mt-6">
           <div
-            className="relative mx-auto w-full"
+            className="relative mx-auto w-full max-w-5xl"
             role="region"
             aria-roledescription="carousel"
             aria-label="Store offers"
@@ -173,7 +173,7 @@ export default function OffersSection() {
                       rel="noopener noreferrer"
                       aria-label={`${offer.title} — enquire on WhatsApp`}
                       tabIndex={i === index ? 0 : -1}
-                      className="flex h-[300px] w-full items-center justify-center bg-paper-mute p-3 sm:h-[400px] lg:h-[480px]"
+                      className="block w-full"
                     >
                       {offer.src ? (
                         <img
@@ -181,10 +181,13 @@ export default function OffersSection() {
                           alt={offer.alt || offer.title}
                           loading={i === 0 ? "eager" : "lazy"}
                           decoding="async"
-                          className="mx-auto h-full w-auto max-w-full object-contain"
+                          /* Intrinsic ratio drives the height: full available
+                             width, proportional height, never stretched, cropped
+                             or letterboxed — so there is no empty space around it. */
+                          className="block h-auto w-full"
                         />
                       ) : (
-                        <span className="px-6 text-center font-display text-[1.5rem] font-bold tracking-[-0.02em] text-ink-900">
+                        <span className="flex aspect-[8/3] w-full items-center justify-center bg-paper-mute px-6 text-center font-display text-[1.25rem] font-bold tracking-[-0.02em] text-ink-900">
                           {offer.title}
                         </span>
                       )}
