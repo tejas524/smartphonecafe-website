@@ -1,53 +1,102 @@
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import Reveal from "../ui/Reveal.jsx";
 import SectionHeading from "../ui/SectionHeading.jsx";
-import CardCarousel from "../ui/CardCarousel.jsx";
 import Icon from "../Icon.jsx";
-import { Link } from "react-router-dom";
 import { useSiteData } from "../../context/SiteData.jsx";
 import { waLink, waMessages } from "../../utils/whatsapp.js";
 
 /**
- * Offers — the approved promotional artwork as the visual focus.
+ * Offers — a single large promotional-banner carousel.
  *
- * Offers are CMS-driven (the `offers` table). Each card is a SQUARE container
- * holding the offer artwork via object-fit: contain on a clean neutral
- * background — the full artwork stays visible (never cropped or stretched) and
- * the image dominates the section. If an offer has no artwork yet, its title is
- * shown as a clean text fallback so the card is never broken. Four banners or
- * fewer sit in one linear row; more than four activate the shared CardCarousel.
- * Each card opens the offer's CTA (a WhatsApp enquiry) so terms are confirmed
- * with the store. Inactive offers are filtered out by the API.
+ * One approved offer artwork is shown at a time, filling a wide container and
+ * dominating the section. The artwork keeps its own aspect ratio (object-fit:
+ * contain on a neutral field, never cropped or stretched). Tapping the current
+ * slide opens that offer's WhatsApp CTA so terms are confirmed with the store.
+ *
+ * It is a native scroll-snap carousel (one slide per view): swipe on touch,
+ * previous/next arrows and pagination dots on top. A slow, subtle autoplay
+ * advances slides but pauses on hover/focus, stops for good once the operator
+ * interacts, and is disabled entirely under prefers-reduced-motion.
+ *
+ * Data stays API-driven: MySQL -> API -> useSiteData() -> here. Nothing about
+ * the four offers is hardcoded.
  */
-function OfferCard(offer) {
-  const href = offer.href || waLink(waMessages.general());
+const AUTOPLAY_MS = 6500;
+
+function prefersReducedMotion() {
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={`${offer.alt || offer.title} — enquire on WhatsApp`}
-      className="flex aspect-square w-full items-center justify-center overflow-hidden rounded-[var(--radius-md)] border border-line bg-white p-1 shadow-[var(--shadow-card)] transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-0.5 hover:border-line-strong hover:shadow-[var(--shadow-lift)]"
-    >
-      {offer.src ? (
-        <img
-          src={offer.src}
-          alt={offer.alt || offer.title}
-          loading="lazy"
-          decoding="async"
-          className="h-auto w-full object-contain"
-        />
-      ) : (
-        <span className="px-4 text-center font-display text-[1.0625rem] font-bold tracking-[-0.02em] text-ink-900">
-          {offer.title}
-        </span>
-      )}
-    </a>
+    typeof window !== "undefined" &&
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
   );
 }
 
 export default function OffersSection() {
   const { offers, home } = useSiteData();
-  if (!offers.length) return null;
+  const trackRef = useRef(null);
+  const [index, setIndex] = useState(0);
+  const interacted = useRef(false);
+  const [paused, setPaused] = useState(false);
+
+  const count = offers.length;
+
+  const scrollToIndex = useCallback((i, smooth = true) => {
+    const el = trackRef.current;
+    if (!el) return;
+    el.scrollTo({
+      left: i * el.clientWidth,
+      behavior: smooth && !prefersReducedMotion() ? "smooth" : "auto",
+    });
+  }, []);
+
+  // Track the active slide from the scroll position.
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    const onScroll = () => {
+      const i = Math.round(el.scrollLeft / Math.max(1, el.clientWidth));
+      setIndex(i);
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => el.removeEventListener("scroll", onScroll);
+  }, [count]);
+
+  const go = useCallback(
+    (dir) => {
+      interacted.current = true;
+      const el = trackRef.current;
+      if (!el) return;
+      const next = Math.min(count - 1, Math.max(0, index + dir));
+      scrollToIndex(next);
+    },
+    [count, index, scrollToIndex]
+  );
+
+  const jump = useCallback(
+    (i) => {
+      interacted.current = true;
+      scrollToIndex(i);
+    },
+    [scrollToIndex]
+  );
+
+  // Subtle autoplay: wraps once per cycle, pauses on hover/focus, and halts for
+  // good after any manual interaction; never runs under reduced motion.
+  useEffect(() => {
+    if (count <= 1 || paused || prefersReducedMotion()) return undefined;
+    const id = setInterval(() => {
+      if (interacted.current) return;
+      const el = trackRef.current;
+      if (!el) return;
+      const cur = Math.round(el.scrollLeft / Math.max(1, el.clientWidth));
+      const next = cur >= count - 1 ? 0 : cur + 1;
+      scrollToIndex(next);
+    }, AUTOPLAY_MS);
+    return () => clearInterval(id);
+  }, [count, paused, scrollToIndex]);
+
+  if (!count) return null;
   const content = home.offers || {};
 
   return (
@@ -57,7 +106,8 @@ export default function OffersSection() {
       aria-labelledby="offers-heading"
       style={{ scrollMarginTop: "5.5rem" }}
     >
-      <div className="shell py-10 lg:py-14">
+      <div className="shell py-12 lg:py-16">
+        {/* Header row */}
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <SectionHeading
@@ -91,14 +141,103 @@ export default function OffersSection() {
           </Reveal>
         </div>
 
-        <Reveal className="mt-5">
-          <CardCarousel
-            items={offers}
-            ariaLabel="offer"
-            gapClass="gap-4"
-            cardBasis="basis-[80%] sm:basis-[calc(50%-0.5rem)] lg:basis-[calc(25%-0.75rem)]"
-            renderItem={(offer) => <OfferCard key={offer.id} {...offer} />}
-          />
+        {/* Carousel */}
+        <Reveal delay={120} className="mt-6">
+          <div
+            className="relative mx-auto w-full"
+            role="region"
+            aria-roledescription="carousel"
+            aria-label="Store offers"
+            onMouseEnter={() => setPaused(true)}
+            onMouseLeave={() => setPaused(false)}
+            onFocusCapture={() => setPaused(true)}
+            onBlurCapture={() => setPaused(false)}
+          >
+            <ul
+              ref={trackRef}
+              className="no-scrollbar flex snap-x snap-mandatory overflow-x-auto scroll-smooth rounded-[var(--radius-lg)] border border-line bg-white shadow-[var(--shadow-card)]"
+            >
+              {offers.map((offer, i) => {
+                const href = offer.href || waLink(waMessages.offers());
+                return (
+                  <li
+                    key={offer.id}
+                    className="w-full shrink-0 snap-center"
+                    aria-roledescription="slide"
+                    aria-label={`${i + 1} of ${count}: ${offer.title}`}
+                    aria-hidden={i !== index}
+                  >
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${offer.title} — enquire on WhatsApp`}
+                      tabIndex={i === index ? 0 : -1}
+                      className="flex h-[300px] w-full items-center justify-center bg-paper-mute p-3 sm:h-[400px] lg:h-[480px]"
+                    >
+                      {offer.src ? (
+                        <img
+                          src={offer.src}
+                          alt={offer.alt || offer.title}
+                          loading={i === 0 ? "eager" : "lazy"}
+                          decoding="async"
+                          className="mx-auto h-full w-auto max-w-full object-contain"
+                        />
+                      ) : (
+                        <span className="px-6 text-center font-display text-[1.5rem] font-bold tracking-[-0.02em] text-ink-900">
+                          {offer.title}
+                        </span>
+                      )}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+
+            {/* Arrows (only when more than one slide) */}
+            {count > 1 && (
+              <>
+                <button
+                  type="button"
+                  onClick={() => go(-1)}
+                  disabled={index === 0}
+                  aria-label="Previous offer"
+                  className="absolute left-3 top-1/2 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-white/95 text-ink-800 shadow-[var(--shadow-card)] backdrop-blur-sm transition-colors hover:border-line-strong hover:text-ink-950 disabled:pointer-events-none disabled:opacity-0 sm:inline-flex"
+                >
+                  <Icon name="chevronLeft" size={22} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => go(1)}
+                  disabled={index === count - 1}
+                  aria-label="Next offer"
+                  className="absolute right-3 top-1/2 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-white/95 text-ink-800 shadow-[var(--shadow-card)] backdrop-blur-sm transition-colors hover:border-line-strong hover:text-ink-950 disabled:pointer-events-none disabled:opacity-0 sm:inline-flex"
+                >
+                  <Icon name="chevronRight" size={22} />
+                </button>
+              </>
+            )}
+          </div>
+
+          {/* Dots */}
+          {count > 1 && (
+            <div className="mt-5 flex items-center justify-center gap-2.5">
+              {offers.map((offer, i) => (
+                <button
+                  key={offer.id}
+                  type="button"
+                  onClick={() => jump(i)}
+                  aria-label={`Go to offer ${i + 1}`}
+                  aria-current={i === index}
+                  className={`h-2.5 rounded-full transition-all duration-300 ${
+                    i === index
+                      ? "w-7 bg-accent-600"
+                      : "w-2.5 bg-line-strong hover:bg-ink-300"
+                  }`}
+                />
+              ))}
+            </div>
+          )}
         </Reveal>
       </div>
     </section>

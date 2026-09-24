@@ -4,7 +4,7 @@ import StoreHighlights from "../components/sections/StoreHighlights.jsx";
 import OffersSection from "../components/sections/OffersSection.jsx";
 import BrandGrid, { BrandCta } from "../components/sections/BrandGrid.jsx";
 import ReviewsSection from "../components/sections/ReviewsSection.jsx";
-import LatestSmartphones from "../components/sections/LatestSmartphones.jsx";
+import SmartphoneShowcase from "../components/sections/SmartphoneShowcase.jsx";
 import AccessoriesSection from "../components/sections/AccessoriesSection.jsx";
 import LocationSection from "../components/sections/LocationSection.jsx";
 import CtaBand from "../components/sections/CtaBand.jsx";
@@ -87,8 +87,8 @@ export default function Home() {
       {/* 7 — Google reviews */}
       <ReviewsSection />
 
-      {/* 8 — Smartphones */}
-      <LatestSmartphones />
+      {/* 8 — Smartphones showcase (API-driven; premium empty state until stocked) */}
+      <SmartphoneShowcase />
 
       {/* 9 — Repairs */}
       <section
