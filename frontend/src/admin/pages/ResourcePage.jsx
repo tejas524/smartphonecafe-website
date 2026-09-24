@@ -37,7 +37,7 @@ function useRefMaps(refSpecs) {
     Promise.all(
       refSpecs.map((spec) =>
         adminApi
-          .list(spec.resource, { limit: 300 })
+          .list(spec.resource, { limit: 100 })
           .then((p) => [spec.resource, p?.data || [], spec.labelKey])
           .catch(() => [spec.resource, [], spec.labelKey])
       )

@@ -14,7 +14,7 @@ export function useRefOptions(resource, labelKey) {
     let alive = true;
     setLoading(true);
     adminApi
-      .list(resource, { limit: 200, sort: "display_order", direction: "asc" })
+      .list(resource, { limit: 100, sort: "display_order", direction: "asc" })
       .then((payload) => {
         if (!alive) return;
         const rows = payload?.data || [];
