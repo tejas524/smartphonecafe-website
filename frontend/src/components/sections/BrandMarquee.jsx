@@ -26,7 +26,9 @@ function MarqueeLogo({ brand }) {
           loading="lazy"
           decoding="async"
           onError={() => setFailed(true)}
-          className="max-h-full max-w-full object-contain opacity-70 grayscale transition duration-300 group-hover/cell:opacity-100 group-hover/cell:grayscale-0"
+          /* Full original logo colours by default — no grayscale. Optional
+             hover is only a very subtle lift. */
+          className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover/cell:scale-[1.06]"
         />
       )}
     </span>

@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import Hero from "../components/sections/Hero.jsx";
 import StoreHighlights from "../components/sections/StoreHighlights.jsx";
 import OffersSection from "../components/sections/OffersSection.jsx";
-import { BrandCta } from "../components/sections/BrandGrid.jsx";
 import BrandMarquee from "../components/sections/BrandMarquee.jsx";
 import ReviewsSection from "../components/sections/ReviewsSection.jsx";
 import SmartphoneShowcase from "../components/sections/SmartphoneShowcase.jsx";
@@ -62,26 +61,18 @@ export default function Home() {
       {/* 5 — Offers */}
       <OffersSection />
 
-      {/* 6 — Brands */}
+      {/* 6 — Brands (clean "Shop by Brand" strip) */}
       <section className="bg-white" aria-labelledby="brands-heading">
-        <div className="shell py-16 lg:py-24">
+        <div className="shell py-12 lg:py-16">
           <SectionHeading
-            eyebrow={home.brands?.eyebrow || "Shop by brand"}
+            eyebrow={home.brands?.eyebrow || "Brands"}
             id="brands-heading"
-            title={home.brands?.heading || "The brands people ask for"}
-            lead={
-              home.brands?.subheading ||
-              "Tap a brand to start a WhatsApp enquiry. This is the list we are asked about most — not a stock list, so we confirm what is in store when you message."
-            }
+            title={home.brands?.heading || "Shop by Brand"}
           />
 
-          <div className="mt-10">
+          <div className="mt-8">
             <BrandMarquee />
           </div>
-
-          <Reveal delay={200} className="mt-8">
-            <BrandCta />
-          </Reveal>
         </div>
       </section>
 
