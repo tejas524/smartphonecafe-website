@@ -4,7 +4,6 @@ import Reveal from "../ui/Reveal.jsx";
 import SectionHeading from "../ui/SectionHeading.jsx";
 import Icon from "../Icon.jsx";
 import { useSiteData } from "../../context/SiteData.jsx";
-import { waLink, waMessages } from "../../utils/whatsapp.js";
 
 /**
  * Offers — a single large promotional-banner carousel.
@@ -122,7 +121,7 @@ export default function OffersSection() {
               className="mt-1.5 max-w-xl text-[0.875rem] leading-relaxed text-ink-500"
             >
               {content.subheading ||
-                "Tap an offer to ask us on WhatsApp what's available today."}
+                "The latest deals running in store — see them all on the offers page."}
             </Reveal>
           </div>
 
@@ -144,7 +143,7 @@ export default function OffersSection() {
         {/* Carousel */}
         <Reveal delay={120} className="mt-6">
           <div
-            className="relative mx-auto w-full max-w-5xl"
+            className="relative mx-auto w-full"
             role="region"
             aria-roledescription="carousel"
             aria-label="Store offers"
@@ -158,7 +157,6 @@ export default function OffersSection() {
               className="no-scrollbar flex snap-x snap-mandatory overflow-x-auto scroll-smooth rounded-[var(--radius-lg)] border border-line bg-white shadow-[var(--shadow-card)]"
             >
               {offers.map((offer, i) => {
-                const href = offer.href || waLink(waMessages.offers());
                 return (
                   <li
                     key={offer.id}
@@ -167,14 +165,9 @@ export default function OffersSection() {
                     aria-label={`${i + 1} of ${count}: ${offer.title}`}
                     aria-hidden={i !== index}
                   >
-                    <a
-                      href={href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`${offer.title} — enquire on WhatsApp`}
-                      tabIndex={i === index ? 0 : -1}
-                      className="block w-full"
-                    >
+                    {/* Non-interactive banner: the image is not a link and has
+                        no navigation action. "See all offers" is the only CTA. */}
+                    <div className="block w-full">
                       {offer.src ? (
                         <img
                           src={offer.src}
@@ -191,7 +184,7 @@ export default function OffersSection() {
                           {offer.title}
                         </span>
                       )}
-                    </a>
+                    </div>
                   </li>
                 );
               })}
