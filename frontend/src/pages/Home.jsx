@@ -6,6 +6,7 @@ import BrandMarquee from "../components/sections/BrandMarquee.jsx";
 import ReviewsSection from "../components/sections/ReviewsSection.jsx";
 import SmartphoneShowcase from "../components/sections/SmartphoneShowcase.jsx";
 import AccessoriesSection from "../components/sections/AccessoriesSection.jsx";
+import RepairsCarousel from "../components/sections/RepairsCarousel.jsx";
 import LocationSection from "../components/sections/LocationSection.jsx";
 import CtaBand from "../components/sections/CtaBand.jsx";
 import SectionHeading from "../components/ui/SectionHeading.jsx";
@@ -15,7 +16,6 @@ import Reveal from "../components/ui/Reveal.jsx";
 import Photo from "../components/ui/Photo.jsx";
 import { useSiteData } from "../context/SiteData.jsx";
 import { photos } from "../data/photos.js";
-import { waLink, waMessages } from "../utils/whatsapp.js";
 import usePageMeta from "../utils/usePageMeta.js";
 
 /**
@@ -41,7 +41,7 @@ import usePageMeta from "../utils/usePageMeta.js";
  * to a WhatsApp enquiry so terms are confirmed with the store.
  */
 export default function Home() {
-  const { business, repairs, home } = useSiteData();
+  const { business, home } = useSiteData();
 
   usePageMeta({
     title: null,
@@ -82,84 +82,8 @@ export default function Home() {
       {/* 8 — Smartphones showcase (API-driven; premium empty state until stocked) */}
       <SmartphoneShowcase />
 
-      {/* 9 — Repairs */}
-      <section
-        className="border-y border-line bg-paper-soft"
-        aria-labelledby="repairs-heading"
-      >
-        <div className="shell py-16 lg:py-24">
-          <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
-            {/* Photo */}
-            <Reveal className="lg:col-span-6">
-              <Photo
-                photo={photos.counterService}
-                aspect="4 / 3"
-                sizes="(min-width: 1024px) 48vw, 100vw"
-                rounded="rounded-[var(--radius-lg)]"
-                className="bg-paper-mute"
-              />
-              <p className="mt-3 text-[0.75rem] text-ink-400">
-                {photos.counterService.caption} — at the SmartphoneCafe counter
-              </p>
-            </Reveal>
-
-            {/* Copy + repair types */}
-            <div className="lg:col-span-6">
-              <SectionHeading
-                eyebrow={home.repairs?.eyebrow || "Repairs"}
-                id="repairs-heading"
-                title={home.repairs?.heading || "Mobile repair services"}
-                lead={
-                  home.repairs?.subheading ||
-                  "We are a dedicated mobile phone repair shop. Bring the phone in and the fault is checked at the counter before anything goes ahead."
-                }
-              />
-
-              <Reveal delay={160} className="mt-7 flex flex-wrap gap-3">
-                <Button
-                  href={waLink(waMessages.repairs())}
-                  external
-                  variant="wa"
-                  size="lg"
-                  icon="whatsapp"
-                >
-                  WhatsApp your problem
-                </Button>
-                <Button href={business.phoneTel} variant="outline" size="lg" icon="phone">
-                  Call {business.phoneDisplay}
-                </Button>
-              </Reveal>
-
-              <ul className="mt-9 grid gap-x-10 sm:grid-cols-2">
-                {repairs.slice(0, 8).map((issue, i) => (
-                  <li key={issue.id}>
-                    <Reveal delay={i * 35}>
-                      <Link
-                        to="/repairs"
-                        className="group/rep flex items-center gap-3 border-t border-line py-3 transition-colors"
-                      >
-                        <Icon
-                          name={issue.icon}
-                          size={16}
-                          className="shrink-0 text-accent-600"
-                        />
-                        <span className="min-w-0 flex-1 font-display text-[0.9375rem] font-semibold tracking-[-0.015em] text-ink-900">
-                          {issue.title}
-                        </span>
-                        <Icon
-                          name="arrowRight"
-                          size={15}
-                          className="shrink-0 text-ink-300 transition-transform duration-200 group-hover/rep:translate-x-0.5 group-hover/rep:text-accent-600"
-                        />
-                      </Link>
-                    </Reveal>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* 9 — Repairs (interactive service carousel, CMS-driven) */}
+      <RepairsCarousel />
 
       {/* 10 — Accessories */}
       <AccessoriesSection />
@@ -169,7 +93,7 @@ export default function Home() {
         className="border-t border-line bg-paper-soft"
         aria-labelledby="gallery-heading"
       >
-        <div className="shell py-16 lg:py-24">
+        <div className="shell py-12 lg:py-24">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <SectionHeading
               eyebrow="Our store"
@@ -178,14 +102,15 @@ export default function Home() {
               lead="Real photographs of the store — the counter, the displays and the people behind it. Photographed in the shop, not borrowed from a stock library."
             />
             <Reveal delay={140} className="shrink-0">
-              <Button to="/gallery" variant="outline" size="lg" iconRight="arrowRight">
+              <Button to="/gallery" variant="outline" size="lg" iconRight="arrowRight" className="w-full sm:w-auto">
                 Open gallery
               </Button>
             </Reveal>
           </div>
 
-          {/* Asymmetric gallery: one large feature + two supporting images */}
-          <div className="mt-10 grid gap-4 lg:grid-cols-12">
+          {/* Asymmetric gallery: one large feature + two supporting images.
+              On phones only the feature photo shows so the teaser stays compact. */}
+          <div className="mt-8 grid gap-4 lg:mt-10 lg:grid-cols-12">
             <Reveal className="lg:col-span-7">
               <Link to="/gallery" className="group/gal block">
                 <Photo
@@ -202,7 +127,7 @@ export default function Home() {
               </Link>
             </Reveal>
 
-            <div className="grid gap-4 sm:grid-cols-2 lg:col-span-5 lg:grid-cols-1">
+            <div className="hidden gap-4 sm:grid sm:grid-cols-2 lg:col-span-5 lg:grid-cols-1">
               {[photos.ownerWithCustomer, photos.inStoreService].map((p, i) => (
                 <Reveal key={p.id} delay={80 + i * 80}>
                   <Link to="/gallery" className="group/gal block">
@@ -227,8 +152,8 @@ export default function Home() {
 
       {/* 12 — About */}
       <section className="bg-white" aria-labelledby="intro-heading">
-        <div className="shell py-16 lg:py-24">
-          <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
+        <div className="shell py-12 lg:py-24">
+          <div className="grid gap-8 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-5">
               <SectionHeading
                 eyebrow="About us"

@@ -153,6 +153,7 @@ export const RESOURCES = {
       warranty_note: { type: "string", max: 160 },
       tags: { type: "string", max: 255 },
       icon: { type: "string", max: 40 },
+      image_path: { type: "string", max: 255 },
       is_enquiry_only: { type: "bool", default: 1 },
       is_active: { type: "bool", listable: true, default: 1 },
       display_order: { type: "int", min: 0, max: 100000, default: 0, sortable: true },
@@ -186,7 +187,7 @@ export const RESOURCES = {
     table: "accessories",
     label: "Accessories",
     defaultOrder: { column: "display_order", direction: "asc" },
-    searchable: ["name", "description"],
+    searchable: ["name", "summary", "description", "colour", "compatibility"],
     references: {
       category_id: { table: "accessory_categories", column: "id", label: "accessory category" },
       brand_id: { table: "brands", column: "id", label: "brand" },
@@ -197,12 +198,22 @@ export const RESOURCES = {
       brand_id: { type: "int", min: 1, listable: true },
       name: { type: "string", max: 160, required: true, listable: true, sortable: true },
       slug: slugColumn,
+      summary: { type: "string", max: 255 },
       description: { type: "text", max: 8000 },
       price_amount: { type: "decimal", min: 0, max: 99999999.99, sortable: true },
       price_currency: { type: "string", max: 3, default: "INR" },
+      mrp_amount: { type: "decimal", min: 0, max: 99999999.99 },
       stock_quantity: { type: "int", min: 0, max: 1000000 },
+      stock_status: {
+        type: "enum",
+        values: ["in_stock", "out_of_stock", "unknown"],
+        listable: true,
+      },
+      colour: { type: "string", max: 60 },
+      compatibility: { type: "string", max: 255 },
       image_path: { type: "string", max: 255 },
       is_active: { type: "bool", listable: true, default: 1 },
+      is_featured: { type: "bool", listable: true, default: 0 },
       display_order: { type: "int", min: 0, max: 100000, default: 0, sortable: true },
       created_at: { type: "datetime", editable: false, sortable: true },
       updated_at: { type: "datetime", editable: false, sortable: true },
@@ -297,6 +308,54 @@ export const RESOURCES = {
       display_order: { type: "int", min: 0, max: 100000, default: 0, sortable: true },
       created_at: { type: "datetime", editable: false, sortable: true },
       updated_at: { type: "datetime", editable: false, sortable: true },
+    },
+  },
+
+  // --------------------------------------------------------------- sales --
+  // Business Analytics. The owner records the ACTUAL money that changed hands,
+  // never a figure derived from the catalog price/MRP: a sale can be discounted,
+  // bundled or part of an exchange. selling_price / cost_price are PER-UNIT.
+  sales: {
+    table: "sales",
+    label: "Sales",
+    defaultOrder: { column: "transaction_date", direction: "desc" },
+    searchable: ["product_service_name", "payment_method", "notes"],
+    columns: {
+      id: { type: "int", editable: false, sortable: true },
+      transaction_date: { type: "date", required: true, listable: true, sortable: true },
+      type: {
+        type: "enum",
+        values: ["smartphone", "accessory", "repair", "other"],
+        required: true,
+        listable: true,
+        default: "other",
+      },
+      product_service_name: { type: "string", max: 200, required: true, sortable: true },
+      quantity: { type: "int", min: 1, max: 1000000, default: 1, required: true },
+      // Per-unit amounts. Revenue = selling_price * quantity.
+      selling_price: { type: "decimal", min: 0, max: 99999999.99, required: true, sortable: true },
+      cost_price: { type: "decimal", min: 0, max: 99999999.99, default: 0 },
+      payment_method: { type: "string", max: 40, listable: true },
+      notes: { type: "text", max: 2000 },
+      created_at: { type: "datetime", editable: false, sortable: true },
+    },
+  },
+
+  // ------------------------------------------------------------- expenses --
+  expenses: {
+    table: "expenses",
+    label: "Expenses",
+    defaultOrder: { column: "expense_date", direction: "desc" },
+    searchable: ["category", "description", "notes"],
+    columns: {
+      id: { type: "int", editable: false, sortable: true },
+      expense_date: { type: "date", required: true, listable: true, sortable: true },
+      category: { type: "string", max: 80, required: true, listable: true, sortable: true },
+      description: { type: "string", max: 255 },
+      // amount must be strictly positive; enforced by min at the validator.
+      amount: { type: "decimal", min: 0.01, max: 99999999.99, required: true, sortable: true },
+      notes: { type: "text", max: 2000 },
+      created_at: { type: "datetime", editable: false, sortable: true },
     },
   },
 };

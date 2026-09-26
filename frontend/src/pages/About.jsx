@@ -88,7 +88,7 @@ export default function About() {
 
       {/* =========================================================== story */}
       <section className="bg-white" aria-labelledby="story-heading">
-        <div className="shell py-16 lg:py-20">
+        <div className="shell py-12 lg:py-20">
           <div className="grid gap-12 lg:grid-cols-12 lg:gap-14">
             <div className="lg:col-span-7">
               <SectionHeading
@@ -193,7 +193,7 @@ export default function About() {
 
       {/* ====================================================== verified */}
       <section className="border-y border-line bg-paper-soft" aria-labelledby="facts-heading">
-        <div className="shell py-16 lg:py-20">
+        <div className="shell py-12 lg:py-20">
           <SectionHeading
             eyebrow="Straight facts"
             id="facts-heading"
@@ -240,7 +240,7 @@ export default function About() {
 
       {/* ====================================================== services */}
       <section className="bg-white" aria-labelledby="services-heading">
-        <div className="shell py-16 lg:py-20">
+        <div className="shell py-12 lg:py-20">
           <SectionHeading
             eyebrow="In store"
             id="services-heading"
@@ -274,7 +274,7 @@ export default function About() {
 
       {/* ==================================================== areas served */}
       <section className="border-t border-line bg-paper-soft" aria-labelledby="areas-heading">
-        <div className="shell py-16 lg:py-20">
+        <div className="shell py-12 lg:py-20">
           <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
             <div className="lg:col-span-5">
               <SectionHeading

@@ -212,7 +212,7 @@ export default function SmartphoneShowcase() {
         style={{ background: "radial-gradient(circle, rgba(255,170,110,0.12) 0%, transparent 70%)" }}
       />
 
-      <div className="shell relative py-16 lg:py-24">
+      <div className="shell relative py-12 lg:py-24">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <SectionHeading
             eyebrow="Smartphones"

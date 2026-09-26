@@ -5,6 +5,7 @@ import { useAdminAuth } from "../AdminAuth.jsx";
 
 const NAV = [
   { to: "/admin", label: "Dashboard", icon: "dashboard", end: true },
+  { to: "/admin/analytics", label: "Business Analytics", icon: "chart" },
   { to: "/admin/offers", label: "Offers", icon: "tag" },
   { to: "/admin/smartphones", label: "Smartphones", icon: "smartphone" },
   { to: "/admin/brands", label: "Brands", icon: "sparkle" },

@@ -16,14 +16,14 @@ export default function StoreHighlights() {
       aria-label="Store highlights"
     >
       <div className="shell">
-        <ul className="grid grid-cols-2 gap-px bg-line lg:grid-cols-4">
+        <ul className="divide-y divide-line lg:grid lg:grid-cols-4 lg:gap-px lg:divide-y-0 lg:bg-line">
           {trustFeatures.map((f, i) => (
-            <li key={f.id} className="bg-white px-1 py-7 sm:px-6 lg:py-9 lg:first:pl-0">
+            <li key={f.id} className="bg-white py-5 lg:px-6 lg:py-9 lg:first:pl-0">
               <Reveal delay={i * 60}>
-                <p className="font-display text-[0.9375rem] font-bold tracking-[-0.015em] text-ink-950 sm:text-[1rem]">
+                <p className="font-display text-[1rem] font-bold tracking-[-0.015em] text-ink-950">
                   {f.title}
                 </p>
-                <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-ink-500">
+                <p className="mt-1.5 text-[0.875rem] leading-relaxed text-ink-500">
                   {f.body}
                 </p>
               </Reveal>

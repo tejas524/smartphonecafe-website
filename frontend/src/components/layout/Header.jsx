@@ -21,7 +21,7 @@ export default function Header() {
   const { business, nav } = useSiteData();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 4);
@@ -56,6 +56,15 @@ export default function Header() {
       isActive ? "text-ink-950" : "text-ink-500 hover:text-ink-950"
     }`;
 
+  // Nav items may target an in-page section on the homepage (e.g. "/#repairs").
+  // React Router's NavLink matches on pathname only, so a hash link would read
+  // as active on every "/" render; hash items get their own active check.
+  const isHashItem = (to) => to.includes("#");
+  const hashActive = (to) => {
+    const [base, id] = to.split("#");
+    return pathname === (base || "/") && hash === `#${id}`;
+  };
+
   return (
     <>
       {/* Skip link for keyboard users */}
@@ -87,23 +96,41 @@ export default function Header() {
           {/* Desktop navigation */}
           <nav aria-label="Primary" className="hidden lg:block">
             <ul className="flex items-center gap-0.5">
-              {nav.map((item) => (
-                <li key={item.to}>
-                  <NavLink to={item.to} end={item.to === "/"} className={navLinkCls}>
-                    {({ isActive }) => (
-                      <>
+              {nav.map((item) => {
+                if (isHashItem(item.to)) {
+                  const active = hashActive(item.to);
+                  return (
+                    <li key={item.to}>
+                      <Link to={item.to} className={navLinkCls({ isActive: active })}>
                         {item.label}
                         <span
                           aria-hidden="true"
                           className={`absolute inset-x-3 bottom-1 h-[2px] rounded-full bg-accent-600 transition-transform duration-300 ease-out ${
-                            isActive ? "scale-x-100" : "scale-x-0"
+                            active ? "scale-x-100" : "scale-x-0"
                           }`}
                         />
-                      </>
-                    )}
-                  </NavLink>
-                </li>
-              ))}
+                      </Link>
+                    </li>
+                  );
+                }
+                return (
+                  <li key={item.to}>
+                    <NavLink to={item.to} end={item.to === "/"} className={navLinkCls}>
+                      {({ isActive }) => (
+                        <>
+                          {item.label}
+                          <span
+                            aria-hidden="true"
+                            className={`absolute inset-x-3 bottom-1 h-[2px] rounded-full bg-accent-600 transition-transform duration-300 ease-out ${
+                              isActive ? "scale-x-100" : "scale-x-0"
+                            }`}
+                          />
+                        </>
+                      )}
+                    </NavLink>
+                  </li>
+                );
+              })}
             </ul>
           </nav>
 
@@ -197,22 +224,34 @@ export default function Header() {
         <div className="flex-1 overflow-y-auto px-5 pb-8 pt-3">
           <nav aria-label="Mobile">
             <ul className="flex flex-col">
-              {nav.map((item) => (
-                <li key={item.to}>
-                  <NavLink
-                    to={item.to}
-                    end={item.to === "/"}
-                    className={({ isActive }) =>
-                      `flex items-center justify-between border-b border-line py-3.5 font-display text-[1.0625rem] font-semibold tracking-[-0.015em] transition-colors ${
-                        isActive ? "text-accent-600" : "text-ink-800"
-                      }`
-                    }
-                  >
-                    {item.label}
-                    <Icon name="chevronRight" size={17} className="text-ink-300" />
-                  </NavLink>
-                </li>
-              ))}
+              {nav.map((item) => {
+                const mobileCls = (active) =>
+                  `flex items-center justify-between border-b border-line py-3.5 font-display text-[1.0625rem] font-semibold tracking-[-0.015em] transition-colors ${
+                    active ? "text-accent-600" : "text-ink-800"
+                  }`;
+                if (isHashItem(item.to)) {
+                  return (
+                    <li key={item.to}>
+                      <Link to={item.to} className={mobileCls(hashActive(item.to))}>
+                        {item.label}
+                        <Icon name="chevronRight" size={17} className="text-ink-300" />
+                      </Link>
+                    </li>
+                  );
+                }
+                return (
+                  <li key={item.to}>
+                    <NavLink
+                      to={item.to}
+                      end={item.to === "/"}
+                      className={({ isActive }) => mobileCls(isActive)}
+                    >
+                      {item.label}
+                      <Icon name="chevronRight" size={17} className="text-ink-300" />
+                    </NavLink>
+                  </li>
+                );
+              })}
             </ul>
           </nav>
 

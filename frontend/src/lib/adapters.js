@@ -128,6 +128,7 @@ export const adaptRepairs = (rows) =>
     id: r.id,
     slug: r.slug,
     icon: r.icon || "wrench",
+    image: r.image_path || null,
     title: r.title,
     blurb: r.description || "",
     description: r.description || "",

@@ -86,7 +86,7 @@ export const mapEmbedUrl = `https://maps.google.com/maps?q=${encodeURIComponent(
 export const nav = [
   { label: "Home", to: "/" },
   { label: "Smartphones", to: "/smartphones" },
-  { label: "Repairs", to: "/repairs" },
+  { label: "Repairs", to: "/#repairs" },
   { label: "Accessories", to: "/accessories" },
   { label: "Offers", to: "/offers" },
   { label: "About", to: "/about" },

@@ -38,8 +38,18 @@ export const waMessages = {
   accessoryCategory: (name) =>
     `${OPENER} I would like to know about ${String(name || "accessories").toLowerCase()} you have available.`,
 
+  accessoryProduct: (name) =>
+    name
+      ? `${OPENER} Is the "${name}" accessory available at your store? Please share the price and options.`
+      : `${OPENER} I would like to know about the mobile accessories you have available.`,
+
   repairs: () =>
     `${OPENER} I need to repair my phone. I would like to know the repair options.`,
+
+  repairService: (name) =>
+    name
+      ? `${OPENER} I would like to enquire about ${String(name).toLowerCase()} for my phone. Please let me know the details.`
+      : `${OPENER} I need to repair my phone. I would like to know the repair options.`,
 
   repairDetail: ({ brand, model, problem }) => {
     const device = [brand, model].filter(Boolean).join(" ").trim();

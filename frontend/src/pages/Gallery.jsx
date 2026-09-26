@@ -161,7 +161,7 @@ export default function Gallery() {
 
       {/* ====================================================== shoot list */}
       <section className="border-t border-line bg-paper-soft" aria-labelledby="brief-heading">
-        <div className="shell py-16 lg:py-20">
+        <div className="shell py-12 lg:py-20">
           <SectionHeading
             eyebrow="Still to capture"
             id="brief-heading"

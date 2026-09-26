@@ -153,4 +153,28 @@ export const adminApi = {
   stats: (resource) => unwrap(`/api/admin/${resource}/stats/summary`),
 };
 
+/* -------------------------------------------------------------- analytics --- */
+
+/**
+ * Business Analytics. Aggregates come from dedicated server-side endpoints so the
+ * whole transaction table is never shipped to total it. Sale/expense writes reuse
+ * the generic admin CRUD against the `sales` / `expenses` resources.
+ */
+export const analyticsApi = {
+  overview: (month, year) =>
+    unwrap(`/api/admin/analytics/overview?month=${month}&year=${year}`),
+  sales: (month, year) =>
+    request(`/api/admin/analytics/sales?month=${month}&year=${year}`),
+  expenses: (month, year) =>
+    request(`/api/admin/analytics/expenses?month=${month}&year=${year}`),
+
+  createSale: (body) => adminApi.create("sales", body),
+  updateSale: (id, body) => adminApi.update("sales", id, body),
+  deleteSale: (id) => adminApi.remove("sales", id, { deleteImage: false }),
+
+  createExpense: (body) => adminApi.create("expenses", body),
+  updateExpense: (id, body) => adminApi.update("expenses", id, body),
+  deleteExpense: (id) => adminApi.remove("expenses", id, { deleteImage: false }),
+};
+
 export { request, unwrap };

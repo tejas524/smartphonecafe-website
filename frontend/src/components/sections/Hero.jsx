@@ -68,7 +68,7 @@ export default function Hero() {
         }}
       />
 
-      <div className="shell flex min-h-[32rem] flex-col justify-center py-16 sm:min-h-[36rem] lg:min-h-[42rem] lg:py-28">
+      <div className="shell flex min-h-[26rem] flex-col justify-center py-14 sm:min-h-[36rem] lg:min-h-[42rem] lg:py-28">
         <div className="max-w-2xl">
           {/* Rating chip */}
           {reviewsSummary?.rating ? (
@@ -114,7 +114,7 @@ export default function Hero() {
           </p>
 
           <div
-            className="hero-rise mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center"
+            className="hero-rise mt-7 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center"
             style={{ animationDelay: "480ms" }}
           >
             <Button
@@ -122,6 +122,7 @@ export default function Hero() {
               variant="accent"
               size="lg"
               icon="smartphone"
+              className="w-full sm:w-auto"
             >
               {hero.cta_label || "Explore Smartphones"}
             </Button>
@@ -131,6 +132,7 @@ export default function Hero() {
               variant="wa"
               size="lg"
               icon="whatsapp"
+              className="w-full sm:w-auto"
             >
               WhatsApp Us
             </Button>
@@ -138,7 +140,7 @@ export default function Hero() {
 
           {/* Trust / location row */}
           <div
-            className="hero-rise mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-[0.8125rem] text-white/70"
+            className="hero-rise mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-[0.8125rem] text-white/70 lg:mt-10"
             style={{ animationDelay: "600ms" }}
           >
             <span className="inline-flex items-center gap-2">

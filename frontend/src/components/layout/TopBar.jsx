@@ -16,15 +16,15 @@ export default function TopBar() {
   const rating = reviewsSummary?.rating;
 
   return (
-    <div className="bg-ink-950 text-ink-300">
-      <div className="shell flex h-9 items-center justify-center gap-4 sm:justify-between">
+    <div className="hidden bg-ink-950 text-ink-300 sm:block">
+      <div className="shell flex h-9 items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           {rating ? (
             <a
               href={reviewsSummary.googleUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden items-center gap-1.5 text-[0.75rem] font-medium text-ink-200 transition-colors hover:text-white sm:inline-flex"
+              className="inline-flex items-center gap-1.5 text-[0.75rem] font-medium text-ink-200 transition-colors hover:text-white"
             >
               <span aria-hidden="true" style={{ color: "#fbbc04" }}>
                 ★

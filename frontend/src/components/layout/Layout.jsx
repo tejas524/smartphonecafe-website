@@ -43,10 +43,9 @@ export default function Layout({ children }) {
         {children}
       </main>
 
-      {/* Bottom padding clears the fixed mobile action bar */}
-      <div aria-hidden="true" className="h-[4.25rem] lg:hidden" />
-
       <Footer />
+      {/* Clears the fixed mobile action bar without introducing a light gap:
+          the spacer sits BELOW the dark footer and shares its ink background. */}
       <div aria-hidden="true" className="h-[4.25rem] bg-ink-950 lg:hidden" />
 
       <MobileActionBar />

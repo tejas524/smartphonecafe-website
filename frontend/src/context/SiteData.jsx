@@ -51,6 +51,18 @@ function assemble(bootstrap) {
     model: s.model_name,
     image: s.image_path || null,
   }));
+  const accessoryCategories = adaptAccessoryCategories(bootstrap.accessories?.categories);
+  const categoryById = new Map(accessoryCategories.map((c) => [c.id, c]));
+  const accessoryItems = adaptAccessoryItems(bootstrap.accessories?.items).map((a) => {
+    const cat = categoryById.get(a.category_id) || null;
+    return {
+      ...a,
+      brand: brandNameById.get(a.brand_id) || "",
+      categoryTitle: cat?.title || "",
+      categorySlug: cat?.slug || "",
+      image: a.image_path || cat?.image || null,
+    };
+  });
   return {
     business,
     serviceAreas: adaptServiceAreas(bootstrap.business),
@@ -65,8 +77,8 @@ function assemble(bootstrap) {
     gallery: adaptGallery(bootstrap.gallery),
     smartphones,
     accessories: {
-      categories: adaptAccessoryCategories(bootstrap.accessories?.categories),
-      items: adaptAccessoryItems(bootstrap.accessories?.items),
+      categories: accessoryCategories,
+      items: accessoryItems,
     },
     reviews,
     reviewsSummary,
