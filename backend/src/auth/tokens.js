@@ -6,8 +6,12 @@
  *
  * Cookie flags:
  *   httpOnly : not readable from JS
- *   sameSite : 'lax' in development (same host, different port), 'none'+Secure
- *              in production when the API is on a different origin than the SPA
+ *   sameSite : 'lax'. In the intended deployment the SPA and the API are served
+ *              from the SAME origin (Express serves the built SPA), and in dev
+ *              they are same-site (localhost, different port), so 'lax' is
+ *              correct in both and is stricter than 'none'. 'lax' still sends
+ *              the cookie on the admin's own top-level navigations and on the
+ *              same-origin fetch()/XHR the admin SPA makes.
  *   secure   : true whenever NODE_ENV=production, so the cookie is never sent
  *              over plain HTTP
  *   path     : '/' so both the API and the SPA can send it
@@ -51,10 +55,10 @@ export function cookieOptions() {
   return {
     httpOnly: true,
     secure,
-    // Cross-site cookies require SameSite=None together with Secure. In dev the
-    // SPA runs on a different port but the same host, so Lax is both sufficient
-    // and stricter.
-    sameSite: secure ? "none" : "lax",
+    // The SPA and API share an origin (prod) / are same-site (dev), so Lax is
+    // both sufficient and a meaningful CSRF mitigation. It replaces the former
+    // cross-site 'none', which is no longer needed for a same-origin deploy.
+    sameSite: "lax",
     path: "/",
     maxAge: config.auth.sessionHours * 60 * 60 * 1000,
   };

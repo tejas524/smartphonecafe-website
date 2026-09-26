@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import PageHero from "../components/sections/PageHero.jsx";
 import RepairEnquiryForm from "../components/sections/RepairEnquiryForm.jsx";
 import LocationSection from "../components/sections/LocationSection.jsx";
@@ -157,7 +158,14 @@ function SmartphoneEnquiry() {
 
       <p className="mt-4 text-[0.75rem] leading-relaxed text-ink-500">
         Availability and pricing are confirmed in store or on WhatsApp. We do not
-        publish a live stock list.
+        publish a live stock list. See our{" "}
+        <Link
+          to="/privacy-policy"
+          className="font-medium text-accent-600 underline decoration-line-strong underline-offset-2 hover:text-accent-700"
+        >
+          Privacy Policy
+        </Link>
+        .
       </p>
     </div>
   );
@@ -262,7 +270,7 @@ export default function Contact() {
 
       {/* ====================================================== enquiries */}
       <section className="border-y border-line bg-paper-soft" aria-labelledby="enquiries-heading">
-        <div className="shell py-16 lg:py-20">
+        <div className="shell py-12 lg:py-20">
           <SectionHeading
             eyebrow="Send an enquiry"
             id="enquiries-heading"

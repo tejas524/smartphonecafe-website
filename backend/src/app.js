@@ -26,7 +26,9 @@ import { ensureUploadDirs } from "./lib/upload.js";
 import { tooManyRequests } from "./lib/errors.js";
 import authRoutes from "./routes/auth.js";
 import adminCrudRoutes, { resolveResource } from "./routes/adminCrud.js";
+import analyticsRoutes from "./routes/analytics.js";
 import publicRoutes from "./routes/public.js";
+import seoRoutes from "./routes/seo.js";
 
 export async function createApp() {
   const app = express();
@@ -43,8 +45,41 @@ export async function createApp() {
 
   app.use(
     helmet({
-      // The API returns JSON, so most browser-oriented policies are irrelevant.
-      contentSecurityPolicy: false,
+      // A deliberately small Content-Security-Policy for the HTML the server
+      // serves. It is applied to every response; on JSON/image responses it is
+      // simply inert. The directives allow exactly what the built app needs:
+      //   - script-src 'self'      : Vite emits external module bundles only
+      //                              (the build has no inline <script>; the
+      //                              JSON-LD block is non-executable data).
+      //   - style-src 'unsafe-inline' : React and Recharts set inline styles.
+      //   - font-src 'self'        : fonts are self-hosted under /fonts.
+      //   - img-src data:/blob:    : inline SVG icons + uploaded/product images.
+      //   - frame-src google/maps  : the keyless Google Maps location embed.
+      //   - frame-ancestors 'none' : the site (incl. /admin) cannot be framed.
+      // No analytics, tracker or third-party script origin is allowed.
+      contentSecurityPolicy: {
+        useDefaults: true,
+        directives: {
+          "default-src": ["'self'"],
+          "base-uri": ["'self'"],
+          "object-src": ["'none'"],
+          "frame-ancestors": ["'none'"],
+          "script-src": ["'self'"],
+          "style-src": ["'self'", "'unsafe-inline'"],
+          "img-src": ["'self'", "data:", "blob:"],
+          "font-src": ["'self'"],
+          "connect-src": ["'self'"],
+          "frame-src": ["https://www.google.com", "https://maps.google.com"],
+          "form-action": ["'self'"],
+          "manifest-src": ["'self'"],
+          "worker-src": ["'self'", "blob:"],
+          // Force HTTPS upgrades in production only. Helmet's defaults include
+          // this directive, so in development we explicitly REMOVE it (null) —
+          // otherwise the browser would try to upgrade http://localhost assets
+          // to https and fail when the site is served over plain HTTP locally.
+          "upgrade-insecure-requests": config.server.isProduction ? [] : null,
+        },
+      },
       crossOriginResourcePolicy: { policy: "cross-origin" },
       // Uploaded images are meant to be embedded by the website.
       crossOriginEmbedderPolicy: false,
@@ -127,6 +162,12 @@ export async function createApp() {
 
   // All eight CMS sections share this router, guarded by requireAuth.
   const { requireAuth } = await import("./auth/middleware.js");
+
+  // Business Analytics aggregation endpoints. Mounted BEFORE the generic
+  // /api/admin/:resource router so "analytics" is never mistaken for a CRUD
+  // resource. Same requireAuth guard.
+  app.use("/api/admin/analytics", requireAuth, analyticsRoutes);
+
   app.use(
     "/api/admin/:resource",
     (req, res, next) => {
@@ -173,6 +214,10 @@ export async function createApp() {
   });
 
   /* ---------------------------------------------------------------- static -- */
+
+  // SEO endpoints. Registered before the SPA catch-all so /robots.txt and
+  // /sitemap.xml are served as text/xml rather than falling through to the SPA.
+  app.use(seoRoutes);
 
   // In production the built SPA is served from the same origin as the API.
   const distDir = path.join(REPO_ROOT, "frontend", "dist");

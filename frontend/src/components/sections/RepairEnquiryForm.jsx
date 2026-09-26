@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import Button from "../ui/Button.jsx";
 import Icon from "../Icon.jsx";
 import { business } from "../../data/site.js";
@@ -366,7 +367,14 @@ export default function RepairEnquiryForm({ compact = false }) {
       <p className="mt-4 text-[0.75rem] leading-relaxed text-ink-500">
         Sending this does not confirm a repair or a quote. Prices and timelines
         can only be given after the phone has been seen at the store. We use your
-        number only to reply to this enquiry.
+        number only to reply to this enquiry. See our{" "}
+        <Link
+          to="/privacy-policy"
+          className="font-medium text-accent-600 underline decoration-line-strong underline-offset-2 hover:text-accent-700"
+        >
+          Privacy Policy
+        </Link>
+        .
       </p>
     </form>
   );

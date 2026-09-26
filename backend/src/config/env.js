@@ -99,6 +99,10 @@ const server = {
   nodeEnv,
   isProduction,
   frontendUrl: optional("FRONTEND_URL", "http://localhost:5173"),
+  // Public canonical origin used to build absolute URLs in robots.txt and
+  // sitemap.xml. Must be the real production HTTPS origin in production; the
+  // dev default is only a placeholder. No trailing slash.
+  publicSiteUrl: optional("PUBLIC_SITE_URL", "http://localhost:5173").replace(/\/+$/, ""),
   // Comma-separated list, so both the dev origin and a deployed origin can be
   // allowed at once without a code change.
   allowedOrigins: optional("FRONTEND_URL", "http://localhost:5173")

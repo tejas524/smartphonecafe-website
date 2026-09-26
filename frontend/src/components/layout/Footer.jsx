@@ -163,9 +163,17 @@ export default function Footer() {
             <p className="text-[0.8125rem] text-ink-600">
               © {year} {business.name}. All rights reserved.
             </p>
-            <p className="text-[0.8125rem] text-ink-600">
-              {business.type} · Talegaon Dabhade, Maharashtra
-            </p>
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+              <Link to="/privacy-policy" className={linkCls}>
+                Privacy Policy
+              </Link>
+              <Link to="/terms-and-conditions" className={linkCls}>
+                Terms &amp; Conditions
+              </Link>
+              <span className="text-[0.8125rem] text-ink-600">
+                {business.type} · Talegaon Dabhade, Maharashtra
+              </span>
+            </div>
           </div>
 
           <p className="mt-4 max-w-3xl text-[0.75rem] leading-relaxed text-ink-700">

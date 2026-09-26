@@ -16,6 +16,12 @@ export default defineConfig({
   build: {
     target: "es2020",
     cssCodeSplit: true,
+    // Disable the inline module-preload polyfill so the built index.html
+    // contains NO inline <script>. This lets the server send a strict
+    // Content-Security-Policy with `script-src 'self'` (no 'unsafe-inline').
+    // Modern browsers support <link rel="modulepreload"> natively; older ones
+    // simply skip preloading and still load the module scripts normally.
+    modulePreload: { polyfill: false },
     rollupOptions: {
       output: {
         manualChunks: {

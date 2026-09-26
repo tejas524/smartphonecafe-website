@@ -15,6 +15,10 @@ import { getStoreStatus } from "../../utils/hours.js";
 export default function LocationSection({ tone = "light" }) {
   const { business, directionsUrl, mapEmbedUrl } = useSiteData();
   const [status, setStatus] = useState({ known: false });
+  // Privacy-friendly click-to-load: the Google Maps iframe (which can set
+  // third-party cookies and sends your IP to Google) is not mounted until the
+  // visitor explicitly asks for it. The text links below always work without it.
+  const [mapLoaded, setMapLoaded] = useState(false);
 
   // Computed after mount so the server-rendered HTML never carries a stale
   // open/closed claim, and refreshed periodically while the page is open.
@@ -78,8 +82,8 @@ export default function LocationSection({ tone = "light" }) {
       className={isDark ? "bg-ink-950" : "bg-white"}
       aria-labelledby="location-heading"
     >
-      <div className="shell py-16 lg:py-20">
-        <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
+      <div className="shell py-12 lg:py-20">
+        <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
           {/* Details */}
           <div className="lg:col-span-5">
             <Reveal as="p" className="eyebrow text-accent-600">
@@ -150,13 +154,14 @@ export default function LocationSection({ tone = "light" }) {
               ))}
             </dl>
 
-            <Reveal delay={220} className="mt-7 flex flex-wrap gap-2.5">
+            <Reveal delay={220} className="mt-7 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap">
               <Button
                 href={directionsUrl}
                 external
                 variant="primary"
                 size="lg"
                 icon="navigation"
+                className="w-full sm:w-auto"
               >
                 Get Directions
               </Button>
@@ -166,6 +171,7 @@ export default function LocationSection({ tone = "light" }) {
                 variant="wa"
                 size="lg"
                 icon="whatsapp"
+                className="w-full sm:w-auto"
               >
                 WhatsApp
               </Button>
@@ -188,13 +194,60 @@ export default function LocationSection({ tone = "light" }) {
           {/* Map */}
           <Reveal delay={140} className="lg:col-span-7">
             <div className="overflow-hidden rounded-[var(--radius-lg)] border border-line bg-paper-mute">
-              <iframe
-                title={`Map showing the location of ${business.name} in Talegaon Dabhade`}
-                src={mapEmbedUrl}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="block h-[22rem] w-full border-0 sm:h-[26rem] lg:h-[34rem]"
-              />
+              {mapLoaded ? (
+                <iframe
+                  title={`Map showing the location of ${business.name} in Talegaon Dabhade`}
+                  src={mapEmbedUrl}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="block h-[22rem] w-full border-0 sm:h-[26rem] lg:h-[34rem]"
+                />
+              ) : (
+                <div className="relative flex h-[22rem] w-full flex-col items-center justify-center gap-4 px-6 text-center sm:h-[26rem] lg:h-[34rem]">
+                  {/* Faint map-style grid so the placeholder reads as a map area */}
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 opacity-[0.6]"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(to right, rgb(8 9 12 / 0.04) 1px, transparent 1px), linear-gradient(to bottom, rgb(8 9 12 / 0.04) 1px, transparent 1px)",
+                      backgroundSize: "40px 40px",
+                    }}
+                  />
+                  <span className="relative inline-flex h-12 w-12 items-center justify-center rounded-full bg-white text-accent-600 shadow-[var(--shadow-card)]">
+                    <Icon name="mapPin" size={22} />
+                  </span>
+                  <div className="relative max-w-xs">
+                    <p className="font-display text-[1rem] font-bold text-ink-950">
+                      {business.name}
+                    </p>
+                    <p className="mt-1 text-[0.8125rem] leading-relaxed text-ink-500">
+                      {business.address.line1}, {business.address.line2}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setMapLoaded(true)}
+                    className="relative inline-flex items-center gap-2 rounded-[11px] bg-ink-950 px-4 py-2.5 font-display text-[0.875rem] font-semibold text-white transition-colors hover:bg-ink-800"
+                  >
+                    <Icon name="google" size={16} />
+                    Load Google Map
+                  </button>
+                  <p className="relative max-w-xs text-[0.75rem] leading-relaxed text-ink-400">
+                    Loads content from Google, which may set its own cookies. You
+                    can also{" "}
+                    <a
+                      href={directionsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-medium text-accent-600 underline decoration-line-strong underline-offset-2 hover:text-accent-700"
+                    >
+                      open directions in Google Maps
+                    </a>
+                    .
+                  </p>
+                </div>
+              )}
             </div>
           </Reveal>
         </div>

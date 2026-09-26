@@ -99,13 +99,13 @@ export default function ReviewsSection() {
 
   return (
     <section className="border-y border-line bg-paper-soft" aria-labelledby="reviews-heading">
-      <div className="shell py-16 lg:py-24">
+      <div className="shell py-12 lg:py-24">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading
             eyebrow="Google reviews"
             id="reviews-heading"
             title="What customers say about SmartphoneCafe"
-            lead="Real reviews from the store's Google Business Profile. The rating and total count are shown exactly as they appear on Google."
+            lead="Real reviews from the store's Google Business Profile, shown as a saved snapshot. The live rating and total on Google may differ — tap through to see the latest."
           />
 
           {/* Rating summary — the count animates from 0 on scroll-in */}

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./fonts.css";
 
 /* ==========================================================================
    SmartphoneCafe — design tokens
@@ -289,6 +290,24 @@
   .sc-marquee-group:focus-within .sc-marquee-track {
     animation-play-state: paused;
   }
+
+  /* --------------------------------------------------------------------------
+     Repairs carousel — the active slide's caption fades/rises in as the large
+     image cross-fades. Purely decorative; disabled under reduced motion below.
+     -------------------------------------------------------------------------- */
+  @keyframes rc-fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .rc-fade-in {
+    animation: rc-fade-in 420ms var(--ease-out-soft) both;
+  }
 }
 
 /* ==========================================================================
@@ -333,5 +352,12 @@
   }
   .sc-marquee-dup {
     display: none !important;
+  }
+
+  /* Repairs carousel caption — show final frame instantly */
+  .rc-fade-in {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

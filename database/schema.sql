@@ -1,7 +1,8 @@
 -- ============================================================================
 --  SmartphoneCafe - MySQL 8 schema
 -- ============================================================================
---  Creates the `smartphonecafe` database and its ten tables.
+--  Creates the `smartphonecafe` database and its twelve tables
+--  (ten public/CMS tables plus the private sales + expenses analytics ledgers).
 --
 --  Design rules applied throughout:
 --
@@ -30,6 +31,8 @@ USE `smartphonecafe`;
 
 -- Tables are dropped child-first so foreign keys never block the drop, which
 -- makes this file safely re-runnable during development.
+DROP TABLE IF EXISTS `sales`;
+DROP TABLE IF EXISTS `expenses`;
 DROP TABLE IF EXISTS `homepage_content`;
 DROP TABLE IF EXISTS `gallery`;
 DROP TABLE IF EXISTS `accessories`;
@@ -232,12 +235,18 @@ CREATE TABLE `accessories` (
   `brand_id`       INT UNSIGNED NULL DEFAULT NULL,
   `name`           VARCHAR(160)  NOT NULL,
   `slug`           VARCHAR(190)  NOT NULL,
+  `summary`        VARCHAR(255)  NULL DEFAULT NULL,
   `description`    TEXT          NULL,
   `price_amount`   DECIMAL(10,2) NULL DEFAULT NULL COMMENT 'NULL = not published',
   `price_currency` CHAR(3)       NOT NULL DEFAULT 'INR',
+  `mrp_amount`     DECIMAL(10,2) NULL DEFAULT NULL,
   `stock_quantity` INT           NULL DEFAULT NULL,
+  `stock_status`   VARCHAR(24)   NULL DEFAULT NULL,
+  `colour`         VARCHAR(60)   NULL DEFAULT NULL,
+  `compatibility`  VARCHAR(255)  NULL DEFAULT NULL,
   `image_path`     VARCHAR(255)  NULL DEFAULT NULL,
   `is_active`      TINYINT(1)    NOT NULL DEFAULT 1,
+  `is_featured`    TINYINT(1)    NOT NULL DEFAULT 0,
   `display_order`  INT           NOT NULL DEFAULT 0,
   `created_at`     DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at`     DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -337,6 +346,51 @@ CREATE TABLE `homepage_content` (
   KEY `idx_homepage_content_visible_order` (`is_visible`, `display_order`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
   COMMENT='Homepage section copy and ordering, seeded from the live site wording.';
+
+
+-- ---------------------------------------------------------------------------
+-- 11. sales - Business Analytics: real transactions entered by the owner
+-- ---------------------------------------------------------------------------
+-- PRIVATE data, never exposed by the public API. The owner records the ACTUAL
+-- money that changed hands. selling_price / cost_price are PER-UNIT amounts and
+-- are NEVER derived from the public catalog price/MRP (a sale can be discounted,
+-- bundled or exchanged). Revenue for a row is selling_price * quantity.
+CREATE TABLE `sales` (
+  `id`                   INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `transaction_date`     DATE          NOT NULL,
+  `type`                 ENUM('smartphone','accessory','repair','other') NOT NULL DEFAULT 'other',
+  `product_service_name` VARCHAR(200)  NOT NULL,
+  `quantity`             INT UNSIGNED  NOT NULL DEFAULT 1,
+  `selling_price`        DECIMAL(10,2) NOT NULL DEFAULT 0.00 COMMENT 'per-unit amount actually charged',
+  `cost_price`           DECIMAL(10,2) NOT NULL DEFAULT 0.00 COMMENT 'per-unit direct cost',
+  `payment_method`       VARCHAR(40)   NULL DEFAULT NULL,
+  `notes`                VARCHAR(2000) NULL DEFAULT NULL,
+  `created_at`           TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_sales_date` (`transaction_date`),
+  KEY `idx_sales_type` (`type`),
+  KEY `idx_sales_date_type` (`transaction_date`, `type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+  COMMENT='Private sales ledger for Business Analytics. Never served publicly.';
+
+
+-- ---------------------------------------------------------------------------
+-- 12. expenses - Business Analytics: real business expenses entered by the owner
+-- ---------------------------------------------------------------------------
+-- PRIVATE data, never exposed by the public API.
+CREATE TABLE `expenses` (
+  `id`           INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `expense_date` DATE          NOT NULL,
+  `category`     VARCHAR(80)   NOT NULL,
+  `description`  VARCHAR(255)  NULL DEFAULT NULL,
+  `amount`       DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+  `notes`        VARCHAR(2000) NULL DEFAULT NULL,
+  `created_at`   TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_expenses_date` (`expense_date`),
+  KEY `idx_expenses_category` (`category`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+  COMMENT='Private expense ledger for Business Analytics. Never served publicly.';
 
 
 -- ---------------------------------------------------------------------------
