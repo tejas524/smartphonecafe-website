@@ -1,4 +1,5 @@
 import { useState } from "react";
+import ResponsiveImage from "../ui/ResponsiveImage.jsx";
 import { Link } from "react-router-dom";
 import Reveal from "../ui/Reveal.jsx";
 import SectionHeading from "../ui/SectionHeading.jsx";
@@ -72,8 +73,9 @@ function SmartphoneCard(model) {
         style={{ aspectRatio: "1 / 1" }}
       >
         {model.image ? (
-          <img
+          <ResponsiveImage
             src={model.image}
+            sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 80vw"
             alt={name}
             loading="lazy"
             decoding="async"

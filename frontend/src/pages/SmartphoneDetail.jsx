@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import ResponsiveImage from "../components/ui/ResponsiveImage.jsx";
 import { Link, useParams } from "react-router-dom";
 import LocationSection from "../components/sections/LocationSection.jsx";
 import Button from "../components/ui/Button.jsx";
@@ -182,8 +183,9 @@ export default function SmartphoneDetail() {
                   ) : null}
                 </div>
                 {product.image ? (
-                  <img
+                  <ResponsiveImage
                     src={product.image}
+                    sizes="(min-width: 1024px) 50vw, 100vw"
                     alt={name}
                     decoding="async"
                     className="h-full w-full object-contain"

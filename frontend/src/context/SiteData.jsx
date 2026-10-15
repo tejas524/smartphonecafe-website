@@ -7,6 +7,7 @@ import {
   useState,
 } from "react";
 import { publicApi } from "../lib/api.js";
+import previewSnapshot from "../../public/preview-content.json";
 import {
   adaptBusiness,
   adaptBrands,
@@ -103,14 +104,19 @@ function staticFallback() {
   };
 }
 
+// Static previews already have public data at build time; skip a network round
+// trip and keep rating/header text stable from the first render.
+const initialPreviewData = import.meta.env.VITE_STATIC_PREVIEW ? assemble(previewSnapshot.data) : null;
+
 export function SiteDataProvider({ children }) {
-  const [status, setStatus] = useState("loading"); // loading | ready | error
-  const [data, setData] = useState(null);
+  const [status, setStatus] = useState(initialPreviewData ? "ready" : "loading");
+  const [data, setData] = useState(initialPreviewData);
   const [error, setError] = useState(null);
   const [nonce, setNonce] = useState(0);
   const mounted = useRef(true);
 
   useEffect(() => {
+    if (initialPreviewData) return;
     mounted.current = true;
     const controller = new AbortController();
     setStatus("loading");

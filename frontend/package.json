@@ -7,9 +7,12 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "prebuild": "npm run images:responsive",
     "build:preview": "vite build --mode preview",
+    "prebuild:preview": "npm run images:responsive",
     "preview:export": "node scripts/export-preview.mjs",
     "images:compress": "node scripts/compress-images.mjs",
+    "images:responsive": "node scripts/generate-responsive-images.mjs",
     "preview": "vite preview",
     "assets": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/generate-brand-assets.ps1",
     "photos": "node scripts/process-shop-photos.mjs",

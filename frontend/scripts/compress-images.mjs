@@ -19,6 +19,8 @@ const report = { run, beforeBytes: 0, afterBytes: 0, changed: 0, files: {} };
 
 const entries = (await fs.readdir(publicDir, { recursive: true })).sort();
 for (const relative of entries) {
+  // These files have content hashes in their names and are generated separately.
+  if (relative.split(path.sep)[0] === "optimized-images") continue;
   if (!/\.(png|jpe?g|webp|avif)$/i.test(relative)) continue;
   const file = path.join(publicDir, relative);
   const input = await fs.readFile(file);

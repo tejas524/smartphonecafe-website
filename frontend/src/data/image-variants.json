@@ -1,0 +1,356 @@
+{
+  "/offers-images/offer-accessories.png": {
+    "sourceHash": "8d1101ec77946e51c58d28f8f0a25c1dce31bf678a84cebf3866c9dc30d7f3ca",
+    "src": "/optimized-images/offers-images-offer-accessories-960-7f58993ef213.webp",
+    "srcSet": "/optimized-images/offers-images-offer-accessories-480-b649dd9f550b.webp 480w, /optimized-images/offers-images-offer-accessories-960-7f58993ef213.webp 960w, /optimized-images/offers-images-offer-accessories-1600-065145de0211.webp 1600w",
+    "width": 2048,
+    "height": 768,
+    "variants": [
+      {
+        "src": "/optimized-images/offers-images-offer-accessories-480-b649dd9f550b.webp",
+        "width": 480,
+        "bytes": 20364
+      },
+      {
+        "src": "/optimized-images/offers-images-offer-accessories-960-7f58993ef213.webp",
+        "width": 960,
+        "bytes": 51048
+      },
+      {
+        "src": "/optimized-images/offers-images-offer-accessories-1600-065145de0211.webp",
+        "width": 1600,
+        "bytes": 96744
+      }
+    ]
+  },
+  "/offers-images/offer-covers-glass.png": {
+    "sourceHash": "e1648d038ca0fd5f4a657796b954d3dd431a63163a3b0137867bfcccd5fcced0",
+    "src": "/optimized-images/offers-images-offer-covers-glass-960-a4db06139358.webp",
+    "srcSet": "/optimized-images/offers-images-offer-covers-glass-480-20d46d981469.webp 480w, /optimized-images/offers-images-offer-covers-glass-960-a4db06139358.webp 960w, /optimized-images/offers-images-offer-covers-glass-1600-c3b742bd7de8.webp 1600w",
+    "width": 2048,
+    "height": 768,
+    "variants": [
+      {
+        "src": "/optimized-images/offers-images-offer-covers-glass-480-20d46d981469.webp",
+        "width": 480,
+        "bytes": 20566
+      },
+      {
+        "src": "/optimized-images/offers-images-offer-covers-glass-960-a4db06139358.webp",
+        "width": 960,
+        "bytes": 53812
+      },
+      {
+        "src": "/optimized-images/offers-images-offer-covers-glass-1600-c3b742bd7de8.webp",
+        "width": 1600,
+        "bytes": 101474
+      }
+    ]
+  },
+  "/offers-images/offer-exchange.png": {
+    "sourceHash": "2a195d88047117c779210f9218c5ad6997d95d46dffccab53fa91bbc4c3d8c83",
+    "src": "/optimized-images/offers-images-offer-exchange-960-49d9a2230939.webp",
+    "srcSet": "/optimized-images/offers-images-offer-exchange-480-8cfb02399c09.webp 480w, /optimized-images/offers-images-offer-exchange-960-49d9a2230939.webp 960w, /optimized-images/offers-images-offer-exchange-1600-d35678375b31.webp 1600w",
+    "width": 2048,
+    "height": 768,
+    "variants": [
+      {
+        "src": "/optimized-images/offers-images-offer-exchange-480-8cfb02399c09.webp",
+        "width": 480,
+        "bytes": 20006
+      },
+      {
+        "src": "/optimized-images/offers-images-offer-exchange-960-49d9a2230939.webp",
+        "width": 960,
+        "bytes": 51946
+      },
+      {
+        "src": "/optimized-images/offers-images-offer-exchange-1600-d35678375b31.webp",
+        "width": 1600,
+        "bytes": 99958
+      }
+    ]
+  },
+  "/offers-images/offer-exchange2.png": {
+    "sourceHash": "09b0a6e71c1cf58f1754e04c49d4addbbe73158526e6b26a8a0b3d48b9675433",
+    "src": "/optimized-images/offers-images-offer-exchange2-960-ce5bb97bd945.webp",
+    "srcSet": "/optimized-images/offers-images-offer-exchange2-480-bf7045aebc94.webp 480w, /optimized-images/offers-images-offer-exchange2-960-ce5bb97bd945.webp 960w, /optimized-images/offers-images-offer-exchange2-1600-adb2a5cc8d1b.webp 1600w",
+    "width": 1672,
+    "height": 941,
+    "variants": [
+      {
+        "src": "/optimized-images/offers-images-offer-exchange2-480-bf7045aebc94.webp",
+        "width": 480,
+        "bytes": 25294
+      },
+      {
+        "src": "/optimized-images/offers-images-offer-exchange2-960-ce5bb97bd945.webp",
+        "width": 960,
+        "bytes": 63080
+      },
+      {
+        "src": "/optimized-images/offers-images-offer-exchange2-1600-adb2a5cc8d1b.webp",
+        "width": 1600,
+        "bytes": 124078
+      }
+    ]
+  },
+  "/offers-images/offer-galaxy-a55.png": {
+    "sourceHash": "613fdc26fe032d1ce5459ef47640865aafd83b70ae7bf1f56c33465ff33f1774",
+    "src": "/optimized-images/offers-images-offer-galaxy-a55-960-32f757a192c8.webp",
+    "srcSet": "/optimized-images/offers-images-offer-galaxy-a55-480-305750f13940.webp 480w, /optimized-images/offers-images-offer-galaxy-a55-960-32f757a192c8.webp 960w, /optimized-images/offers-images-offer-galaxy-a55-1600-1cd2cf7b3b34.webp 1600w",
+    "width": 2048,
+    "height": 768,
+    "variants": [
+      {
+        "src": "/optimized-images/offers-images-offer-galaxy-a55-480-305750f13940.webp",
+        "width": 480,
+        "bytes": 21164
+      },
+      {
+        "src": "/optimized-images/offers-images-offer-galaxy-a55-960-32f757a192c8.webp",
+        "width": 960,
+        "bytes": 53420
+      },
+      {
+        "src": "/optimized-images/offers-images-offer-galaxy-a55-1600-1cd2cf7b3b34.webp",
+        "width": 1600,
+        "bytes": 99354
+      }
+    ]
+  },
+  "/product-images/iphone-15.png": {
+    "sourceHash": "44024190e2f04183e4f2f4858ffc31d3efd0933ce4817eefaf23196d8e53abfa",
+    "src": "/optimized-images/product-images-iphone-15-960-c948fc2c6373.webp",
+    "srcSet": "/optimized-images/product-images-iphone-15-320-6faccd9858fd.webp 320w, /optimized-images/product-images-iphone-15-640-8f9464431a57.webp 640w, /optimized-images/product-images-iphone-15-960-c948fc2c6373.webp 960w",
+    "width": 1254,
+    "height": 1254,
+    "variants": [
+      {
+        "src": "/optimized-images/product-images-iphone-15-320-6faccd9858fd.webp",
+        "width": 320,
+        "bytes": 11610
+      },
+      {
+        "src": "/optimized-images/product-images-iphone-15-640-8f9464431a57.webp",
+        "width": 640,
+        "bytes": 39054
+      },
+      {
+        "src": "/optimized-images/product-images-iphone-15-960-c948fc2c6373.webp",
+        "width": 960,
+        "bytes": 91682
+      }
+    ]
+  },
+  "/product-images/realme-12-pro.png": {
+    "sourceHash": "ee431c476e3adc3b5cb9fb61d08ff9aa8fff2af5da65b9a69e6aaeeefdf2aedf",
+    "src": "/optimized-images/product-images-realme-12-pro-960-066a4f82ea61.webp",
+    "srcSet": "/optimized-images/product-images-realme-12-pro-320-36e6e7260276.webp 320w, /optimized-images/product-images-realme-12-pro-640-96e55440f0ae.webp 640w, /optimized-images/product-images-realme-12-pro-960-066a4f82ea61.webp 960w",
+    "width": 1254,
+    "height": 1254,
+    "variants": [
+      {
+        "src": "/optimized-images/product-images-realme-12-pro-320-36e6e7260276.webp",
+        "width": 320,
+        "bytes": 17052
+      },
+      {
+        "src": "/optimized-images/product-images-realme-12-pro-640-96e55440f0ae.webp",
+        "width": 640,
+        "bytes": 53910
+      },
+      {
+        "src": "/optimized-images/product-images-realme-12-pro-960-066a4f82ea61.webp",
+        "width": 960,
+        "bytes": 129822
+      }
+    ]
+  },
+  "/product-images/redmi-note-13-pro.png": {
+    "sourceHash": "8915738377d8eec71227c392dbd697adcf29f44854d32cef4aa77b7c98acf365",
+    "src": "/optimized-images/product-images-redmi-note-13-pro-960-1c3b691c8833.webp",
+    "srcSet": "/optimized-images/product-images-redmi-note-13-pro-320-2b3a6653eee3.webp 320w, /optimized-images/product-images-redmi-note-13-pro-640-6c71dec7194f.webp 640w, /optimized-images/product-images-redmi-note-13-pro-960-1c3b691c8833.webp 960w",
+    "width": 1254,
+    "height": 1254,
+    "variants": [
+      {
+        "src": "/optimized-images/product-images-redmi-note-13-pro-320-2b3a6653eee3.webp",
+        "width": 320,
+        "bytes": 11960
+      },
+      {
+        "src": "/optimized-images/product-images-redmi-note-13-pro-640-6c71dec7194f.webp",
+        "width": 640,
+        "bytes": 34088
+      },
+      {
+        "src": "/optimized-images/product-images-redmi-note-13-pro-960-1c3b691c8833.webp",
+        "width": 960,
+        "bytes": 66226
+      }
+    ]
+  },
+  "/product-images/samsung-a56.png": {
+    "sourceHash": "60b4c1d96fbf55eb7487db639cd91c016c5e1d1901b1f27d8cdd94040b6dde9c",
+    "src": "/optimized-images/product-images-samsung-a56-960-b00331407ac6.webp",
+    "srcSet": "/optimized-images/product-images-samsung-a56-320-b444c5d39faa.webp 320w, /optimized-images/product-images-samsung-a56-640-d4766dbcd41f.webp 640w, /optimized-images/product-images-samsung-a56-960-b00331407ac6.webp 960w",
+    "width": 1254,
+    "height": 1254,
+    "variants": [
+      {
+        "src": "/optimized-images/product-images-samsung-a56-320-b444c5d39faa.webp",
+        "width": 320,
+        "bytes": 13292
+      },
+      {
+        "src": "/optimized-images/product-images-samsung-a56-640-d4766dbcd41f.webp",
+        "width": 640,
+        "bytes": 33368
+      },
+      {
+        "src": "/optimized-images/product-images-samsung-a56-960-b00331407ac6.webp",
+        "width": 960,
+        "bytes": 61840
+      }
+    ]
+  },
+  "/product-images/vivo-v30.png": {
+    "sourceHash": "b6245d9259c0316d9f80872897a3586650122c1ea08f22e855288de31e39bfb6",
+    "src": "/optimized-images/product-images-vivo-v30-960-a639eda4b2ac.webp",
+    "srcSet": "/optimized-images/product-images-vivo-v30-320-1b124f77f22f.webp 320w, /optimized-images/product-images-vivo-v30-640-fa12599c997d.webp 640w, /optimized-images/product-images-vivo-v30-960-a639eda4b2ac.webp 960w",
+    "width": 1254,
+    "height": 1254,
+    "variants": [
+      {
+        "src": "/optimized-images/product-images-vivo-v30-320-1b124f77f22f.webp",
+        "width": 320,
+        "bytes": 16930
+      },
+      {
+        "src": "/optimized-images/product-images-vivo-v30-640-fa12599c997d.webp",
+        "width": 640,
+        "bytes": 51280
+      },
+      {
+        "src": "/optimized-images/product-images-vivo-v30-960-a639eda4b2ac.webp",
+        "width": 960,
+        "bytes": 106708
+      }
+    ]
+  },
+  "/accessories-images/chargers-cables.png": {
+    "sourceHash": "cef33a10ef422106f038488af0c3cb3f9bed4012e07881383714ae0519b626d7",
+    "src": "/optimized-images/accessories-images-chargers-cables-960-3ffdfdcc562d.webp",
+    "srcSet": "/optimized-images/accessories-images-chargers-cables-480-a1a86195a6f9.webp 480w, /optimized-images/accessories-images-chargers-cables-960-3ffdfdcc562d.webp 960w",
+    "width": 1254,
+    "height": 1254,
+    "variants": [
+      {
+        "src": "/optimized-images/accessories-images-chargers-cables-480-a1a86195a6f9.webp",
+        "width": 480,
+        "bytes": 16682
+      },
+      {
+        "src": "/optimized-images/accessories-images-chargers-cables-960-3ffdfdcc562d.webp",
+        "width": 960,
+        "bytes": 40888
+      }
+    ]
+  },
+  "/accessories-images/earphones-audio.png": {
+    "sourceHash": "33bf471b355c934111705b0929aa7339a23d180c35d7992781ee6206ddcfa097",
+    "src": "/optimized-images/accessories-images-earphones-audio-960-d573f293381c.webp",
+    "srcSet": "/optimized-images/accessories-images-earphones-audio-480-0d43709d8710.webp 480w, /optimized-images/accessories-images-earphones-audio-960-d573f293381c.webp 960w",
+    "width": 1437,
+    "height": 1094,
+    "variants": [
+      {
+        "src": "/optimized-images/accessories-images-earphones-audio-480-0d43709d8710.webp",
+        "width": 480,
+        "bytes": 18564
+      },
+      {
+        "src": "/optimized-images/accessories-images-earphones-audio-960-d573f293381c.webp",
+        "width": 960,
+        "bytes": 42412
+      }
+    ]
+  },
+  "/accessories-images/mobile-covers.png": {
+    "sourceHash": "14f05c2b2ffe4546e182bf6b80de268973bf3943096be0b4e5ffbcc6c5a51131",
+    "src": "/optimized-images/accessories-images-mobile-covers-960-8f452144a6c3.webp",
+    "srcSet": "/optimized-images/accessories-images-mobile-covers-480-7a2666d995ff.webp 480w, /optimized-images/accessories-images-mobile-covers-960-8f452144a6c3.webp 960w",
+    "width": 1216,
+    "height": 1293,
+    "variants": [
+      {
+        "src": "/optimized-images/accessories-images-mobile-covers-480-7a2666d995ff.webp",
+        "width": 480,
+        "bytes": 19380
+      },
+      {
+        "src": "/optimized-images/accessories-images-mobile-covers-960-8f452144a6c3.webp",
+        "width": 960,
+        "bytes": 90404
+      }
+    ]
+  },
+  "/accessories-images/power-banks.png": {
+    "sourceHash": "be485b341f60a52b98df17b0327bbfc7cfe99f93b7bf3f184150b8a4781fa5c2",
+    "src": "/optimized-images/accessories-images-power-banks-960-0c44b24498ea.webp",
+    "srcSet": "/optimized-images/accessories-images-power-banks-480-d70e861a7cd6.webp 480w, /optimized-images/accessories-images-power-banks-960-0c44b24498ea.webp 960w",
+    "width": 1536,
+    "height": 1024,
+    "variants": [
+      {
+        "src": "/optimized-images/accessories-images-power-banks-480-d70e861a7cd6.webp",
+        "width": 480,
+        "bytes": 15464
+      },
+      {
+        "src": "/optimized-images/accessories-images-power-banks-960-0c44b24498ea.webp",
+        "width": 960,
+        "bytes": 41206
+      }
+    ]
+  },
+  "/accessories-images/premium silicon cover.png": {
+    "sourceHash": "14f05c2b2ffe4546e182bf6b80de268973bf3943096be0b4e5ffbcc6c5a51131",
+    "src": "/optimized-images/accessories-images-premium-silicon-cover-960-8f452144a6c3.webp",
+    "srcSet": "/optimized-images/accessories-images-premium-silicon-cover-480-7a2666d995ff.webp 480w, /optimized-images/accessories-images-premium-silicon-cover-960-8f452144a6c3.webp 960w",
+    "width": 1216,
+    "height": 1293,
+    "variants": [
+      {
+        "src": "/optimized-images/accessories-images-premium-silicon-cover-480-7a2666d995ff.webp",
+        "width": 480,
+        "bytes": 19380
+      },
+      {
+        "src": "/optimized-images/accessories-images-premium-silicon-cover-960-8f452144a6c3.webp",
+        "width": 960,
+        "bytes": 90404
+      }
+    ]
+  },
+  "/accessories-images/screen-protection.png": {
+    "sourceHash": "216a1bb71c2c38822316a514056a5b8f17485e3d1c26f4f503dd3f8477da50d9",
+    "src": "/optimized-images/accessories-images-screen-protection-960-282eaa210b67.webp",
+    "srcSet": "/optimized-images/accessories-images-screen-protection-480-bd3fa96ba67e.webp 480w, /optimized-images/accessories-images-screen-protection-960-282eaa210b67.webp 960w",
+    "width": 1325,
+    "height": 1187,
+    "variants": [
+      {
+        "src": "/optimized-images/accessories-images-screen-protection-480-bd3fa96ba67e.webp",
+        "width": 480,
+        "bytes": 50082
+      },
+      {
+        "src": "/optimized-images/accessories-images-screen-protection-960-282eaa210b67.webp",
+        "width": 960,
+        "bytes": 162926
+      }
+    ]
+  }
+}

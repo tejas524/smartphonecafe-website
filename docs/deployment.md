@@ -93,6 +93,10 @@ from 7.44 MB to 1.75 MB; offer images fell from 7.88 MB to 2.48 MB. These are
 asset-size measurements, not a browser loading-time benchmark.
 
 Run `npm --prefix frontend run images:compress` after adding or exporting images.
+The build also generates responsive WebP sizes for static product, accessory
+and offer artwork. To refresh these during development, run
+`npm --prefix frontend run images:responsive`. Existing CMS paths continue to
+work; new runtime uploads without generated sizes use their original URL.
 This compresses PNG, JPEG, WebP and AVIF assets in `frontend/public/`, preserving
 their URLs, dimensions and transparency. An image is replaced only if the result
 is smaller. Original camera files and backend runtime uploads are left intact.
@@ -100,3 +104,7 @@ Backups and the size report are saved locally in the git-ignored
 `_tools/image-compression/` directory. The report lets repeated runs skip already
 compressed images, avoiding repeated lossy encoding. Small SVG brand logos are
 already vector assets and are kept as supplied.
+
+Generated files in `frontend/public/optimized-images/` use content hashes and
+immutable caching; the compression command skips them. Builds regenerate the
+variants when source content changes, keeping cached images safe across releases.

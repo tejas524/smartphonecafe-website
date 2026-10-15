@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Icon from "../Icon.jsx";
 import Reveal from "./Reveal.jsx";
+import ResponsiveImage from "./ResponsiveImage.jsx";
 
 /**
  * OfferCardCarousel — the Offers section's image-only banner rail.
@@ -81,8 +82,9 @@ function OfferCard({ item }) {
   return (
     <div className="overflow-hidden rounded-[var(--radius-lg)] bg-white shadow-[var(--shadow-card)] ring-1 ring-ink-950/[0.06]">
       {item.image ? (
-        <img
+        <ResponsiveImage
           src={item.image}
+          sizes="(min-width: 1024px) 70vw, 90vw"
           alt={item.alt}
           loading="lazy"
           decoding="async"

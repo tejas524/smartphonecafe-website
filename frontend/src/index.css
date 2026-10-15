@@ -248,13 +248,15 @@
   }
 
   .hero-img {
-    animation: heroImgIn 1300ms var(--ease-out-soft) both;
+    /* Paint the largest image immediately instead of fading from invisible. */
+    opacity: 1;
   }
   .hero-overlay {
-    animation: heroOverlayIn 900ms var(--ease-out-soft) both;
+    opacity: 1;
   }
   .hero-rise {
-    animation: heroRise 680ms var(--ease-out-soft) both;
+    animation: heroRise 240ms var(--ease-out-soft) both;
+    animation-delay: 0ms !important;
   }
 
   /* --------------------------------------------------------------------------

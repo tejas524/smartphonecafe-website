@@ -1,4 +1,5 @@
 import Icon from "../Icon.jsx";
+import ResponsiveImage from "../ui/ResponsiveImage.jsx";
 import Button from "../ui/Button.jsx";
 import { waLink, waMessages } from "../../utils/whatsapp.js";
 
@@ -72,8 +73,9 @@ export default function AccessoryProductCard({ item }) {
         style={{ aspectRatio: "1 / 1" }}
       >
         {item.image ? (
-          <img
+          <ResponsiveImage
             src={item.image}
+            sizes="(min-width: 1024px) 25vw, 50vw"
             alt={name}
             loading="lazy"
             decoding="async"

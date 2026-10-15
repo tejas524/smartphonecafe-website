@@ -1,4 +1,5 @@
 import Reveal from "../ui/Reveal.jsx";
+import ResponsiveImage from "../ui/ResponsiveImage.jsx";
 import SectionHeading from "../ui/SectionHeading.jsx";
 import Button from "../ui/Button.jsx";
 import Icon from "../Icon.jsx";
@@ -32,8 +33,9 @@ export function AccessoryCard({ category, index = 0 }) {
       >
         <div className="relative aspect-[4/3] w-full overflow-hidden bg-paper-mute">
           {category.image ? (
-            <img
+            <ResponsiveImage
               src={category.image}
+              sizes="(min-width: 1024px) 25vw, 50vw"
               alt={category.alt || category.title}
               loading="lazy"
               decoding="async"

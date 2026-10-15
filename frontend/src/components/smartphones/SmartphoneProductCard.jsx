@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Icon from "../Icon.jsx";
+import ResponsiveImage from "../ui/ResponsiveImage.jsx";
 
 /** ₹ price from a numeric amount; null when there is no real, positive price. */
 export function formatPrice(amount, currency = "INR") {
@@ -75,8 +76,9 @@ export default function SmartphoneProductCard({ model }) {
         style={{ aspectRatio: "1 / 1" }}
       >
         {model.image ? (
-          <img
+          <ResponsiveImage
             src={model.image}
+            sizes="(min-width: 1024px) 25vw, 50vw"
             alt={name}
             loading="lazy"
             decoding="async"

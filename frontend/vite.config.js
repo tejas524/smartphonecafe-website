@@ -7,6 +7,8 @@ export default defineConfig(({ mode }) => ({
     "import.meta.env.VITE_STATIC_PREVIEW": JSON.stringify(mode === "preview"),
   },
   plugins: [react(), tailwindcss()],
+  // Preview serves exported uploads instead of forwarding them to localhost.
+  preview: { proxy: {} },
   // Dev-only: proxy API + uploaded images to the Express backend (port 4000)
   // so the frontend dev server can read live MySQL-backed content and images.
   // In production the same origin serves both, so no proxy is needed there.

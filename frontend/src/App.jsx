@@ -2,13 +2,14 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/layout/Layout.jsx";
 import LazyRoute from "./components/LazyRoute.jsx";
 import NotFound from "./pages/NotFound.jsx";
-import AdminApp from "./admin/AdminApp.jsx";
+import Home from "./pages/Home.jsx";
+import RouteErrorBoundary from "./components/RouteErrorBoundary.jsx";
 
 /**
  * Public page loaders.
  *
- * Each page is loaded through a dynamic import() so it is code-split into its
- * own chunk (production) / its own module request (Vite dev). This means a
+ * Secondary pages load through dynamic import() into separate chunks. The
+ * homepage's first screen is eager; its lower sections load separately. A
  * single blocked or failed page module — e.g. a browser privacy filter blocking
  * /src/pages/PrivacyPolicy.jsx — degrades to a graceful, retryable error state
  * for THAT route only, instead of preventing the whole app from mounting.
@@ -17,7 +18,7 @@ import AdminApp from "./admin/AdminApp.jsx";
  * function each render would restart LazyRoute's load effect on every render).
  */
 const load = {
-  home: () => import("./pages/Home.jsx"),
+  admin: () => import("./admin/AdminApp.jsx"),
   smartphones: () => import("./pages/Smartphones.jsx"),
   smartphoneDetail: () => import("./pages/SmartphoneDetail.jsx"),
   accessories: () => import("./pages/Accessories.jsx"),
@@ -33,7 +34,7 @@ function PublicSite() {
   return (
     <Layout>
       <Routes>
-        <Route path="/" element={<LazyRoute loader={load.home} name="Home" />} />
+        <Route path="/" element={<RouteErrorBoundary><Home /></RouteErrorBoundary>} />
         <Route path="/smartphones" element={<LazyRoute loader={load.smartphones} name="Smartphones" />} />
         <Route path="/smartphones/:id" element={<LazyRoute loader={load.smartphoneDetail} name="SmartphoneDetail" />} />
         <Route path="/accessories" element={<LazyRoute loader={load.accessories} name="Accessories" />} />
@@ -63,7 +64,7 @@ export default function App() {
           <p className="mt-4">Admin editing is available on the local site. This preview displays a snapshot of the public website.</p>
           <a className="mt-6 inline-block underline" href="/">Back to the website</a>
         </main>
-      ) : <AdminApp />} />
+      ) : <LazyRoute loader={load.admin} name="admin" />} />
       <Route path="/*" element={<PublicSite />} />
     </Routes>
   );
