@@ -9,6 +9,7 @@
     "build": "vite build",
     "build:preview": "vite build --mode preview",
     "preview:export": "node scripts/export-preview.mjs",
+    "images:compress": "node scripts/compress-images.mjs",
     "preview": "vite preview",
     "assets": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/generate-brand-assets.ps1",
     "photos": "node scripts/process-shop-photos.mjs",

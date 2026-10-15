@@ -46,6 +46,7 @@ In a second terminal:
 
 ```sh
 npm --prefix frontend run preview:export
+npm --prefix frontend run images:compress
 npm --prefix frontend run build:preview
 npm --prefix frontend run preview
 ```
@@ -83,3 +84,19 @@ you to manage the application's persistent directory explicitly. See
 
 The root `vercel.json` applies only to Vercel. Normal local development and the
 normal production build continue to call the live same-origin API.
+
+## Image compression
+
+The first compression pass checked 64 raster assets and reduced 60 of them:
+23,974,402 bytes to 12,252,909 bytes (48.9% smaller overall). Product images fell
+from 7.44 MB to 1.75 MB; offer images fell from 7.88 MB to 2.48 MB. These are
+asset-size measurements, not a browser loading-time benchmark.
+
+Run `npm --prefix frontend run images:compress` after adding or exporting images.
+This compresses PNG, JPEG, WebP and AVIF assets in `frontend/public/`, preserving
+their URLs, dimensions and transparency. An image is replaced only if the result
+is smaller. Original camera files and backend runtime uploads are left intact.
+Backups and the size report are saved locally in the git-ignored
+`_tools/image-compression/` directory. The report lets repeated runs skip already
+compressed images, avoiding repeated lossy encoding. Small SVG brand logos are
+already vector assets and are kept as supplied.
