@@ -20,10 +20,10 @@ export default function StoreHighlights() {
           {trustFeatures.map((f, i) => (
             <li key={f.id} className="bg-white py-5 lg:px-6 lg:py-9 lg:first:pl-0">
               <Reveal delay={i * 60}>
-                <p className="font-display text-[1rem] font-bold tracking-[-0.015em] text-ink-950">
+                <p className="font-display text-[1rem] font-bold tracking-[-0.015em] text-ink-950 lg:text-[1rem]">
                   {f.title}
                 </p>
-                <p className="mt-1.5 text-[0.875rem] leading-relaxed text-ink-500">
+                <p className="mt-1.5 text-[0.9375rem] leading-[1.5] text-ink-500 lg:text-[0.875rem] lg:leading-relaxed">
                   {f.body}
                 </p>
               </Reveal>

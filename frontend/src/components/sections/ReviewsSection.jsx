@@ -47,12 +47,14 @@ function initialOf(name) {
 
 function ReviewCard(review) {
   return (
-    <article className="flex h-full w-full flex-col rounded-[var(--radius-lg)] border border-line-strong bg-white p-6 shadow-[var(--shadow-card)] transition-shadow duration-300 hover:shadow-[var(--shadow-lift)]">
+    <article className="flex h-full w-full flex-col rounded-[var(--radius-lg)] border border-line-strong bg-white p-5 shadow-[var(--shadow-card)] transition-shadow duration-300 hover:shadow-[var(--shadow-lift)] sm:p-6">
       {/* Rating + date */}
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
           <Stars count={review.rating} size="1.0625rem" />
-          <span className="text-[0.75rem] text-ink-400">{review.date}</span>
+          {review.date ? (
+            <span className="text-[0.75rem] text-ink-400">{review.date}</span>
+          ) : null}
         </div>
         {review.isNew && (
           <span className="shrink-0 rounded-full border border-accent-400/40 bg-accent-50 px-2 py-0.5 text-[0.625rem] font-bold uppercase tracking-[0.08em] text-accent-700">
@@ -97,6 +99,12 @@ export default function ReviewsSection() {
   const { reviews, reviewsSummary } = useSiteData();
   const { ref, value } = useCountUp(reviewsSummary.reviewCount, { duration: 1300 });
 
+  const hasReviews = Array.isArray(reviews) && reviews.length > 0;
+  const hasSummary = reviewsSummary.reviewCount > 0 && reviewsSummary.rating > 0;
+
+  // Nothing curated yet and no published total: don't render an empty section.
+  if (!hasReviews && !hasSummary) return null;
+
   return (
     <section className="border-y border-line bg-paper-soft" aria-labelledby="reviews-heading">
       <div className="shell py-12 lg:py-24">
@@ -109,65 +117,77 @@ export default function ReviewsSection() {
           />
 
           {/* Rating summary — the count animates from 0 on scroll-in */}
-          <Reveal delay={120} className="shrink-0">
-            <div
-              ref={ref}
-              className="flex items-center gap-5 rounded-[var(--radius-lg)] border border-line-strong bg-white px-6 py-5 shadow-[var(--shadow-card)]"
-            >
-              <div className="text-center">
-                <div className="font-display text-[2.75rem] font-extrabold leading-none tracking-[-0.03em] text-ink-950">
-                  {reviewsSummary.rating.toFixed(1)}
+          {hasSummary ? (
+            <Reveal delay={120} className="shrink-0">
+              <div
+                ref={ref}
+                className="flex items-center gap-5 rounded-[var(--radius-lg)] border border-line-strong bg-white px-6 py-5 shadow-[var(--shadow-card)]"
+              >
+                <div className="text-center">
+                  <div className="font-display text-[2.75rem] font-extrabold leading-none tracking-[-0.03em] text-ink-950">
+                    {reviewsSummary.rating.toFixed(1)}
+                  </div>
+                  <div className="mt-2">
+                    <Stars
+                      count={5}
+                      size="1.0625rem"
+                      label={`${reviewsSummary.rating} out of 5 stars`}
+                    />
+                  </div>
                 </div>
-                <div className="mt-2">
-                  <Stars
-                    count={5}
-                    size="1.0625rem"
-                    label={`${reviewsSummary.rating} out of 5 stars`}
-                  />
+                <div className="h-14 w-px bg-line" aria-hidden="true" />
+                <div>
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="font-display text-[1.875rem] font-extrabold leading-none tracking-[-0.02em] text-ink-950 tabular-nums">
+                      {value}
+                    </span>
+                    <span className="text-[0.9375rem] font-semibold text-ink-500">
+                      reviews
+                    </span>
+                  </div>
+                  <div className="mt-2 flex items-center gap-1.5 text-[0.8125rem] text-ink-500">
+                    <Icon name="google" size={15} />
+                    on Google
+                  </div>
                 </div>
               </div>
-              <div className="h-14 w-px bg-line" aria-hidden="true" />
-              <div>
-                <div className="flex items-baseline gap-1.5">
-                  <span className="font-display text-[1.875rem] font-extrabold leading-none tracking-[-0.02em] text-ink-950 tabular-nums">
-                    {value}
-                  </span>
-                  <span className="text-[0.9375rem] font-semibold text-ink-500">
-                    reviews
-                  </span>
-                </div>
-                <div className="mt-2 flex items-center gap-1.5 text-[0.8125rem] text-ink-500">
-                  <Icon name="google" size={15} />
-                  on Google
-                </div>
-              </div>
-            </div>
-          </Reveal>
+            </Reveal>
+          ) : null}
         </div>
 
-        <Reveal className="mt-10">
-          <CardCarousel
-            items={reviews}
-            ariaLabel="review"
-            renderItem={(review) => <ReviewCard key={review.id} {...review} />}
-          />
-        </Reveal>
-
-        <Reveal delay={140} className="mt-8">
-          <a
-            href={reviewsSummary.googleUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group/link inline-flex items-center gap-2 font-display text-[0.9375rem] font-semibold text-accent-600 transition-colors hover:text-accent-700"
-          >
-            See all reviews on Google
-            <Icon
-              name="arrowRight"
-              size={16}
-              className="transition-transform duration-200 group-hover/link:translate-x-0.5"
+        {hasReviews ? (
+          <Reveal className="mt-10">
+            <CardCarousel
+              items={reviews}
+              ariaLabel="review"
+              renderItem={(review) => <ReviewCard key={review.id} {...review} />}
             />
-          </a>
-        </Reveal>
+          </Reveal>
+        ) : (
+          <Reveal className="mt-10">
+            <p className="rounded-[var(--radius-lg)] border border-line bg-white px-6 py-8 text-center text-[0.9375rem] text-ink-500">
+              Customer reviews will appear here soon.
+            </p>
+          </Reveal>
+        )}
+
+        {reviewsSummary.googleUrl ? (
+          <Reveal delay={140} className="mt-8">
+            <a
+              href={reviewsSummary.googleUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group/link inline-flex items-center gap-2 font-display text-[0.9375rem] font-semibold text-accent-600 transition-colors hover:text-accent-700"
+            >
+              See all reviews on Google
+              <Icon
+                name="arrowRight"
+                size={16}
+                className="transition-transform duration-200 group-hover/link:translate-x-0.5"
+              />
+            </a>
+          </Reveal>
+        ) : null}
       </div>
     </section>
   );

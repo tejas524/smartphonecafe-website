@@ -21,7 +21,6 @@ const AZ_COLUMN = {
   "repair-services": "title",
   accessories: "name",
   "accessory-categories": "title",
-  "homepage-content": "section_key",
 };
 
 /** Loads id→label maps for any referenced resources used in the list columns. */
@@ -263,7 +262,7 @@ export default function ResourcePage({ resource, title, blurb }) {
             className="h-11 w-full rounded-[var(--radius-md)] border border-line bg-white pl-10 pr-3.5 text-[0.9375rem] text-ink-900 outline-none transition-colors placeholder:text-ink-400 focus:border-accent-400 focus:ring-2 focus:ring-accent-100"
           />
         </div>
-        <div className="flex items-center gap-2.5">
+        <div className="flex flex-wrap items-center gap-2.5">
           {schema.toggle ? (
             <select
               value={vis}
@@ -272,7 +271,7 @@ export default function ResourcePage({ resource, title, blurb }) {
                 setPage(1);
               }}
               aria-label="Visibility filter"
-              className="h-11 rounded-[var(--radius-md)] border border-line bg-white px-3 text-[0.875rem] text-ink-800 outline-none focus:border-accent-400"
+              className="h-11 min-w-0 flex-1 rounded-[var(--radius-md)] border border-line bg-white px-3 text-[0.875rem] text-ink-800 outline-none focus:border-accent-400 sm:flex-none"
             >
               <option value="all">All</option>
               <option value="on">Active only</option>
@@ -286,7 +285,7 @@ export default function ResourcePage({ resource, title, blurb }) {
               setPage(1);
             }}
             aria-label="Sort"
-            className="h-11 rounded-[var(--radius-md)] border border-line bg-white px-3 text-[0.875rem] text-ink-800 outline-none focus:border-accent-400"
+            className="h-11 min-w-0 flex-1 rounded-[var(--radius-md)] border border-line bg-white px-3 text-[0.875rem] text-ink-800 outline-none focus:border-accent-400 sm:flex-none"
           >
             <option value="order">Display order</option>
             <option value="newest">Newest</option>

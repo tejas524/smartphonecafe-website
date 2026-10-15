@@ -47,7 +47,7 @@ function buildVerifiedFacts(business) {
 }
 
 export default function About() {
-  const { business, serviceAreas } = useSiteData();
+  const { business } = useSiteData();
   const verifiedFacts = buildVerifiedFacts(business);
 
   usePageMeta({
@@ -273,56 +273,8 @@ export default function About() {
       </section>
 
       {/* ==================================================== areas served */}
-      <section className="border-t border-line bg-paper-soft" aria-labelledby="areas-heading">
-        <div className="shell py-12 lg:py-20">
-          <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
-            <div className="lg:col-span-5">
-              <SectionHeading
-                eyebrow="Where our customers come from"
-                id="areas-heading"
-                title="Serving Talegaon Dabhade and nearby"
-                lead="The store sits on the main Station Road stretch, which makes it a convenient stop for the surrounding towns and villages as well."
-              />
-            </div>
-
-            <div className="lg:col-span-7">
-              <Reveal delay={120}>
-                <ul className="flex flex-wrap gap-2">
-                  {serviceAreas.map((area) => (
-                    <li
-                      key={area}
-                      className="rounded-full border border-line bg-white px-3.5 py-1.5 text-[0.875rem] text-ink-700"
-                    >
-                      {area}
-                    </li>
-                  ))}
-                </ul>
-              </Reveal>
-
-              <Reveal delay={180}>
-                <p className="mt-6 text-[0.9375rem] leading-relaxed text-ink-600">
-                  Not on the list? You are still welcome. If you can reach
-                  Talegaon Station Road, you can reach us — and if you are unsure
-                  whether we can help with something specific, message us first
-                  and we will tell you honestly.
-                </p>
-              </Reveal>
-
-              <Reveal delay={240} className="mt-7">
-                <Button
-                  href={waLink(waMessages.directions())}
-                  external
-                  variant="wa"
-                  size="lg"
-                  icon="whatsapp"
-                >
-                  Ask us for directions
-                </Button>
-              </Reveal>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* The public "Areas we serve" section was removed. Directions and reach
+          are covered by the location section and the contact page. */}
 
       <LocationSection />
 

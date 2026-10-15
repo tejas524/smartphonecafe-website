@@ -46,7 +46,7 @@ export default function KpiCards({ summary }) {
             <p className="mt-3 text-[0.75rem] font-semibold uppercase tracking-[0.05em] text-ink-500">
               {c.label}
             </p>
-            <p className={`mt-0.5 font-display text-[1.375rem] font-extrabold tracking-[-0.02em] sm:text-[1.5rem] ${valueClasses(c.tone, value)}`}>
+            <p className={`mt-0.5 font-display text-[1.375rem] font-extrabold leading-tight tracking-[-0.02em] tabular-nums [overflow-wrap:anywhere] sm:text-[1.5rem] ${valueClasses(c.tone, value)}`}>
               {inr(value)}
             </p>
             <p className="mt-0.5 text-[0.6875rem] text-ink-400">{c.hint}</p>

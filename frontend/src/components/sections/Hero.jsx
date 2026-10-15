@@ -68,7 +68,7 @@ export default function Hero() {
         }}
       />
 
-      <div className="shell flex min-h-[26rem] flex-col justify-center py-14 sm:min-h-[36rem] lg:min-h-[42rem] lg:py-28">
+      <div className="shell flex min-h-[23rem] flex-col justify-center py-11 sm:min-h-[36rem] sm:py-14 lg:min-h-[42rem] lg:py-28">
         <div className="max-w-2xl">
           {/* Rating chip */}
           {reviewsSummary?.rating ? (
@@ -98,14 +98,14 @@ export default function Hero() {
 
           <h1
             id="hero-heading"
-            className="hero-rise mt-5 max-w-[18ch] text-[2.125rem] font-extrabold leading-[1.05] tracking-[-0.03em] text-white sm:text-[2.75rem] lg:text-[3.5rem]"
+            className="hero-rise mt-4 max-w-[18ch] text-[1.875rem] font-extrabold leading-[1.05] tracking-[-0.03em] text-white sm:mt-5 sm:text-[2.75rem] lg:text-[3.5rem]"
             style={{ animationDelay: "240ms" }}
           >
             {hero.heading || "Your trusted mobile destination in Talegaon Dabhade"}
           </h1>
 
           <p
-            className="hero-rise mt-5 max-w-xl text-[1.0625rem] leading-relaxed text-white/78 sm:text-[1.125rem]"
+            className="hero-rise mt-4 max-w-xl text-[1rem] leading-[1.55] text-white/78 sm:mt-5 sm:text-[1.125rem] sm:leading-relaxed"
             style={{ animationDelay: "360ms" }}
           >
             {hero.body ||
@@ -114,7 +114,7 @@ export default function Hero() {
           </p>
 
           <div
-            className="hero-rise mt-7 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center"
+            className="hero-rise mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center"
             style={{ animationDelay: "480ms" }}
           >
             <Button
@@ -140,7 +140,7 @@ export default function Hero() {
 
           {/* Trust / location row */}
           <div
-            className="hero-rise mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-[0.8125rem] text-white/70 lg:mt-10"
+            className="hero-rise mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 text-[0.875rem] text-white/70 sm:mt-8 sm:text-[0.8125rem] lg:mt-10"
             style={{ animationDelay: "600ms" }}
           >
             <span className="inline-flex items-center gap-2">

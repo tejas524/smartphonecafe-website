@@ -2,7 +2,10 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
+  define: {
+    "import.meta.env.VITE_STATIC_PREVIEW": JSON.stringify(mode === "preview"),
+  },
   plugins: [react(), tailwindcss()],
   // Dev-only: proxy API + uploaded images to the Express backend (port 4000)
   // so the frontend dev server can read live MySQL-backed content and images.
@@ -30,4 +33,4 @@ export default defineConfig({
       },
     },
   },
-});
+}));

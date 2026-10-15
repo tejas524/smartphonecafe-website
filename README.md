@@ -1,5 +1,9 @@
 # SmartphoneCafe
 
+For the current Vercel website preview and later Hostinger deployment, see
+[deployment instructions](docs/deployment.md). The older status notes below
+describe the initial project phase; the repository now includes the CMS/API.
+
 Website and CMS for **SmartphoneCafe**, a smartphone sales and repair shop on
 Station Road, Talegaon Dabhade, Maharashtra.
 

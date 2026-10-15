@@ -88,7 +88,7 @@ export const nav = [
   { label: "Smartphones", to: "/smartphones" },
   { label: "Repairs", to: "/#repairs" },
   { label: "Accessories", to: "/accessories" },
-  { label: "Offers", to: "/offers" },
+  { label: "Offers", to: "/#offers" },
   { label: "About", to: "/about" },
   { label: "Gallery", to: "/gallery" },
   { label: "Contact", to: "/contact" },

@@ -1,17 +1,21 @@
-import { lazy, Suspense } from "react";
 import { Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
 import { AdminAuthProvider, useAdminAuth } from "./AdminAuth.jsx";
 import { ToastProvider } from "./ui/Toast.jsx";
 import { Spinner } from "./ui/states.jsx";
 import AdminLayout from "./components/AdminLayout.jsx";
+import LazyRoute from "../components/LazyRoute.jsx";
 import Login from "./pages/Login.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import ResourcePage from "./pages/ResourcePage.jsx";
 import AccessoriesAdmin from "./pages/Accessories.jsx";
+import ReviewsAdmin from "./pages/Reviews.jsx";
+import BusinessInfo from "./pages/BusinessInfo.jsx";
 
 // Business Analytics pulls in the charting library, so it is code-split and only
-// downloaded when the owner actually opens the analytics screen.
-const Analytics = lazy(() => import("./pages/Analytics.jsx"));
+// downloaded when the owner actually opens the analytics screen. It is loaded
+// through LazyRoute so a blocked/failed chunk shows a retryable error state
+// instead of blanking the admin area.
+const loadAnalytics = () => import("./pages/Analytics.jsx");
 
 /** Blocks the admin area until the session check resolves. */
 function RequireAuth() {
@@ -42,11 +46,7 @@ export default function AdminApp() {
               <Route index element={<Dashboard />} />
               <Route
                 path="analytics"
-                element={
-                  <Suspense fallback={<div className="flex justify-center py-16"><Spinner size={26} /></div>}>
-                    <Analytics />
-                  </Suspense>
-                }
+                element={<LazyRoute loader={loadAnalytics} name="Analytics" homeTo="/admin" />}
               />
               <Route path="offers" element={<ResourcePage resource="offers" />} />
               <Route path="smartphones" element={<ResourcePage resource="smartphones" />} />
@@ -54,14 +54,8 @@ export default function AdminApp() {
               <Route path="repairs" element={<ResourcePage resource="repair-services" title="Repairs" />} />
               <Route path="accessories" element={<AccessoriesAdmin />} />
               <Route path="gallery" element={<ResourcePage resource="gallery" />} />
-              <Route
-                path="business-info"
-                element={<ResourcePage resource="business-info" title="Business Info" />}
-              />
-              <Route
-                path="homepage"
-                element={<ResourcePage resource="homepage-content" title="Homepage Content" />}
-              />
+              <Route path="reviews" element={<ReviewsAdmin />} />
+              <Route path="business-info" element={<BusinessInfo />} />
             </Route>
           </Route>
           <Route path="*" element={<Navigate to="/admin" replace />} />

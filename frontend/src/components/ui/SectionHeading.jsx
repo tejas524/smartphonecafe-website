@@ -22,10 +22,10 @@ export default function SectionHeading({
 
   const titleSize =
     size === "lg"
-      ? "text-[2rem] sm:text-[2.5rem] lg:text-[3rem]"
+      ? "text-[1.75rem] sm:text-[2.5rem] lg:text-[3rem]"
       : size === "sm"
         ? "text-[1.375rem] sm:text-[1.625rem]"
-        : "text-[1.75rem] sm:text-[2.125rem] lg:text-[2.5rem]";
+        : "text-[1.5rem] sm:text-[2.125rem] lg:text-[2.5rem]";
 
   return (
     <div
@@ -53,7 +53,7 @@ export default function SectionHeading({
         <Reveal
           as="p"
           delay={120}
-          className={`mt-4 text-[1.0625rem] leading-relaxed sm:text-[1.125rem] ${
+          className={`mt-4 text-[1rem] leading-relaxed sm:text-[1.125rem] ${
             isLight ? "text-ink-300" : "text-ink-600"
           } ${align === "center" ? "max-w-2xl" : ""}`}
         >

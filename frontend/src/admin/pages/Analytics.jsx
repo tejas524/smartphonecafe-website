@@ -20,7 +20,7 @@ const CURRENT_YEAR = now.getFullYear();
 const YEARS = Array.from({ length: 6 }, (_, i) => CURRENT_YEAR - 4 + i); // current-4 .. current+1
 
 const selectCls =
-  "rounded-[var(--radius-md)] border border-line bg-white px-3 py-2 text-[0.875rem] font-medium text-ink-900 outline-none transition-colors focus:border-accent-400 focus:ring-2 focus:ring-accent-100";
+  "w-full rounded-[var(--radius-md)] border border-line bg-white px-3 py-2 text-[0.875rem] font-medium text-ink-900 outline-none transition-colors focus:border-accent-400 focus:ring-2 focus:ring-accent-100 sm:w-auto";
 
 function SectionCard({ title, subtitle, right, children }) {
   return (

@@ -5,15 +5,15 @@ import { useAdminAuth } from "../AdminAuth.jsx";
 
 const NAV = [
   { to: "/admin", label: "Dashboard", icon: "dashboard", end: true },
-  { to: "/admin/analytics", label: "Business Analytics", icon: "chart" },
   { to: "/admin/offers", label: "Offers", icon: "tag" },
   { to: "/admin/smartphones", label: "Smartphones", icon: "smartphone" },
   { to: "/admin/brands", label: "Brands", icon: "sparkle" },
   { to: "/admin/repairs", label: "Repairs", icon: "wrench" },
   { to: "/admin/accessories", label: "Accessories", icon: "headphones" },
   { to: "/admin/gallery", label: "Gallery", icon: "image" },
+  { to: "/admin/reviews", label: "Reviews", icon: "star" },
   { to: "/admin/business-info", label: "Business Info", icon: "mapPin" },
-  { to: "/admin/homepage", label: "Homepage Content", icon: "store" },
+  { to: "/admin/analytics", label: "Business Analytics", icon: "chart" },
 ];
 
 function NavItem({ item, onNavigate }) {

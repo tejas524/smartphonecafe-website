@@ -30,8 +30,10 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close the drawer whenever the route changes.
-  useEffect(() => setOpen(false), [pathname]);
+  // Close the drawer whenever the route OR in-page hash changes. Including the
+  // hash means tapping an on-page link like "Offers" (/#offers) closes the
+  // mobile menu even when the pathname stays on the homepage.
+  useEffect(() => setOpen(false), [pathname, hash]);
 
   // Lock background scroll while the drawer is open.
   useEffect(() => {

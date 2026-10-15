@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "../ui/Button.jsx";
 import Icon from "../Icon.jsx";
 import Reveal from "../ui/Reveal.jsx";
@@ -15,10 +15,12 @@ import { getStoreStatus } from "../../utils/hours.js";
 export default function LocationSection({ tone = "light" }) {
   const { business, directionsUrl, mapEmbedUrl } = useSiteData();
   const [status, setStatus] = useState({ known: false });
-  // Privacy-friendly click-to-load: the Google Maps iframe (which can set
-  // third-party cookies and sends your IP to Google) is not mounted until the
-  // visitor explicitly asks for it. The text links below always work without it.
+  // The Google Maps iframe is heavy (it can set third-party cookies and sends
+  // the visitor's IP to Google), so it is still deferred rather than mounted
+  // with the page — but it now loads on its own as the map scrolls into view,
+  // so the visitor never has to tap a button to see it.
   const [mapLoaded, setMapLoaded] = useState(false);
+  const mapRef = useRef(null);
 
   // Computed after mount so the server-rendered HTML never carries a stale
   // open/closed claim, and refreshed periodically while the page is open.
@@ -28,6 +30,30 @@ export default function LocationSection({ tone = "light" }) {
     const id = setInterval(update, 60_000);
     return () => clearInterval(id);
   }, []);
+
+  // Auto-load the map as it nears the viewport: IntersectionObserver keeps the
+  // initial page light (the iframe is only fetched once the visitor scrolls
+  // toward the location) while removing the manual tap. If the observer is
+  // unavailable, load the map straight away rather than leaving a dead frame.
+  useEffect(() => {
+    if (mapLoaded) return undefined;
+    const node = mapRef.current;
+    if (!node || typeof IntersectionObserver === "undefined") {
+      setMapLoaded(true);
+      return undefined;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setMapLoaded(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "300px 0px" },
+    );
+    io.observe(node);
+    return () => io.disconnect();
+  }, [mapLoaded]);
 
   const isDark = tone === "dark";
 
@@ -135,8 +161,8 @@ export default function LocationSection({ tone = "light" }) {
             <dl className="mt-8 divide-y divide-line border-y border-line">
               {rows.map((row, i) => (
                 <Reveal key={row.label} delay={i * 50}>
-                  <div className="flex gap-4 py-4">
-                    <dt className="flex w-[8.5rem] shrink-0 items-start gap-2.5 text-[0.8125rem] font-semibold text-ink-500">
+                  <div className="flex flex-col gap-1.5 py-4 sm:flex-row sm:gap-4">
+                    <dt className="flex shrink-0 items-center gap-2.5 text-[0.8125rem] font-semibold text-ink-500 sm:w-[8.5rem] sm:items-start">
                       <Icon
                         name={row.icon}
                         size={15}
@@ -193,7 +219,10 @@ export default function LocationSection({ tone = "light" }) {
 
           {/* Map */}
           <Reveal delay={140} className="lg:col-span-7">
-            <div className="overflow-hidden rounded-[var(--radius-lg)] border border-line bg-paper-mute">
+            <div
+              ref={mapRef}
+              className="overflow-hidden rounded-[var(--radius-lg)] border border-line bg-paper-mute"
+            >
               {mapLoaded ? (
                 <iframe
                   title={`Map showing the location of ${business.name} in Talegaon Dabhade`}
@@ -204,7 +233,8 @@ export default function LocationSection({ tone = "light" }) {
                 />
               ) : (
                 <div className="relative flex h-[22rem] w-full flex-col items-center justify-center gap-4 px-6 text-center sm:h-[26rem] lg:h-[34rem]">
-                  {/* Faint map-style grid so the placeholder reads as a map area */}
+                  {/* Faint map-style grid so the area reads as a map for the
+                      brief moment before the iframe auto-loads on scroll. */}
                   <div
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-0 opacity-[0.6]"
@@ -225,26 +255,16 @@ export default function LocationSection({ tone = "light" }) {
                       {business.address.line1}, {business.address.line2}
                     </p>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => setMapLoaded(true)}
-                    className="relative inline-flex items-center gap-2 rounded-[11px] bg-ink-950 px-4 py-2.5 font-display text-[0.875rem] font-semibold text-white transition-colors hover:bg-ink-800"
+                  <p
+                    role="status"
+                    aria-live="polite"
+                    className="relative inline-flex items-center gap-2 text-[0.8125rem] font-medium text-ink-400"
                   >
-                    <Icon name="google" size={16} />
-                    Load Google Map
-                  </button>
-                  <p className="relative max-w-xs text-[0.75rem] leading-relaxed text-ink-400">
-                    Loads content from Google, which may set its own cookies. You
-                    can also{" "}
-                    <a
-                      href={directionsUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-medium text-accent-600 underline decoration-line-strong underline-offset-2 hover:text-accent-700"
-                    >
-                      open directions in Google Maps
-                    </a>
-                    .
+                    <span
+                      aria-hidden="true"
+                      className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-line-strong border-t-accent-600 motion-reduce:animate-none"
+                    />
+                    Loading map…
                   </p>
                 </div>
               )}

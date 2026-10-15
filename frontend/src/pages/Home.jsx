@@ -24,21 +24,21 @@ import usePageMeta from "../utils/usePageMeta.js";
  *   1 Utility bar · 2 Navigation        (layout/Header + TopBar)
  *   3 Hero            (full-width real store photo + readability gradient)
  *   4 Store highlights (quiet divider strip)
- *   5 Offers          (editorial text cards, no artwork)
+ *   5 Offers          (image-only draggable card carousel)
  *   6 Brands          (editorial logo wall)
  *   7 Google reviews  (data-driven; animated review count)
- *   8 Smartphones     (text cards + neutral image area, shared carousel)
+ *   8 Smartphones     (product cards with photos, shared carousel)
  *   9 Repairs         (real store photo + text rows)
- *  10 Accessories     (text category grid, no images)
+ *  10 Accessories     (category cards with photos)
  *  11 Inside SmartphoneCafe (asymmetric real-photo gallery)
  *  12 About           (editorial split + real photo)
  *  13 Visit store     (clean split: details + Google map)
  *  14 Final CTA       (dark band)
  *  15 Footer          (layout/Footer)
  *
- * No price, stock, spec or availability is asserted anywhere. Offers,
- * smartphones and accessories carry no images in this phase; every card routes
- * to a WhatsApp enquiry so terms are confirmed with the store.
+ * No price, stock, spec or availability is asserted anywhere. Every offer,
+ * smartphone and accessory card routes to a WhatsApp enquiry so terms are
+ * confirmed with the store.
  */
 export default function Home() {
   const { business, home } = useSiteData();
@@ -164,7 +164,7 @@ export default function Home() {
 
               <Reveal
                 delay={140}
-                className="mt-6 text-[1.0625rem] leading-relaxed text-ink-600"
+                className="mt-6 text-[1rem] leading-relaxed text-ink-600 sm:text-[1.0625rem]"
               >
                 <p>
                   {business.name} is a local mobile phone store and repair shop

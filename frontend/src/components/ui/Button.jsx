@@ -32,11 +32,19 @@ const VARIANTS = {
  * Below 360px the `whitespace-nowrap` in the base is relaxed: a long label such
  * as "Check availability on WhatsApp" otherwise enforces a ~298px min-content
  * width and pushes the whole page wider than a 320px viewport.
+ *
+ * The compact `sm` size keeps a comfortable ~44px touch target on phones
+ * (min-h-11) and only tightens to its 36px desktop footprint from the `sm`
+ * breakpoint up, so mobile taps stay accessible without altering the desktop
+ * layout. `lg` follows the same idea in reverse: a restrained 44px pill on
+ * phones (min-h-11, tighter padding + radius) that grows to its full 52px
+ * presence from `sm` up, so hero and section CTAs don't feel oversized on a
+ * small screen while staying an accessible tap target.
  */
 const SIZES = {
-  sm: "min-h-9 px-3.5 py-1.5 text-[0.8125rem] gap-1.5 rounded-[10px]",
-  md: "min-h-11 px-5 py-2 text-[0.875rem] gap-2 rounded-[12px]",
-  lg: "min-h-[3.25rem] px-6 py-2.5 text-[0.9375rem] gap-2 rounded-[14px]",
+  sm: "min-h-11 sm:min-h-9 px-3.5 py-1.5 text-[0.875rem] sm:text-[0.8125rem] gap-1.5 rounded-[10px]",
+  md: "min-h-11 px-4 py-2 text-[0.9375rem] sm:px-5 sm:text-[0.875rem] gap-2 rounded-[12px]",
+  lg: "min-h-11 px-4.5 py-2.5 text-[0.9375rem] gap-2 rounded-[12px] sm:min-h-[3.25rem] sm:px-6 sm:rounded-[14px]",
 };
 
 export default function Button({

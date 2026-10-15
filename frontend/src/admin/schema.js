@@ -49,12 +49,6 @@ const VALUE_TYPE = [
  */
 export const SECTIONS = [
   {
-    resource: "homepage-content",
-    label: "Homepage",
-    icon: "store",
-    blurb: "Section headings and copy on the home page.",
-  },
-  {
     resource: "offers",
     label: "Offers",
     icon: "tag",
@@ -97,6 +91,12 @@ export const SECTIONS = [
     blurb: "Store photographs.",
   },
   {
+    resource: "reviews",
+    label: "Reviews",
+    icon: "star",
+    blurb: "Customer reviews shown on the homepage.",
+  },
+  {
     resource: "business-info",
     label: "Business info",
     icon: "mapPin",
@@ -105,30 +105,6 @@ export const SECTIONS = [
 ];
 
 export const RESOURCE_SCHEMA = {
-  "homepage-content": {
-    label: "Homepage content",
-    titleKey: "section_key",
-    image: "image_path",
-    toggle: "is_visible",
-    reorderable: true,
-    list: [
-      { key: "section_key", label: "Section" },
-      { key: "heading", label: "Heading" },
-    ],
-    fields: [
-      { key: "section_key", label: "Section key", type: "text", required: true, help: "Stable id, e.g. hero, about, repairs." },
-      { key: "eyebrow", label: "Eyebrow", type: "text" },
-      { key: "heading", label: "Heading", type: "text" },
-      { key: "subheading", label: "Subheading", type: "text", full: true },
-      { key: "body", label: "Body", type: "textarea", full: true },
-      { key: "cta_label", label: "Button label", type: "text" },
-      { key: "cta_url", label: "Button link", type: "text" },
-      { key: "image_path", label: "Image", type: "image" },
-      { key: "is_visible", label: "Visible on site", type: "bool" },
-      { key: "display_order", label: "Order", type: "number" },
-    ],
-  },
-
   offers: {
     label: "Offers",
     titleKey: "title",
@@ -309,6 +285,25 @@ export const RESOURCE_SCHEMA = {
       { key: "is_hero", label: "Hero image", type: "bool" },
       { key: "is_featured", label: "Featured", type: "bool" },
       { key: "is_active", label: "Active", type: "bool" },
+      { key: "display_order", label: "Order", type: "number" },
+    ],
+  },
+
+  reviews: {
+    label: "Reviews",
+    titleKey: "reviewer_name",
+    image: null,
+    toggle: "is_active",
+    reorderable: true,
+    list: [
+      { key: "reviewer_name", label: "Reviewer" },
+      { key: "rating", label: "Rating" },
+    ],
+    fields: [
+      { key: "reviewer_name", label: "Reviewer name", type: "text", required: true, help: "Shown on the card; its first letter becomes the avatar." },
+      { key: "review_text", label: "Review", type: "textarea", full: true, required: true },
+      { key: "rating", label: "Rating (stars)", type: "number", required: true, help: "Whole stars from 1 to 5." },
+      { key: "is_active", label: "Show on site", type: "bool" },
       { key: "display_order", label: "Order", type: "number" },
     ],
   },

@@ -98,7 +98,7 @@ export default function SmartphoneProductCard({ model }) {
             {model.brand}
           </p>
         ) : null}
-        <h3 className="mt-1 font-display text-[0.9375rem] font-bold leading-snug tracking-[-0.015em] text-ink-950 sm:text-[1.0625rem]">
+        <h3 className="mt-1 font-display text-[1.0625rem] font-bold leading-snug tracking-[-0.015em] text-ink-950">
           <Link to={to} className="transition-colors hover:text-accent-700">
             {model.model}
           </Link>

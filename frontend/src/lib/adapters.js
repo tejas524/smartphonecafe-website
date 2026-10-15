@@ -80,14 +80,35 @@ export function buildMapEmbedUrl(business) {
   )}&z=16&hl=en&output=embed`;
 }
 
-export function adaptServiceAreas(b = {}) {
-  return str(b.service_areas)
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean);
-}
-
 export const adaptSiteUrl = (b = {}) => str(b.site_url) || "https://smartphonecafe.in";
+
+/**
+ * reviews rows -> the shape ReviewCard consumes. No reviewer photo is stored or
+ * fetched: the card renders an avatar from the first letter of `name`.
+ */
+export const adaptReviews = (rows) =>
+  byOrder(rows).map((r) => ({
+    id: r.id,
+    name: r.reviewer_name || "",
+    text: r.review_text || "",
+    rating: Number(r.rating) || 5,
+  }));
+
+/**
+ * The public review summary (big rating + total). Both figures are editable
+ * business_info values, NOT computed from the review rows, so the owner can
+ * show the real Google totals while curating individual reviews. `googleUrl`
+ * reuses the verified Maps short link.
+ */
+export function adaptReviewsSummary(b = {}) {
+  const rating = b.review_rating != null ? Number(b.review_rating) : 0;
+  const count = b.review_count != null ? Number(b.review_count) : 0;
+  return {
+    rating: Number.isFinite(rating) ? rating : 0,
+    reviewCount: Number.isFinite(count) ? count : 0,
+    googleUrl: str(b.google_short_url) || str(b.google_place_url),
+  };
+}
 
 /** homepage_content rows -> { [section_key]: row } for easy lookup. */
 export function indexHomeSections(rows = []) {

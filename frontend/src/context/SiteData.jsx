@@ -16,27 +16,23 @@ import {
   adaptSmartphones,
   adaptAccessoryCategories,
   adaptAccessoryItems,
-  adaptServiceAreas,
   adaptSiteUrl,
+  adaptReviews,
+  adaptReviewsSummary,
   buildDirectionsUrl,
   buildMapEmbedUrl,
   indexHomeSections,
 } from "../lib/adapters.js";
 // Static identity fallbacks. `nav` has no DB table (site navigation is fixed);
-// business/serviceAreas act as a resilience fallback if the API is unreachable
-// so the header/footer never render blank.
+// `business` acts as a resilience fallback if the API is unreachable so the
+// header/footer never render blank.
 import {
   business as staticBusiness,
-  serviceAreas as staticServiceAreas,
   siteUrl as staticSiteUrl,
   directionsUrl as staticDirectionsUrl,
   mapEmbedUrl as staticMapEmbedUrl,
   nav,
 } from "../data/site.js";
-// Reviews are supplied data shaped like an API payload. Exposing them through
-// this provider keeps the whole site reading from one hook, so swapping in a
-// live Google reviews API later is a single-file change here.
-import { reviews, reviewsSummary } from "../data/reviews.js";
 
 const SiteDataContext = createContext(null);
 
@@ -65,7 +61,6 @@ function assemble(bootstrap) {
   });
   return {
     business,
-    serviceAreas: adaptServiceAreas(bootstrap.business),
     siteUrl: adaptSiteUrl(bootstrap.business),
     directionsUrl: buildDirectionsUrl(business),
     mapEmbedUrl: buildMapEmbedUrl(business),
@@ -80,8 +75,8 @@ function assemble(bootstrap) {
       categories: accessoryCategories,
       items: accessoryItems,
     },
-    reviews,
-    reviewsSummary,
+    reviews: adaptReviews(bootstrap.reviews),
+    reviewsSummary: adaptReviewsSummary(bootstrap.business),
   };
 }
 
@@ -89,7 +84,6 @@ function assemble(bootstrap) {
 function staticFallback() {
   return {
     business: staticBusiness,
-    serviceAreas: staticServiceAreas,
     siteUrl: staticSiteUrl,
     directionsUrl: staticDirectionsUrl,
     mapEmbedUrl: staticMapEmbedUrl,
@@ -101,8 +95,11 @@ function staticFallback() {
     gallery: [],
     smartphones: [],
     accessories: { categories: [], items: [] },
-    reviews,
-    reviewsSummary,
+    // API unreachable: show no reviews rather than stale hard-coded ones. The
+    // summary reads from the (also unavailable) business facts, so it stays
+    // empty until the API responds; ReviewsSection renders a graceful state.
+    reviews: [],
+    reviewsSummary: { rating: 0, reviewCount: 0, googleUrl: staticBusiness.google.shortUrl },
   };
 }
 

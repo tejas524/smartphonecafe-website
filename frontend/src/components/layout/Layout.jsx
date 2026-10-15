@@ -7,24 +7,41 @@ import MobileActionBar from "./MobileActionBar.jsx";
 /**
  * Scroll behaviour on navigation:
  *   - plain route change → jump to top;
- *   - route change carrying a #hash → smooth-scroll to that section (after the
- *     new page has painted). Accounts for the sticky header via CSS
- *     scroll-margin / scroll-padding-top.
+ *   - route change carrying a #hash → smooth-scroll to that section once it
+ *     exists. Because pages are code-split and lazily rendered, the target may
+ *     not be in the DOM on the first frame (e.g. arriving at "/#offers" from an
+ *     inner route while the Home chunk loads). We therefore retry across
+ *     animation frames until the element mounts, up to a short deadline, rather
+ *     than relying on a single fragile timeout. Sticky-header offset is handled
+ *     by each section's CSS scroll-margin-top.
  */
 function ScrollManager() {
   const { pathname, hash } = useLocation();
   useEffect(() => {
-    if (hash) {
-      const id = hash.slice(1);
-      // Wait a frame so the target section exists after the route renders.
-      const raf = requestAnimationFrame(() => {
-        const el = document.getElementById(id);
-        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-        else window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-      });
-      return () => cancelAnimationFrame(raf);
+    if (!hash) {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      return undefined;
     }
-    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+
+    const id = hash.slice(1);
+    const deadline = (typeof performance !== "undefined" ? performance.now() : Date.now()) + 3000;
+    let raf = 0;
+
+    const attempt = () => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+      }
+      const now = typeof performance !== "undefined" ? performance.now() : Date.now();
+      if (now < deadline) {
+        raf = requestAnimationFrame(attempt);
+      }
+      // Deadline passed and the section never appeared: leave the page as-is.
+    };
+
+    raf = requestAnimationFrame(attempt);
+    return () => cancelAnimationFrame(raf);
   }, [pathname, hash]);
   return null;
 }

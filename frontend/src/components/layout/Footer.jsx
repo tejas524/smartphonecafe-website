@@ -5,7 +5,7 @@ import { useSiteData } from "../../context/SiteData.jsx";
 import { waLink, waMessages } from "../../utils/whatsapp.js";
 
 export default function Footer() {
-  const { business, nav, serviceAreas, reviewsSummary } = useSiteData();
+  const { business, nav, reviewsSummary } = useSiteData();
   const year = new Date().getFullYear();
 
   const linkCls =
@@ -16,7 +16,7 @@ export default function Footer() {
       <div className="shell py-14 lg:py-16">
         <div className="grid gap-11 lg:grid-cols-12 lg:gap-8">
           {/* Brand */}
-          <div className="lg:col-span-4">
+          <div className="lg:col-span-5">
             <Logo size={40} tone="light" />
 
             <p className="mt-5 max-w-xs text-[0.9375rem] leading-relaxed text-ink-400">
@@ -68,7 +68,7 @@ export default function Footer() {
           </div>
 
           {/* Navigation */}
-          <nav aria-label="Footer" className="lg:col-span-2">
+          <nav aria-label="Footer" className="lg:col-span-3">
             <h2 className="eyebrow text-white">Explore</h2>
             <ul className="mt-4 space-y-2.5">
               {nav.map((item) => (
@@ -82,7 +82,7 @@ export default function Footer() {
           </nav>
 
           {/* Contact */}
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-4">
             <h2 className="eyebrow text-white">Visit the store</h2>
 
             <address className="mt-4 not-italic">
@@ -129,21 +129,6 @@ export default function Footer() {
                   <Icon name="external" size={13} className="text-ink-600" />
                 </a>
               </li>
-            </ul>
-          </div>
-
-          {/* Areas */}
-          <div className="lg:col-span-3">
-            <h2 className="eyebrow text-white">Areas we serve</h2>
-            <ul className="mt-4 flex flex-wrap gap-x-3 gap-y-2">
-              {serviceAreas.map((area) => (
-                <li
-                  key={area}
-                  className="text-[0.8125rem] text-ink-500"
-                >
-                  {area}
-                </li>
-              ))}
             </ul>
 
             <a

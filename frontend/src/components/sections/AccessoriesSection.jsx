@@ -47,11 +47,11 @@ export function AccessoryCard({ category, index = 0 }) {
         </div>
 
         <div className="flex flex-1 flex-col p-4 sm:p-5">
-          <h3 className="font-display text-[0.9375rem] font-bold leading-snug tracking-[-0.02em] text-ink-950 sm:text-[1.0625rem]">
+          <h3 className="font-display text-[1.0625rem] font-bold leading-snug tracking-[-0.02em] text-ink-950">
             {category.title}
           </h3>
           {category.blurb ? (
-            <p className="mt-1.5 line-clamp-2 flex-1 text-[0.8125rem] leading-relaxed text-ink-600 sm:text-[0.875rem]">
+            <p className="mt-1.5 line-clamp-2 flex-1 text-[0.875rem] leading-relaxed text-ink-600">
               {category.blurb}
             </p>
           ) : null}

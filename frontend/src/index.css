@@ -173,17 +173,6 @@
       transparent
     );
   }
-
-  /* Subtle engineered grid backdrop for dark panels */
-  .grid-veil {
-    background-image: linear-gradient(
-        to right,
-        rgb(255 255 255 / 0.045) 1px,
-        transparent 1px
-      ),
-      linear-gradient(to bottom, rgb(255 255 255 / 0.045) 1px, transparent 1px);
-    background-size: 56px 56px;
-  }
 }
 
 /* ==========================================================================

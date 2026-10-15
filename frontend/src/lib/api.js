@@ -22,6 +22,9 @@ export class ApiError extends Error {
 }
 
 async function request(path, { method = "GET", body, headers, signal } = {}) {
+  if (import.meta.env.VITE_STATIC_PREVIEW && path.startsWith("/api/")) {
+    throw new ApiError("Admin and live API access are unavailable in this website preview.", { status: 503 });
+  }
   const opts = {
     method,
     credentials: "include", // send/receive the httpOnly admin session cookie
@@ -78,7 +81,10 @@ async function unwrap(path, opts) {
 
 export const publicApi = {
   /** Everything the public site needs in one call. */
-  bootstrap: (signal) => unwrap("/api/public/bootstrap", { signal }),
+  bootstrap: (signal) => unwrap(
+    import.meta.env.VITE_STATIC_PREVIEW ? "/preview-content.json" : "/api/public/bootstrap",
+    { signal }
+  ),
   home: (signal) => unwrap("/api/public/home", { signal }),
   business: (signal) => unwrap("/api/public/business", { signal }),
   brands: (signal) => unwrap("/api/public/brands", { signal }),

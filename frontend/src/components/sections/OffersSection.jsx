@@ -1,101 +1,30 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import Reveal from "../ui/Reveal.jsx";
-import SectionHeading from "../ui/SectionHeading.jsx";
 import Icon from "../Icon.jsx";
+import OfferCardCarousel from "../ui/OfferCardCarousel.jsx";
 import { useSiteData } from "../../context/SiteData.jsx";
+import { waLink, waMessages } from "../../utils/whatsapp.js";
 
 /**
- * Offers — a single large promotional-banner carousel.
+ * Offers — a centered section header, an image-only banner carousel
+ * (OfferCardCarousel) and one WhatsApp enquiry below it.
  *
- * One approved offer artwork is shown at a time, filling a wide container and
- * dominating the section. The artwork keeps its own aspect ratio (object-fit:
- * contain on a neutral field, never cropped or stretched). Tapping the current
- * slide opens that offer's WhatsApp CTA so terms are confirmed with the store.
+ * Everything stays API-driven: MySQL → /bootstrap → useSiteData() → here. The
+ * offers array is already filtered to `is_active = 1` and ordered by
+ * `display_order` on the server, so it is passed straight through — no second
+ * offers system, no hardcoded record, and no invented price, discount or copy.
+ * The eyebrow, heading and intro are CMS-editable with the copy below as the
+ * fallback, exactly as the other sections do it.
  *
- * It is a native scroll-snap carousel (one slide per view): swipe on touch,
- * previous/next arrows and pagination dots on top. A slow, subtle autoplay
- * advances slides but pauses on hover/focus, stops for good once the operator
- * interacts, and is disabled entirely under prefers-reduced-motion.
- *
- * Data stays API-driven: MySQL -> API -> useSiteData() -> here. Nothing about
- * the four offers is hardcoded.
+ * The banner artwork is the whole card: no title, category, discount repeat,
+ * icon, overlay CTA or metadata is layered on top of it, and the card is not a
+ * link — the banners carry their own calls to action. The section's single call
+ * to action is the WhatsApp button under the rail. With no active offers the
+ * whole section hides itself rather than rendering an empty frame.
  */
-const AUTOPLAY_MS = 6500;
-
-function prefersReducedMotion() {
-  return (
-    typeof window !== "undefined" &&
-    window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  );
-}
-
 export default function OffersSection() {
   const { offers, home } = useSiteData();
-  const trackRef = useRef(null);
-  const [index, setIndex] = useState(0);
-  const interacted = useRef(false);
-  const [paused, setPaused] = useState(false);
 
-  const count = offers.length;
-
-  const scrollToIndex = useCallback((i, smooth = true) => {
-    const el = trackRef.current;
-    if (!el) return;
-    el.scrollTo({
-      left: i * el.clientWidth,
-      behavior: smooth && !prefersReducedMotion() ? "smooth" : "auto",
-    });
-  }, []);
-
-  // Track the active slide from the scroll position.
-  useEffect(() => {
-    const el = trackRef.current;
-    if (!el) return;
-    const onScroll = () => {
-      const i = Math.round(el.scrollLeft / Math.max(1, el.clientWidth));
-      setIndex(i);
-    };
-    el.addEventListener("scroll", onScroll, { passive: true });
-    return () => el.removeEventListener("scroll", onScroll);
-  }, [count]);
-
-  const go = useCallback(
-    (dir) => {
-      interacted.current = true;
-      const el = trackRef.current;
-      if (!el) return;
-      const next = Math.min(count - 1, Math.max(0, index + dir));
-      scrollToIndex(next);
-    },
-    [count, index, scrollToIndex]
-  );
-
-  const jump = useCallback(
-    (i) => {
-      interacted.current = true;
-      scrollToIndex(i);
-    },
-    [scrollToIndex]
-  );
-
-  // Subtle autoplay: wraps once per cycle, pauses on hover/focus, and halts for
-  // good after any manual interaction; never runs under reduced motion.
-  useEffect(() => {
-    if (count <= 1 || paused || prefersReducedMotion()) return undefined;
-    const id = setInterval(() => {
-      if (interacted.current) return;
-      const el = trackRef.current;
-      if (!el) return;
-      const cur = Math.round(el.scrollLeft / Math.max(1, el.clientWidth));
-      const next = cur >= count - 1 ? 0 : cur + 1;
-      scrollToIndex(next);
-    }, AUTOPLAY_MS);
-    return () => clearInterval(id);
-  }, [count, paused, scrollToIndex]);
-
-  if (!count) return null;
+  if (!offers.length) return null;
   const content = home.offers || {};
 
   return (
@@ -105,135 +34,54 @@ export default function OffersSection() {
       aria-labelledby="offers-heading"
       style={{ scrollMarginTop: "5.5rem" }}
     >
-      <div className="shell py-12 lg:py-16">
-        {/* Header row */}
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <SectionHeading
-              eyebrow={content.eyebrow || "Offers"}
-              id="offers-heading"
-              title={content.heading || "Deals for you"}
-              size="sm"
-            />
-            <Reveal
-              as="p"
-              delay={120}
-              className="mt-1.5 max-w-xl text-[0.875rem] leading-relaxed text-ink-500"
-            >
-              {content.subheading ||
-                "The latest deals running in store — see them all on the offers page."}
-            </Reveal>
-          </div>
+      <div className="shell py-8 sm:py-12 lg:py-16">
+        {/* Centered header — tighter rhythm on phones, roomier from `sm` up. */}
+        <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
+          {/* The .eyebrow token is 11px; the utilities layer wins over it so
+              the kicker sits at 12px on phones as specified. */}
+          <Reveal as="p" className="eyebrow text-[0.75rem] text-accent-600">
+            {content.eyebrow || "Offers"}
+          </Reveal>
 
-          <Reveal delay={120}>
-            <Link
-              to="/offers"
-              className="group/link inline-flex items-center gap-1.5 font-display text-[0.875rem] font-semibold text-accent-600 transition-colors hover:text-accent-700"
-            >
-              See all offers
-              <Icon
-                name="arrowRight"
-                size={15}
-                className="transition-transform duration-200 group-hover/link:translate-x-0.5"
-              />
-            </Link>
+          <Reveal
+            as="h2"
+            id="offers-heading"
+            delay={60}
+            className="mt-2.5 text-[1.6875rem] text-ink-950 sm:mt-3.5 sm:text-[2.375rem] lg:text-[2.75rem]"
+          >
+            {content.heading || "Deals for you"}
+          </Reveal>
+
+          <Reveal
+            as="p"
+            delay={120}
+            className="mt-2.5 max-w-xl text-[0.875rem] leading-relaxed text-ink-600 sm:mt-4 sm:text-[1.0625rem]"
+          >
+            {content.subheading ||
+              "The latest deals running in store — message us on WhatsApp to confirm any offer."}
           </Reveal>
         </div>
 
-        {/* Carousel */}
-        <Reveal delay={120} className="mt-5 sm:mt-6">
-          <div
-            className="relative -mx-3 w-[calc(100%+1.5rem)] sm:mx-auto sm:w-full"
-            role="region"
-            aria-roledescription="carousel"
-            aria-label="Store offers"
-            onMouseEnter={() => setPaused(true)}
-            onMouseLeave={() => setPaused(false)}
-            onFocusCapture={() => setPaused(true)}
-            onBlurCapture={() => setPaused(false)}
+        {/* Image-only banner rail. Drag / swipe / arrows / dots all drive the
+            same Embla instance; its entrance animation lives in the component. */}
+        <div className="mt-5 sm:mt-8">
+          <OfferCardCarousel offers={offers} ariaLabel="Store offers" />
+        </div>
+
+        {/* The section's one call to action, deliberately outside the cards.
+            Height and radius are set here rather than via <Button size="lg">
+            because that size is 44px on phones, and this CTA is specified at
+            48–52px; the colours and type come from the same `wa` Button tokens. */}
+        <Reveal delay={120} className="mt-5 flex justify-center sm:mt-8">
+          <a
+            href={waLink(waMessages.offers())}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-12 w-full max-w-md items-center justify-center gap-2.5 rounded-full bg-wa-600 px-6 font-display text-[0.9375rem] font-semibold tracking-[-0.01em] text-white shadow-[0_1px_2px_rgb(18_140_63/0.2),0_10px_24px_-12px_rgb(18_140_63/0.6)] transition-colors duration-200 hover:bg-wa-700 active:bg-wa-700 sm:h-[3.25rem] sm:w-auto sm:text-base"
           >
-            <ul
-              ref={trackRef}
-              className="no-scrollbar flex snap-x snap-mandatory overflow-x-auto scroll-smooth rounded-[var(--radius-lg)] border border-line bg-white shadow-[var(--shadow-card)]"
-            >
-              {offers.map((offer, i) => {
-                return (
-                  <li
-                    key={offer.id}
-                    className="w-full shrink-0 snap-center"
-                    aria-roledescription="slide"
-                    aria-label={`${i + 1} of ${count}: ${offer.title}`}
-                    aria-hidden={i !== index}
-                  >
-                    {/* Non-interactive banner: the image is not a link and has
-                        no navigation action. "See all offers" is the only CTA. */}
-                    <div className="block w-full">
-                      {offer.src ? (
-                        <img
-                          src={offer.src}
-                          alt={offer.alt || offer.title}
-                          loading={i === 0 ? "eager" : "lazy"}
-                          decoding="async"
-                          /* Intrinsic ratio drives the height: full available
-                             width, proportional height, never stretched, cropped
-                             or letterboxed — so there is no empty space around it. */
-                          className="block h-auto w-full"
-                        />
-                      ) : (
-                        <span className="flex aspect-[8/3] w-full items-center justify-center bg-paper-mute px-6 text-center font-display text-[1.25rem] font-bold tracking-[-0.02em] text-ink-900">
-                          {offer.title}
-                        </span>
-                      )}
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-
-            {/* Arrows (only when more than one slide) */}
-            {count > 1 && (
-              <>
-                <button
-                  type="button"
-                  onClick={() => go(-1)}
-                  disabled={index === 0}
-                  aria-label="Previous offer"
-                  className="absolute left-3 top-1/2 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-white/95 text-ink-800 shadow-[var(--shadow-card)] backdrop-blur-sm transition-colors hover:border-line-strong hover:text-ink-950 disabled:pointer-events-none disabled:opacity-0 sm:inline-flex"
-                >
-                  <Icon name="chevronLeft" size={22} />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => go(1)}
-                  disabled={index === count - 1}
-                  aria-label="Next offer"
-                  className="absolute right-3 top-1/2 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-white/95 text-ink-800 shadow-[var(--shadow-card)] backdrop-blur-sm transition-colors hover:border-line-strong hover:text-ink-950 disabled:pointer-events-none disabled:opacity-0 sm:inline-flex"
-                >
-                  <Icon name="chevronRight" size={22} />
-                </button>
-              </>
-            )}
-          </div>
-
-          {/* Dots */}
-          {count > 1 && (
-            <div className="mt-4 flex items-center justify-center gap-2.5 sm:mt-5">
-              {offers.map((offer, i) => (
-                <button
-                  key={offer.id}
-                  type="button"
-                  onClick={() => jump(i)}
-                  aria-label={`Go to offer ${i + 1}`}
-                  aria-current={i === index}
-                  className={`h-2.5 rounded-full transition-all duration-300 ${
-                    i === index
-                      ? "w-7 bg-accent-600"
-                      : "w-2.5 bg-line-strong hover:bg-ink-300"
-                  }`}
-                />
-              ))}
-            </div>
-          )}
+            <Icon name="whatsapp" size={19} className="shrink-0" />
+            Enquire on WhatsApp
+          </a>
         </Reveal>
       </div>
     </section>
