@@ -18,7 +18,7 @@ export default function TopBar() {
   return (
     <div className="hidden bg-ink-950 text-ink-300 sm:block">
       <div className="shell flex h-9 items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
+        <div className="flex shrink-0 items-center gap-3 whitespace-nowrap">
           {rating ? (
             <a
               href={reviewsSummary.googleUrl}
@@ -47,7 +47,7 @@ export default function TopBar() {
           </p>
         </div>
 
-        <div className="hidden items-center gap-5 sm:flex">
+        <div className="hidden shrink-0 items-center gap-5 whitespace-nowrap sm:flex">
           <a
             href={business.phoneTel}
             className="inline-flex items-center gap-1.5 text-[0.75rem] font-medium text-ink-300 transition-colors hover:text-white"
@@ -55,8 +55,8 @@ export default function TopBar() {
             <Icon name="phone" size={13} className="text-ink-500" />
             <span className="tabular-nums">{business.phoneDisplay}</span>
           </a>
-          <span aria-hidden="true" className="h-3.5 w-px bg-white/15" />
-          <span className="inline-flex items-center gap-1.5 text-[0.75rem] text-ink-400">
+          <span aria-hidden="true" className="hidden h-3.5 w-px bg-white/15 lg:block" />
+          <span className="hidden items-center gap-1.5 text-[0.75rem] text-ink-400 lg:inline-flex">
             <Icon name="clock" size={13} className="text-ink-500" />
             <span>Open daily · {business.hours.label}</span>
           </span>

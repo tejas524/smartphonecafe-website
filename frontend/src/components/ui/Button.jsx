@@ -29,9 +29,8 @@ const VARIANTS = {
 /**
  * Sizes use `min-h` + vertical padding rather than a fixed height, so a label
  * that wraps on a very narrow screen grows the button instead of clipping.
- * Below 360px the `whitespace-nowrap` in the base is relaxed: a long label such
- * as "Check availability on WhatsApp" otherwise enforces a ~298px min-content
- * width and pushes the whole page wider than a 320px viewport.
+ * Labels can wrap within their available width, including in narrow catalog
+ * cards and at browser zoom. Long actions never force the page wider.
  *
  * The compact `sm` size keeps a comfortable ~44px touch target on phones
  * (min-h-11) and only tightens to its 36px desktop footprint from the `sm`
@@ -63,7 +62,7 @@ export default function Button({
   const cls = [
     "group/btn inline-flex items-center justify-center text-center font-display font-semibold tracking-[-0.01em]",
     "transition-[background-color,border-color,color,transform,box-shadow] duration-200 ease-out",
-    "active:translate-y-px select-none whitespace-nowrap max-[359px]:whitespace-normal",
+    "active:translate-y-px select-none min-w-0 max-w-full whitespace-normal",
     VARIANTS[variant] || VARIANTS.primary,
     SIZES[size] || SIZES.md,
     full ? "w-full" : "",
@@ -75,7 +74,7 @@ export default function Button({
   const inner = (
     <>
       {icon && <Icon name={icon} size={size === "sm" ? 15 : 17} className="shrink-0" />}
-      <span>{children}</span>
+      <span className="min-w-0 break-words">{children}</span>
       {iconRight && (
         <Icon
           name={iconRight}

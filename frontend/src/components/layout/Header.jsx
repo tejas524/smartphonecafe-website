@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { Logo } from "../Logo.jsx";
 import Icon from "../Icon.jsx";
@@ -21,6 +21,7 @@ export default function Header() {
   const { business, nav } = useSiteData();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const drawerRef = useRef(null);
   const { pathname, hash } = useLocation();
 
   useEffect(() => {
@@ -45,13 +46,19 @@ export default function Header() {
     };
   }, [open]);
 
-  // Escape closes the drawer.
+  // A native modal keeps focus inside the drawer and restores it on close.
   useEffect(() => {
-    if (!open) return;
-    const onKey = (e) => e.key === "Escape" && setOpen(false);
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    const drawer = drawerRef.current;
+    if (open && !drawer.open) drawer.showModal();
+    else if (!open && drawer.open) drawer.close();
   }, [open]);
+
+  useEffect(() => {
+    const desktop = window.matchMedia("(min-width: 1024px)");
+    const closeOnDesktop = () => { if (desktop.matches) setOpen(false); };
+    desktop.addEventListener("change", closeOnDesktop);
+    return () => desktop.removeEventListener("change", closeOnDesktop);
+  }, []);
 
   const navLinkCls = ({ isActive }) =>
     `relative inline-flex h-10 items-center rounded-[10px] px-3 font-display text-[0.875rem] font-semibold tracking-[-0.01em] transition-colors duration-200 ${
@@ -86,13 +93,13 @@ export default function Header() {
             : "border-line"
         }`}
       >
-        <div className="shell flex h-16 items-center justify-between gap-4 lg:h-[4.5rem]">
+        <div className="shell flex h-16 items-center justify-between gap-2 lg:h-[4.5rem] lg:gap-4">
           <Link
             to="/"
             aria-label={`${business.name} — home`}
             className="shrink-0 rounded-lg py-1"
           >
-            <Logo size={36} />
+            <Logo size={36} className="max-[359px]:gap-1.5" textClassName="max-[359px]:text-[0.9375rem]" />
           </Link>
 
           {/* Desktop navigation */}
@@ -169,11 +176,11 @@ export default function Header() {
           </div>
 
           {/* Mobile: call + menu */}
-          <div className="flex items-center gap-1.5 lg:hidden">
+          <div className="flex shrink-0 items-center gap-1.5 lg:hidden">
             <a
               href={business.phoneTel}
               aria-label={`Call ${business.name}`}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-[10px] border border-line-strong bg-white text-ink-800 transition-colors hover:bg-paper-mute"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-[10px] border border-line-strong bg-white text-ink-800 transition-colors hover:bg-paper-mute"
             >
               <Icon name="phone" size={17} />
             </a>
@@ -183,7 +190,7 @@ export default function Header() {
               aria-expanded={open}
               aria-controls="mobile-nav"
               aria-label={open ? "Close menu" : "Open menu"}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-[10px] border border-line-strong bg-white text-ink-800 transition-colors hover:bg-paper-mute"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-[10px] border border-line-strong bg-white text-ink-800 transition-colors hover:bg-paper-mute"
             >
               <Icon name={open ? "x" : "menu"} size={19} />
             </button>
@@ -192,24 +199,34 @@ export default function Header() {
       </header>
 
       {/* -------------------------------------------------- Mobile drawer -- */}
-      {/* Scrim */}
-      <div
-        aria-hidden="true"
-        onClick={() => setOpen(false)}
-        className={`fixed inset-0 z-[55] bg-ink-950/45 backdrop-blur-[2px] transition-opacity duration-300 lg:hidden ${
-          open ? "opacity-100" : "pointer-events-none opacity-0"
-        }`}
-      />
-
       {/* Panel */}
-      <div
+      <dialog
+        ref={drawerRef}
         id="mobile-nav"
-        role="dialog"
         aria-modal="true"
         aria-label="Menu"
-        className={`fixed inset-y-0 right-0 z-[56] flex w-[86%] max-w-sm flex-col bg-white shadow-[var(--shadow-deep)] transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] lg:hidden ${
-          open ? "translate-x-0" : "translate-x-full"
-        }`}
+        onCancel={() => setOpen(false)}
+        onClose={() => setOpen(false)}
+        onKeyDown={(event) => {
+          if (event.key !== "Tab") return;
+          const targets = [...event.currentTarget.querySelectorAll("a[href], button, input, select, textarea, [tabindex]")]
+            .filter((element) => !element.disabled && element.tabIndex >= 0 && element.getClientRects().length);
+          const first = targets[0];
+          const last = targets[targets.length - 1];
+          if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault(); last?.focus();
+          } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault(); first?.focus();
+          }
+        }}
+        onClick={(event) => {
+          if (event.target !== event.currentTarget) return;
+          const rect = event.currentTarget.getBoundingClientRect();
+          if (event.clientX < rect.left || event.clientX > rect.right ||
+              event.clientY < rect.top || event.clientY > rect.bottom) setOpen(false);
+        }}
+        className="fixed inset-y-0 left-auto right-0 m-0 hidden h-dvh max-h-none w-[calc(100%-1rem)] max-w-sm flex-col border-0 bg-white p-0 text-ink-900 shadow-[var(--shadow-deep)] backdrop:bg-ink-950/45 backdrop:backdrop-blur-[2px] open:flex"
+        style={{ paddingTop: "env(safe-area-inset-top)", paddingBottom: "env(safe-area-inset-bottom)" }}
       >
         <div className="flex h-16 shrink-0 items-center justify-between border-b border-line px-5">
           <Logo size={32} />
@@ -217,13 +234,13 @@ export default function Header() {
             type="button"
             onClick={() => setOpen(false)}
             aria-label="Close menu"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-[10px] border border-line-strong bg-white text-ink-800 transition-colors hover:bg-paper-mute"
+            className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] border border-line-strong bg-white text-ink-800 transition-colors hover:bg-paper-mute"
           >
             <Icon name="x" size={19} />
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-5 pb-8 pt-3">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pb-8 pt-3">
           <nav aria-label="Mobile">
             <ul className="flex flex-col">
               {nav.map((item) => {
@@ -287,7 +304,7 @@ export default function Header() {
             </p>
           </div>
         </div>
-      </div>
+      </dialog>
     </>
   );
 }

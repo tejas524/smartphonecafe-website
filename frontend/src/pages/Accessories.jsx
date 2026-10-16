@@ -36,7 +36,7 @@ const isActive = (a) => a.is_active !== 0 && a.is_active !== false;
 function LoadingSkeleton() {
   return (
     <ul
-      className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4"
+      className="grid grid-cols-1 gap-3 min-[360px]:grid-cols-2 sm:gap-4 md:grid-cols-3 xl:grid-cols-4"
       aria-hidden="true"
     >
       {Array.from({ length: 8 }).map((_, i) => (
@@ -125,7 +125,7 @@ function ErrorState({ onRetry }) {
 /* --------------------------------------------------------------- controls */
 
 const fieldClass =
-  "h-11 w-full rounded-[var(--radius-md)] border border-line bg-white px-3.5 text-[0.9375rem] text-ink-900 outline-none transition-colors placeholder:text-ink-400 focus:border-accent-400 focus:ring-2 focus:ring-accent-100";
+  "h-11 min-w-0 w-full rounded-[var(--radius-md)] border border-line bg-white px-3.5 text-[0.9375rem] text-ink-900 outline-none transition-colors placeholder:text-ink-400 focus:border-accent-400 focus:ring-2 focus:ring-accent-100";
 
 function Toolbar({
   search,
@@ -153,7 +153,7 @@ function Toolbar({
     <div className="rounded-[var(--radius-lg)] border border-line bg-white p-4 shadow-[var(--shadow-card)] sm:p-5">
       {/* Row 1: search + sort + mobile filter toggle */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-        <div className="relative flex-1">
+        <div className="relative min-w-0 flex-1">
           <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-400">
             <Icon name="search" size={18} />
           </span>
@@ -161,20 +161,20 @@ function Toolbar({
             type="search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search by name, category or compatibility"
+            placeholder="Search accessories"
             aria-label="Search accessories"
             className={`${fieldClass} pl-10`}
           />
         </div>
 
-        <div className="flex items-center gap-3">
-          <label className="flex items-center gap-2 text-[0.8125rem] font-semibold text-ink-500">
+        <div className="flex min-w-0 items-center gap-3">
+          <label className="flex min-w-0 flex-1 items-center gap-2 text-[0.8125rem] font-semibold text-ink-500">
             <span className="hidden sm:inline">Sort</span>
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value)}
               aria-label="Sort accessories"
-              className={`${fieldClass} h-11 w-auto pr-8`}
+              className={`${fieldClass} h-11 pr-8 sm:w-auto`}
             >
               {SORTS.map((s) => (
                 <option key={s.id} value={s.id}>
@@ -495,7 +495,7 @@ export default function Accessories() {
                 {filtered.length === 0 ? (
                   <EmptyState onClear={clearFilters} />
                 ) : (
-                  <ul className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
+                  <ul className="grid grid-cols-1 gap-3 min-[360px]:grid-cols-2 sm:gap-4 md:grid-cols-3 xl:grid-cols-4">
                     {filtered.map((item, i) => (
                       <li key={item.id ?? item.slug}>
                         <Reveal delay={Math.min(i, 7) * 50} className="h-full">

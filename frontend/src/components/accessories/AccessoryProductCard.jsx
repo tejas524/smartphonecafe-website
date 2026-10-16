@@ -52,16 +52,16 @@ export default function AccessoryProductCard({ item }) {
   return (
     <article className="group/card relative flex h-full flex-col overflow-hidden rounded-[var(--radius-lg)] border border-line bg-white shadow-[var(--shadow-card)] transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-1 hover:border-line-strong hover:shadow-[var(--shadow-lift)]">
       {/* Badges */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex items-start justify-between gap-2 p-3">
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex flex-wrap items-start justify-between gap-1 p-2 sm:gap-2 sm:p-3">
         {item.is_featured ? (
-          <span className="rounded-full bg-ink-950 px-2.5 py-1 text-[0.625rem] font-bold uppercase tracking-[0.08em] text-white">
+          <span className="whitespace-nowrap rounded-full bg-ink-950 px-2 py-1 text-[0.5625rem] font-bold uppercase tracking-[0.08em] text-white sm:px-2.5 sm:text-[0.625rem]">
             Featured
           </span>
         ) : (
           <span />
         )}
         {off != null ? (
-          <span className="rounded-full bg-accent-600 px-2.5 py-1 text-[0.625rem] font-bold uppercase tracking-[0.06em] text-white">
+          <span className="whitespace-nowrap rounded-full bg-accent-600 px-2 py-1 text-[0.5625rem] font-bold uppercase tracking-[0.06em] text-white sm:px-2.5 sm:text-[0.625rem]">
             {off}% off
           </span>
         ) : null}
@@ -69,13 +69,13 @@ export default function AccessoryProductCard({ item }) {
 
       {/* Image — consistent square area, contained, never cropped */}
       <div
-        className="flex items-center justify-center overflow-hidden bg-paper-mute p-5"
+        className="flex items-center justify-center overflow-hidden bg-paper-mute p-3 sm:p-5"
         style={{ aspectRatio: "1 / 1" }}
       >
         {item.image ? (
           <ResponsiveImage
             src={item.image}
-            sizes="(min-width: 1024px) 25vw, 50vw"
+            sizes="(min-width: 1280px) 25vw, (min-width: 768px) 33vw, (min-width: 360px) 50vw, 100vw"
             alt={name}
             loading="lazy"
             decoding="async"
@@ -91,13 +91,13 @@ export default function AccessoryProductCard({ item }) {
         )}
       </div>
 
-      <div className="flex flex-1 flex-col p-4 sm:p-5">
+      <div className="flex min-w-0 flex-1 flex-col p-3 sm:p-5">
         {label ? (
           <p className="text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-ink-400">
             {label}
           </p>
         ) : null}
-        <h3 className="mt-1 font-display text-[1.0625rem] font-bold leading-snug tracking-[-0.015em] text-ink-950">
+        <h3 className="mt-1 font-display text-base font-bold leading-snug tracking-[-0.015em] text-ink-950 sm:text-[1.0625rem]">
           {name}
         </h3>
         {item.summary ? (

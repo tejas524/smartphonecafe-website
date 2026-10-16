@@ -63,7 +63,7 @@ export default function Layout({ children }) {
       <Footer />
       {/* Clears the fixed mobile action bar without introducing a light gap:
           the spacer sits BELOW the dark footer and shares its ink background. */}
-      <div aria-hidden="true" className="h-[4.25rem] bg-ink-950 lg:hidden" />
+      <div aria-hidden="true" className="bg-ink-950 lg:hidden" style={{ height: "calc(4.25rem + env(safe-area-inset-bottom))" }} />
 
       <MobileActionBar />
     </div>

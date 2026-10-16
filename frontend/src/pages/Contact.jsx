@@ -189,7 +189,7 @@ export default function Contact() {
         title="Get in touch or just walk in."
         lead="Call, message on WhatsApp or come to the counter on Talegaon Station Road. Open every day from 10:00 am to 9:30 pm."
       >
-        <div className="flex flex-wrap gap-2.5">
+        <div className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap">
           <Button
             href={waLink(waMessages.general())}
             external

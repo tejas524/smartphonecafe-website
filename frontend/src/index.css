@@ -99,6 +99,7 @@
     line-height: 1.12;
     font-weight: 700;
     text-wrap: balance;
+    overflow-wrap: anywhere;
   }
 
   p {
@@ -135,21 +136,23 @@
 
 @layer components {
   .shell {
+    --shell-gutter: 1.25rem;
     width: 100%;
     max-width: 82rem;
     margin-inline: auto;
-    padding-inline: 1.25rem;
+    padding-left: max(var(--shell-gutter), env(safe-area-inset-left));
+    padding-right: max(var(--shell-gutter), env(safe-area-inset-right));
   }
 
   @media (min-width: 640px) {
     .shell {
-      padding-inline: 2rem;
+      --shell-gutter: 2rem;
     }
   }
 
   @media (min-width: 1024px) {
     .shell {
-      padding-inline: 2.5rem;
+      --shell-gutter: 2.5rem;
     }
   }
 
@@ -185,6 +188,18 @@
 
 /* Reveal-on-scroll: opt-in, transform+opacity only (no layout thrash) */
 @layer utilities {
+  @media (max-width: 767px) {
+    /* 16px fields avoid automatic form zoom on small touch screens. */
+    main :is(input, select, textarea):not([type="checkbox"]):not([type="radio"]) {
+      font-size: 1rem;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    html { scroll-padding-bottom: calc(4.25rem + env(safe-area-inset-bottom)); }
+    main :is(input, select, textarea, button, a) { scroll-margin-block: 5.5rem; }
+  }
+
   .reveal {
     opacity: 0;
     transform: translateY(18px);
