@@ -35,21 +35,29 @@ export default function CardCarousel({
     if (!el) return;
     const overflow = el.scrollWidth - el.clientWidth > 8;
     setScrollable(overflow);
-    setPages(Math.max(1, Math.ceil(el.scrollWidth / el.clientWidth)));
-    setPage(Math.round(el.scrollLeft / el.clientWidth));
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    const groups = Math.max(1, Math.ceil(el.scrollWidth / Math.max(1, el.clientWidth)));
+    setPages(groups);
+    setPage(maxScroll > 0 ? Math.round(el.scrollLeft / maxScroll * (groups - 1)) : 0);
   }, []);
 
   useEffect(() => {
     measure();
     const el = trackRef.current;
     if (!el) return;
-    const onScroll = () =>
-      setPage(Math.round(el.scrollLeft / Math.max(1, el.clientWidth)));
+    const onScroll = () => {
+      const maxScroll = el.scrollWidth - el.clientWidth;
+      const groups = Math.max(1, Math.ceil(el.scrollWidth / Math.max(1, el.clientWidth)));
+      setPage(maxScroll > 0 ? Math.round(el.scrollLeft / maxScroll * (groups - 1)) : 0);
+    };
     el.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", measure);
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
     return () => {
       el.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", measure);
+      observer.disconnect();
     };
   }, [measure, items.length]);
 
@@ -62,7 +70,8 @@ export default function CardCarousel({
   const goToPage = (p) => {
     const el = trackRef.current;
     if (!el) return;
-    el.scrollTo({ left: p * el.clientWidth, behavior: "smooth" });
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    el.scrollTo({ left: p / Math.max(1, pages - 1) * maxScroll, behavior: "smooth" });
   };
 
   return (
@@ -77,7 +86,7 @@ export default function CardCarousel({
         ref={trackRef}
         tabIndex={0}
         aria-label={`${ariaLabel} cards`}
-        className={`no-scrollbar -mx-1 flex snap-x snap-mandatory ${gapClass} overflow-x-auto scroll-smooth px-1 pb-1`}
+        className={`no-scrollbar -mx-1 flex snap-x snap-mandatory ${gapClass} overflow-x-auto overscroll-x-contain scroll-smooth px-1 pb-1`}
       >
         {items.map((item, i) => (
           <li
@@ -94,7 +103,7 @@ export default function CardCarousel({
       {/* Controls — only when the row actually overflows */}
       {scrollable && (
         <div className="mt-6 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center">
             {Array.from({ length: pages }).map((_, p) => (
               <button
                 key={p}
@@ -102,10 +111,8 @@ export default function CardCarousel({
                 onClick={() => goToPage(p)}
                 aria-label={`Go to slide group ${p + 1}`}
                 aria-current={p === page}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  p === page ? "w-6 bg-accent-600" : "w-2 bg-line-strong hover:bg-ink-300"
-                }`}
-              />
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full"
+              ><span aria-hidden="true" className={`h-2 rounded-full transition-[width,background-color] duration-300 ${p === page ? "w-6 bg-accent-600" : "w-2 bg-ink-300"}`} /></button>
             ))}
           </div>
 
@@ -114,7 +121,7 @@ export default function CardCarousel({
               type="button"
               onClick={() => scrollByDir(-1)}
               aria-label={`Previous ${ariaLabel}`}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-line text-ink-700 transition-colors hover:border-line-strong hover:text-ink-950"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-line text-ink-700 transition-colors hover:border-line-strong hover:text-ink-950"
             >
               <Icon name="chevronLeft" size={20} />
             </button>
@@ -122,7 +129,7 @@ export default function CardCarousel({
               type="button"
               onClick={() => scrollByDir(1)}
               aria-label={`Next ${ariaLabel}`}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-line text-ink-700 transition-colors hover:border-line-strong hover:text-ink-950"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-line text-ink-700 transition-colors hover:border-line-strong hover:text-ink-950"
             >
               <Icon name="chevronRight" size={20} />
             </button>

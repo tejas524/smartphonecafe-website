@@ -8,7 +8,7 @@ import Reveal from "../ui/Reveal.jsx";
  * one consistent rhythm. An accent rule leads the eyebrow so the header reads
  * as branded rather than generic.
  */
-export default function PageHero({ eyebrow, title, lead, children, aside }) {
+export default function PageHero({ eyebrow, title, lead, children, aside, compact = false }) {
   return (
     <section className="relative overflow-hidden border-b border-line bg-paper-soft">
       {/* Faint grid */}
@@ -31,7 +31,7 @@ export default function PageHero({ eyebrow, title, lead, children, aside }) {
         }}
       />
 
-      <div className="shell relative py-12 sm:py-14 lg:py-[4.5rem]">
+      <div className={`shell relative ${compact ? "py-7 sm:py-10 lg:py-12" : "py-9 sm:py-14 lg:py-[4.5rem]"}`}>
         <div className="grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-12">
           <div className={aside ? "lg:col-span-7" : "lg:col-span-9"}>
             {eyebrow && (
@@ -47,7 +47,7 @@ export default function PageHero({ eyebrow, title, lead, children, aside }) {
             <Reveal
               as="h1"
               delay={60}
-              className="mt-4 text-[2rem] font-extrabold leading-[1.06] tracking-[-0.03em] text-ink-950 sm:text-[2.5rem] lg:text-[3rem]"
+              className="mt-4 text-[clamp(1.75rem,5vw,2rem)] font-extrabold leading-[1.12] tracking-[-0.03em] text-ink-950 sm:text-[2.5rem] lg:text-[3rem]"
             >
               {title}
             </Reveal>
@@ -56,14 +56,14 @@ export default function PageHero({ eyebrow, title, lead, children, aside }) {
               <Reveal
                 as="p"
                 delay={120}
-                className="mt-5 max-w-2xl text-[1.0625rem] leading-relaxed text-ink-600 sm:text-[1.125rem]"
+                className="mt-3 max-w-[60ch] text-[0.9375rem] leading-relaxed text-ink-600 sm:mt-5 sm:text-[1.0625rem]"
               >
                 {lead}
               </Reveal>
             )}
 
             {children && (
-              <Reveal delay={180} className="mt-8">
+              <Reveal delay={180} className={compact ? "mt-5" : "mt-6 sm:mt-8"}>
                 {children}
               </Reveal>
             )}

@@ -135,6 +135,16 @@
    ========================================================================== */
 
 @layer components {
+  .hero-shade {
+    background: linear-gradient(90deg, rgb(6 8 12 / 0.93), rgb(6 8 12 / 0.72));
+  }
+
+  @media (min-width: 1024px) {
+    .hero-shade {
+      background: linear-gradient(90deg, #08090c 0%, #08090c 40%, rgb(8 9 12 / 0.86) 51%, rgb(8 9 12 / 0.12) 74%, rgb(8 9 12 / 0.04) 100%);
+    }
+  }
+
   .shell {
     --shell-gutter: 1.25rem;
     width: 100%;
