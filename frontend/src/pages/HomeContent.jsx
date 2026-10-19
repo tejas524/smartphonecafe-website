@@ -105,7 +105,7 @@ export default function HomeContent() {
                   className="bg-paper-mute"
                   imgClassName="transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/gal:scale-[1.03]"
                 />
-                <span className="mt-3 block text-[0.75rem] text-ink-400">
+                <span className="mt-3 block text-[0.75rem] text-ink-500">
                   {photos.interiorWide.caption}
                 </span>
               </Link>
@@ -123,7 +123,7 @@ export default function HomeContent() {
                       className="bg-paper-mute"
                       imgClassName="transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/gal:scale-[1.03]"
                     />
-                    <span className="mt-3 block text-[0.75rem] text-ink-400">
+                    <span className="mt-3 block text-[0.75rem] text-ink-500">
                       {p.caption}
                     </span>
                   </Link>
@@ -162,7 +162,7 @@ export default function HomeContent() {
                 <p className="text-[1rem] leading-relaxed text-ink-700 italic">
                   “{business.listingDescription}”
                 </p>
-                <footer className="mt-3 text-[0.75rem] text-ink-400">
+                <footer className="mt-3 text-[0.75rem] text-ink-500">
                   — {business.listingName}, description published on their Google
                   Business Profile
                 </footer>
@@ -188,7 +188,7 @@ export default function HomeContent() {
                 >
                   <Icon name="google" size={16} />
                   See us on Google
-                  <Icon name="external" size={13} className="text-ink-400" />
+                  <Icon name="external" size={13} className="text-ink-500" />
                 </a>
               </Reveal>
             </div>
@@ -201,7 +201,7 @@ export default function HomeContent() {
                 rounded="rounded-[var(--radius-lg)]"
                 className="bg-paper-mute"
               />
-              <p className="mt-3 text-[0.75rem] text-ink-400">
+              <p className="mt-3 text-[0.75rem] text-ink-500">
                 {photos.ownerWithCustomer.caption}
               </p>
             </Reveal>

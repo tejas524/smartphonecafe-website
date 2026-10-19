@@ -93,7 +93,7 @@ export default function AccessoryProductCard({ item }) {
 
       <div className="flex min-w-0 flex-1 flex-col p-3 sm:p-5">
         {label ? (
-          <p className="text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-ink-400">
+          <p className="text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-ink-500">
             {label}
           </p>
         ) : null}
@@ -116,7 +116,7 @@ export default function AccessoryProductCard({ item }) {
               </span>
             ) : null}
             {showMrp ? (
-              <span className="text-[0.8125rem] text-ink-400 line-through tabular-nums">
+              <span className="text-[0.8125rem] text-ink-500 line-through tabular-nums">
                 {mrp}
               </span>
             ) : null}

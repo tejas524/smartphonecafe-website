@@ -122,7 +122,7 @@ function SmartphoneEnquiry() {
       </fieldset>
 
       <div className="mt-6 rounded-[var(--radius-md)] border border-line bg-paper-soft p-4">
-        <p className="font-display text-[0.75rem] font-bold uppercase tracking-wider text-ink-400">
+        <p className="font-display text-[0.75rem] font-bold uppercase tracking-wider text-ink-500">
           Your message will say
         </p>
         <p className="mt-2 text-[0.875rem] leading-relaxed text-ink-700 italic">
@@ -242,7 +242,7 @@ export default function Contact() {
                       <Icon name={m.icon} size={19} />
                     </span>
 
-                    <h3 className="mt-5 font-display text-[0.75rem] font-bold uppercase tracking-wider text-ink-400">
+                    <h3 className="mt-5 font-display text-[0.75rem] font-bold uppercase tracking-wider text-ink-500">
                       {m.title}
                     </h3>
                     <p className="mt-1.5 font-display text-[1.125rem] font-bold tracking-[-0.02em] text-ink-950">

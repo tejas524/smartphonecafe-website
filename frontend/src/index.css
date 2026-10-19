@@ -41,8 +41,8 @@
 
   /* WhatsApp — reserved */
   --color-wa-500: #25d366;
-  --color-wa-600: #1da851;
-  --color-wa-700: #128c3f;
+  --color-wa-600: #107c38;
+  --color-wa-700: #0d652d;
 
   /* Type */
   --font-display: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system,
@@ -188,6 +188,10 @@
 
 /* Reveal-on-scroll: opt-in, transform+opacity only (no layout thrash) */
 @layer utilities {
+  main label:has(input.sr-only:focus-visible) {
+    outline: 2px solid var(--color-accent-600);
+    outline-offset: 3px;
+  }
   @media (max-width: 767px) {
     /* 16px fields avoid automatic form zoom on small touch screens. */
     main :is(input, select, textarea):not([type="checkbox"]):not([type="radio"]) {

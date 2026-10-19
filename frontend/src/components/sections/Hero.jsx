@@ -118,15 +118,6 @@ export default function Hero() {
             style={{ animationDelay: "480ms" }}
           >
             <Button
-              to={hero.cta_url || "/smartphones"}
-              variant="accent"
-              size="lg"
-              icon="smartphone"
-              className="w-full sm:w-auto"
-            >
-              {hero.cta_label || "Explore Smartphones"}
-            </Button>
-            <Button
               href={waLink(waMessages.general())}
               external
               variant="wa"
@@ -135,6 +126,15 @@ export default function Hero() {
               className="w-full sm:w-auto"
             >
               WhatsApp Us
+            </Button>
+            <Button
+              to={hero.cta_url || "/smartphones"}
+              variant="onDark"
+              size="lg"
+              icon="smartphone"
+              className="w-full sm:w-auto"
+            >
+              {hero.cta_label || "Explore Smartphones"}
             </Button>
           </div>
 

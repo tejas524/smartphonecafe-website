@@ -128,7 +128,7 @@ export default function About() {
                   <p className="text-[0.9375rem] leading-relaxed italic text-ink-700">
                     “{business.listingDescription}”
                   </p>
-                  <footer className="mt-4 flex items-center gap-2 text-[0.75rem] text-ink-400">
+                  <footer className="mt-4 flex items-center gap-2 text-[0.75rem] text-ink-500">
                     <Icon name="google" size={13} />
                     Published by {business.listingName} on their Google Business
                     Profile
@@ -201,7 +201,7 @@ export default function About() {
             lead="A lot of local business websites claim things they cannot back up. Everything below is taken directly from our Google Business Profile — if it is not here, we have not claimed it."
           />
 
-          <dl className="mt-11 grid gap-px overflow-hidden rounded-[var(--radius-lg)] border border-line bg-line sm:grid-cols-2">
+          <div className="mt-11 grid gap-px overflow-hidden rounded-[var(--radius-lg)] border border-line bg-line sm:grid-cols-2">
             {verifiedFacts.map((f, i) => (
               <div key={f.label} className="bg-white">
                 <Reveal delay={i * 55} className="h-full">
@@ -209,23 +209,23 @@ export default function About() {
                     <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-[11px] bg-accent-50 text-accent-600">
                       <Icon name={f.icon} size={18} />
                     </span>
-                    <div>
-                      <dt className="font-display text-[0.75rem] font-bold uppercase tracking-wider text-ink-400">
+                    <dl>
+                      <dt className="font-display text-[0.75rem] font-bold uppercase tracking-wider text-ink-500">
                         {f.label}
                       </dt>
                       <dd className="mt-1.5 text-[0.9375rem] leading-relaxed text-ink-800">
                         {f.value}
                       </dd>
-                    </div>
+                    </dl>
                   </div>
                 </Reveal>
               </div>
             ))}
-          </dl>
+          </div>
 
           <Reveal delay={240}>
             <p className="mt-6 flex items-start gap-2.5 rounded-[var(--radius-md)] border border-line bg-white p-4 text-[0.8125rem] leading-relaxed text-ink-600">
-              <Icon name="info" size={15} className="mt-0.5 shrink-0 text-ink-400" />
+              <Icon name="info" size={15} className="mt-0.5 shrink-0 text-ink-500" />
               <span>
                 We have not published ratings, review counts or testimonials on
                 this site, and we do not state authorised-dealer status for any

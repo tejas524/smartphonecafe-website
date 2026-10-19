@@ -1,12 +1,20 @@
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
+import { siteOutput } from "./scripts/site-output.mjs";
 
-export default defineConfig(({ mode }) => ({
+export default defineConfig(({ mode }) => {
+  const preview = mode === "preview";
+  const env = loadEnv(mode, process.cwd(), "VITE_");
+  const site = new URL(env.VITE_SITE_URL || (preview ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL || "smartphonecafe-website-pied.vercel.app"}` : "https://smartphonecafe.in"));
+  if (site.protocol !== "https:" || site.username || site.password || site.pathname !== "/" || site.search || site.hash) throw new Error("VITE_SITE_URL must be an HTTPS origin without credentials or a path");
+  const siteUrl = site.origin;
+  return ({
   define: {
     "import.meta.env.VITE_STATIC_PREVIEW": JSON.stringify(mode === "preview"),
+    "import.meta.env.VITE_SITE_URL": JSON.stringify(siteUrl),
   },
-  plugins: [react(), tailwindcss()],
+  plugins: [react(), tailwindcss(), siteOutput({ preview, siteUrl })],
   // Preview serves exported uploads instead of forwarding them to localhost.
   preview: { proxy: {} },
   // Dev-only: proxy API + uploaded images to the Express backend (port 4000)
@@ -35,4 +43,5 @@ export default defineConfig(({ mode }) => ({
       },
     },
   },
-}));
+});
+});

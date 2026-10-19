@@ -75,6 +75,8 @@ export default function CardCarousel({
       {/* Track */}
       <ul
         ref={trackRef}
+        tabIndex={0}
+        aria-label={`${ariaLabel} cards`}
         className={`no-scrollbar -mx-1 flex snap-x snap-mandatory ${gapClass} overflow-x-auto scroll-smooth px-1 pb-1`}
       >
         {items.map((item, i) => (

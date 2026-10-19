@@ -37,6 +37,14 @@ export async function createApp() {
   // rate-limiting sees the real client IP rather than the proxy's.
   app.set("trust proxy", 1);
   app.disable("x-powered-by");
+  // TLS terminates at the hosting proxy. Redirect to the configured origin,
+  // never to an attacker-controlled Host header.
+  if (config.server.isProduction) {
+    app.use((req, res, next) => {
+      if (req.secure) return next();
+      return res.redirect(308, `${config.server.publicSiteUrl}${req.originalUrl}`);
+    });
+  }
 
   // Used by the multer guard to report the configured limit.
   app.set("uploadMaxBytes", config.uploads.maxBytes);
@@ -224,10 +232,11 @@ export async function createApp() {
   const spaIndex = path.join(distDir, "index.html");
   if (fs.existsSync(spaIndex)) {
     app.use(express.static(distDir, { index: false, maxAge: "1h" }));
-    // Any non-API GET falls through to the SPA so client-side routes work on a
-    // full page load or refresh.
-    app.get(/^(?!\/api\/)(?!\/uploads\/).*/, (_req, res) => {
-      res.sendFile(spaIndex);
+    // Known client routes refresh normally; unknown URLs retain a real 404.
+    app.get(/^(?!\/api(?:\/|$))(?!\/uploads(?:\/|$)).*/, (req, res) => {
+      const known = /^\/(?:smartphones(?:\/[^/]+)?|accessories|offers|gallery|about|contact|privacy-policy|terms-and-conditions|admin(?:\/.*)?)?\/?$/.test(req.path);
+      const notFoundPage = path.join(distDir, "404.html");
+      res.status(known ? 200 : 404).sendFile(!known && fs.existsSync(notFoundPage) ? notFoundPage : spaIndex);
     });
   }
 

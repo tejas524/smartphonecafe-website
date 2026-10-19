@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../ui/Button.jsx";
 import Icon from "../Icon.jsx";
 import Reveal from "../ui/Reveal.jsx";
 import { useSiteData } from "../../context/SiteData.jsx";
+import { usePrivacy } from "../../context/Privacy.jsx";
 import { waLink, waMessages } from "../../utils/whatsapp.js";
 import { getStoreStatus } from "../../utils/hours.js";
 
@@ -15,12 +16,7 @@ import { getStoreStatus } from "../../utils/hours.js";
 export default function LocationSection({ tone = "light" }) {
   const { business, directionsUrl, mapEmbedUrl } = useSiteData();
   const [status, setStatus] = useState({ known: false });
-  // The Google Maps iframe is heavy (it can set third-party cookies and sends
-  // the visitor's IP to Google), so it is still deferred rather than mounted
-  // with the page — but it now loads on its own as the map scrolls into view,
-  // so the visitor never has to tap a button to see it.
-  const [mapLoaded, setMapLoaded] = useState(false);
-  const mapRef = useRef(null);
+  const { mapsAllowed: mapLoaded, preferences, savePreferences } = usePrivacy();
 
   // Computed after mount so the server-rendered HTML never carries a stale
   // open/closed claim, and refreshed periodically while the page is open.
@@ -30,30 +26,6 @@ export default function LocationSection({ tone = "light" }) {
     const id = setInterval(update, 60_000);
     return () => clearInterval(id);
   }, []);
-
-  // Auto-load the map as it nears the viewport: IntersectionObserver keeps the
-  // initial page light (the iframe is only fetched once the visitor scrolls
-  // toward the location) while removing the manual tap. If the observer is
-  // unavailable, load the map straight away rather than leaving a dead frame.
-  useEffect(() => {
-    if (mapLoaded) return undefined;
-    const node = mapRef.current;
-    if (!node || typeof IntersectionObserver === "undefined") {
-      setMapLoaded(true);
-      return undefined;
-    }
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          setMapLoaded(true);
-          io.disconnect();
-        }
-      },
-      { rootMargin: "300px 0px" },
-    );
-    io.observe(node);
-    return () => io.disconnect();
-  }, [mapLoaded]);
 
   const isDark = tone === "dark";
 
@@ -160,8 +132,7 @@ export default function LocationSection({ tone = "light" }) {
 
             <dl className="mt-8 divide-y divide-line border-y border-line">
               {rows.map((row, i) => (
-                <Reveal key={row.label} delay={i * 50}>
-                  <div className="flex flex-col gap-1.5 py-4 sm:flex-row sm:gap-4">
+                <Reveal key={row.label} delay={i * 50} className="flex flex-col gap-1.5 py-4 sm:flex-row sm:gap-4">
                     <dt className="flex shrink-0 items-center gap-2.5 text-[0.8125rem] font-semibold text-ink-500 sm:w-[8.5rem] sm:items-start">
                       <Icon
                         name={row.icon}
@@ -175,7 +146,6 @@ export default function LocationSection({ tone = "light" }) {
                     <dd className="min-w-0 text-[0.9375rem] leading-relaxed text-ink-700 [overflow-wrap:anywhere]">
                       {row.value}
                     </dd>
-                  </div>
                 </Reveal>
               ))}
             </dl>
@@ -220,7 +190,6 @@ export default function LocationSection({ tone = "light" }) {
           {/* Map */}
           <Reveal delay={140} className="lg:col-span-7">
             <div
-              ref={mapRef}
               className="overflow-hidden rounded-[var(--radius-lg)] border border-line bg-paper-mute"
             >
               {mapLoaded ? (
@@ -233,8 +202,7 @@ export default function LocationSection({ tone = "light" }) {
                 />
               ) : (
                 <div className="relative flex h-[22rem] w-full flex-col items-center justify-center gap-4 px-6 text-center sm:h-[26rem] lg:h-[34rem]">
-                  {/* Faint map-style grid so the area reads as a map for the
-                      brief moment before the iframe auto-loads on scroll. */}
+                  {/* No request reaches Google until the visitor allows maps. */}
                   <div
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-0 opacity-[0.6]"
@@ -255,17 +223,8 @@ export default function LocationSection({ tone = "light" }) {
                       {business.address.line1}, {business.address.line2}
                     </p>
                   </div>
-                  <p
-                    role="status"
-                    aria-live="polite"
-                    className="relative inline-flex items-center gap-2 text-[0.8125rem] font-medium text-ink-400"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-line-strong border-t-accent-600 motion-reduce:animate-none"
-                    />
-                    Loading map…
-                  </p>
+                  <p className="relative max-w-sm text-sm text-ink-600">Loading the map connects to Google, which may set cookies. You can use Get Directions instead.</p>
+                  <Button className="relative" size="md" onClick={() => savePreferences({ maps: true, analytics: preferences?.analytics || false })}>Load Google Map</Button>
                 </div>
               )}
             </div>

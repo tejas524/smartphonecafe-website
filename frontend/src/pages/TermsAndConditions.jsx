@@ -20,7 +20,7 @@ import usePageMeta from "../utils/usePageMeta.js";
  * legal reviewer — none are invented here.
  */
 
-const LAST_UPDATED = "[owner to set publish date]";
+const LAST_UPDATED = "19 October 2026";
 
 export default function TermsAndConditions() {
   const { business } = useSiteData();
@@ -39,7 +39,7 @@ export default function TermsAndConditions() {
         lead="These terms cover the use of this website. They are written for a local shop and kept intentionally simple."
       >
         <p className="text-[0.9375rem] text-ink-500">
-          Last updated: <Placeholder>{LAST_UPDATED}</Placeholder>
+          Last updated: {LAST_UPDATED}
         </p>
       </PageHero>
 

@@ -95,7 +95,7 @@ export default function Gallery() {
               );
             })}
 
-            <span className="ml-auto text-[0.8125rem] text-ink-400">
+            <span className="ml-auto text-[0.8125rem] text-ink-500">
               {count} {count === 1 ? "photograph" : "photographs"}
             </span>
           </div>

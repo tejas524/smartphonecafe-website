@@ -10,9 +10,8 @@ import { repairEnquiryMessage, waLink } from "../../utils/whatsapp.js";
 /**
  * Repair enquiry form.
  *
- * There is deliberately no backend: this site has no server, no database and
- * no email service, and faking a "submission received" state would be dishonest
- * and would lose the enquiry. Instead the form collects the details, validates
+ * Public enquiries are handed to WhatsApp instead of being submitted to the
+ * private CMS API. The form collects the details, validates
  * them, and hands the customer straight to WhatsApp with a fully composed
  * message. Nothing is transmitted anywhere by this page.
  *
@@ -25,10 +24,12 @@ import { repairEnquiryMessage, waLink } from "../../utils/whatsapp.js";
 const PHONE_RE = /^(?:\+?91[\s-]?)?[6-9]\d{9}$/;
 
 function Field({ label, htmlFor, children, hint, error, required }) {
+  const Label = htmlFor === "rf-problem" ? "div" : "label";
   return (
     <div>
-      <label
-        htmlFor={htmlFor}
+      <Label
+        id={`${htmlFor}-label`}
+        htmlFor={Label === "label" ? htmlFor : undefined}
         className="flex items-baseline justify-between gap-2 font-display text-[0.8125rem] font-semibold text-ink-800"
       >
         <span>
@@ -40,8 +41,8 @@ function Field({ label, htmlFor, children, hint, error, required }) {
           )}
           {required && <span className="sr-only"> (required)</span>}
         </span>
-        {hint && <span className="text-[0.75rem] font-normal text-ink-400">{hint}</span>}
-      </label>
+        {hint && <span className="text-[0.75rem] font-normal text-ink-500">{hint}</span>}
+      </Label>
       <div className="mt-2">{children}</div>
       {error && (
         <p
@@ -76,6 +77,8 @@ export default function RepairEnquiryForm({ compact = false }) {
   const [errors, setErrors] = useState({});
   const [sent, setSent] = useState(null);
   const formRef = useRef(null);
+  const lastPrepared = useRef(0);
+  const [website, setWebsite] = useState("");
 
   const set = (key) => (e) => {
     const v = e.target.value;
@@ -86,15 +89,19 @@ export default function RepairEnquiryForm({ compact = false }) {
   function validate(v) {
     const e = {};
     if (!v.name.trim()) e.name = "Please enter your name.";
+    else if (v.name.trim().length > 100) e.name = "Keep your name under 100 characters.";
     if (!v.phone.trim()) e.phone = "Please enter your phone number.";
     else if (!PHONE_RE.test(v.phone.replace(/\s|-/g, "")))
       e.phone = "Enter a valid 10-digit Indian mobile number.";
-    if (!v.problem) e.problem = "Choose the issue you are facing.";
+    if (!repairProblems.includes(v.problem)) e.problem = "Choose the issue you are facing.";
+    if (v.model.length > 120) e.model = "Keep the model under 120 characters.";
+    if (v.message.length > 2000) e.message = "Keep your message under 2,000 characters.";
     return e;
   }
 
   function onSubmit(e) {
     e.preventDefault();
+    if (website) return;
     const found = validate(values);
     setErrors(found);
 
@@ -105,6 +112,11 @@ export default function RepairEnquiryForm({ compact = false }) {
       return;
     }
 
+    if (Date.now() - lastPrepared.current < 30_000) {
+      setErrors({ submit: "Please wait 30 seconds before preparing another enquiry." });
+      return;
+    }
+    lastPrepared.current = Date.now();
     const url = waLink(repairEnquiryMessage(values));
     setSent({ url, name: values.name.trim() });
     window.open(url, "_blank", "noopener,noreferrer");
@@ -187,6 +199,10 @@ export default function RepairEnquiryForm({ compact = false }) {
         compact ? "p-5 sm:p-6" : "p-6 sm:p-8"
       }`}
     >
+      <div aria-hidden="true" className="absolute -left-[10000px] h-px w-px overflow-hidden">
+        <label>Website<input name="website" tabIndex={-1} autoComplete="off" value={website} onChange={e => setWebsite(e.target.value)} /></label>
+      </div>
+      {errors.submit && <p role="alert" className="mb-4 text-sm font-semibold text-red-700">{errors.submit}</p>}
       <div className="flex items-start gap-3">
         <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-[11px] bg-ink-950 text-white">
           <Icon name="wrench" size={18} />
@@ -206,6 +222,7 @@ export default function RepairEnquiryForm({ compact = false }) {
           <input
             id={ids.name}
             name="name"
+            maxLength={100}
             type="text"
             autoComplete="name"
             value={values.name}
@@ -226,6 +243,7 @@ export default function RepairEnquiryForm({ compact = false }) {
           <input
             id={ids.phone}
             name="phone"
+            maxLength={20}
             type="tel"
             inputMode="numeric"
             autoComplete="tel"
@@ -260,10 +278,13 @@ export default function RepairEnquiryForm({ compact = false }) {
           </select>
         </Field>
 
-        <Field label="Phone model" htmlFor={ids.model} hint="optional">
+        <Field label="Phone model" htmlFor={ids.model} hint="optional" error={errors.model}>
           <input
             id={ids.model}
             name="model"
+            maxLength={120}
+            aria-invalid={!!errors.model}
+            aria-describedby={errors.model ? `${ids.model}-error` : undefined}
             type="text"
             value={values.model}
             onChange={set("model")}
@@ -281,8 +302,9 @@ export default function RepairEnquiryForm({ compact = false }) {
           >
             <div
               role="radiogroup"
-              aria-label="What is the problem?"
+              aria-labelledby={`${ids.problem}-label`}
               aria-invalid={!!errors.problem}
+              aria-describedby={errors.problem ? `${ids.problem}-error` : undefined}
               className="grid grid-cols-2 gap-2 sm:grid-cols-3"
             >
               {repairProblems.map((p) => {
@@ -325,10 +347,14 @@ export default function RepairEnquiryForm({ compact = false }) {
             label="Anything else?"
             htmlFor={ids.message}
             hint="optional"
+            error={errors.message}
           >
             <textarea
               id={ids.message}
               name="message"
+              maxLength={2000}
+              aria-invalid={!!errors.message}
+              aria-describedby={errors.message ? `${ids.message}-error` : undefined}
               rows={3}
               value={values.message}
               onChange={set("message")}

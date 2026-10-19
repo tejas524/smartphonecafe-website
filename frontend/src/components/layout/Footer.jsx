@@ -2,9 +2,11 @@ import { Link } from "react-router-dom";
 import { Logo } from "../Logo.jsx";
 import Icon from "../Icon.jsx";
 import { useSiteData } from "../../context/SiteData.jsx";
+import { usePrivacy } from "../../context/Privacy.jsx";
 import { waLink, waMessages } from "../../utils/whatsapp.js";
 
 export default function Footer() {
+  const { openPreferences } = usePrivacy();
   const { business, nav, reviewsSummary } = useSiteData();
   const year = new Date().getFullYear();
 
@@ -23,7 +25,7 @@ export default function Footer() {
               {business.tagline}
             </p>
 
-            <p className="mt-4 max-w-sm text-[0.875rem] leading-relaxed text-ink-500">
+            <p className="mt-4 max-w-sm text-[0.875rem] leading-relaxed text-ink-400">
               A mobile phone store and repair shop on Talegaon Station Road,
               serving Talegaon Dabhade and the surrounding area.
             </p>
@@ -41,7 +43,7 @@ export default function Footer() {
                 <span className="font-semibold tabular-nums text-white">
                   {reviewsSummary.rating.toFixed(1)}
                 </span>
-                <span className="text-ink-500">
+                <span className="text-ink-400">
                   · {reviewsSummary.reviewCount} Google reviews
                 </span>
               </a>
@@ -145,7 +147,7 @@ export default function Footer() {
 
         <div className="mt-12 border-t border-white/8 pt-7">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-[0.8125rem] text-ink-600">
+            <p className="text-[0.8125rem] text-ink-400">
               © {year} {business.name}. All rights reserved.
             </p>
             <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
@@ -155,13 +157,14 @@ export default function Footer() {
               <Link to="/terms-and-conditions" className={linkCls}>
                 Terms &amp; Conditions
               </Link>
-              <span className="text-[0.8125rem] text-ink-600">
+              <button type="button" onClick={openPreferences} className={`${linkCls} min-h-11 underline`}>Privacy settings</button>
+              <span className="text-[0.8125rem] text-ink-400">
                 {business.type} · Talegaon Dabhade, Maharashtra
               </span>
             </div>
           </div>
 
-          <p className="mt-4 max-w-3xl text-[0.75rem] leading-relaxed text-ink-700">
+          <p className="mt-4 max-w-3xl text-[0.75rem] leading-relaxed text-ink-400">
             Brand names shown on this website belong to their respective owners
             and are listed only to indicate the kinds of phones customers ask us
             about. Nothing here states or implies authorised dealership, and

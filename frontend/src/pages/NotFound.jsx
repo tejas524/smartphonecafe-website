@@ -8,6 +8,7 @@ export default function NotFound() {
     description:
       "The page you were looking for could not be found. Browse smartphones, repairs, the gallery or contact SmartphoneCafe in Talegaon Dabhade.",
     path: "/404",
+    noIndex: true,
   });
 
   return (

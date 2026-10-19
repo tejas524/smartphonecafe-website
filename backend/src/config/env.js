@@ -127,6 +127,15 @@ const uploads = {
 
 // ------------------------------------------------------------------ checks --
 
+if (isProduction) {
+  try {
+    const origin = new URL(server.publicSiteUrl);
+    if (origin.protocol !== "https:" || origin.username || origin.password || origin.pathname !== "/" || origin.search || origin.hash) throw new Error();
+  } catch {
+    problems.push("PUBLIC_SITE_URL must be an HTTPS origin without credentials or a path in production");
+  }
+}
+
 if (problems.length) {
   const lines = problems.map((p) => `  - ${p}`).join("\n");
   throw new Error(

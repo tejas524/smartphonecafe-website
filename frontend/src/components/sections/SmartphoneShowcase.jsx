@@ -61,7 +61,7 @@ function SmartphoneCard(model) {
           onClick={() => setSaved((s) => !s)}
           aria-label={saved ? `Remove ${name} from saved` : `Save ${name}`}
           aria-pressed={saved}
-          className="pointer-events-auto flex h-8 w-8 items-center justify-center rounded-full border border-line bg-white/90 text-ink-400 backdrop-blur-sm transition-colors hover:text-accent-600"
+          className="pointer-events-auto flex h-8 w-8 items-center justify-center rounded-full border border-line bg-white/90 text-ink-500 backdrop-blur-sm transition-colors hover:text-accent-600"
         >
           <Icon name={saved ? "heartFilled" : "heart"} size={16} />
         </button>
@@ -93,7 +93,7 @@ function SmartphoneCard(model) {
 
       <div className="flex flex-1 flex-col p-5">
         {model.brand ? (
-          <p className="text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-ink-400">
+          <p className="text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-ink-500">
             {model.brand}
           </p>
         ) : null}
@@ -112,7 +112,7 @@ function SmartphoneCard(model) {
               </span>
             ) : null}
             {showMrp ? (
-              <span className="text-[0.8125rem] text-ink-400 line-through tabular-nums">
+              <span className="text-[0.8125rem] text-ink-500 line-through tabular-nums">
                 {mrp}
               </span>
             ) : null}
@@ -149,10 +149,10 @@ function BrandStrip({ brands }) {
   return (
     <Reveal delay={120} className="mt-12">
       <div className="border-t border-line pt-8">
-        <p className="text-center text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-ink-400">
+        <p className="text-center text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-ink-500">
           Brands we stock
         </p>
-        <ul className="no-scrollbar mt-5 flex items-center gap-8 overflow-x-auto sm:flex-wrap sm:justify-center sm:gap-x-10 sm:gap-y-6 sm:overflow-visible">
+        <ul tabIndex={0} aria-label="Available phone brands" className="no-scrollbar mt-5 flex items-center gap-8 overflow-x-auto sm:flex-wrap sm:justify-center sm:gap-x-10 sm:gap-y-6 sm:overflow-visible">
           {brands.map((brand) => (
             <li key={brand.id} className="flex shrink-0 items-center justify-center">
               {brand.logo ? (
@@ -164,7 +164,7 @@ function BrandStrip({ brands }) {
                   className="h-7 w-auto opacity-60 grayscale transition duration-300 hover:opacity-100 hover:grayscale-0 sm:h-8"
                 />
               ) : (
-                <span className="font-display text-[0.9375rem] font-semibold text-ink-400">
+                <span className="font-display text-[0.9375rem] font-semibold text-ink-500">
                   {brand.name}
                 </span>
               )}

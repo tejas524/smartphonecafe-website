@@ -202,7 +202,7 @@ export default function SmartphoneDetail() {
             <Reveal delay={80}>
               <div className="flex h-full flex-col">
                 {product.brand ? (
-                  <p className="text-[0.75rem] font-bold uppercase tracking-[0.12em] text-ink-400">
+                  <p className="text-[0.75rem] font-bold uppercase tracking-[0.12em] text-ink-500">
                     {product.brand}
                   </p>
                 ) : null}
@@ -222,7 +222,7 @@ export default function SmartphoneDetail() {
                       </span>
                     ) : null}
                     {showMrp ? (
-                      <span className="text-[0.9375rem] text-ink-400 line-through tabular-nums">
+                      <span className="text-[0.9375rem] text-ink-500 line-through tabular-nums">
                         {mrp}
                       </span>
                     ) : null}
