@@ -73,11 +73,11 @@ export function Logo({
   const accent = tone === "light" ? "text-accent-400" : "text-accent-600";
 
   return (
-    <span className={`inline-flex min-w-0 max-w-full items-center gap-2.5 ${className}`}>
-      <LogoMark size={size} className="shrink-0" />
+    <span className={`inline-flex items-center gap-2.5 ${className}`}>
+      <LogoMark size={size} />
       {showWordmark && (
         <span
-          className={`min-w-0 font-display text-[1.0625rem] font-extrabold leading-tight tracking-[-0.03em] [overflow-wrap:anywhere] sm:text-[1.15rem] ${word} ${textClassName}`}
+          className={`font-display text-[1.0625rem] font-extrabold leading-none tracking-[-0.03em] sm:text-[1.15rem] ${word} ${textClassName}`}
         >
           Smartphone
           <span className={accent}>Cafe</span>

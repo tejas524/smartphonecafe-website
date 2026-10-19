@@ -97,7 +97,7 @@ export default function Header() {
           <Link
             to="/"
             aria-label={`${business.name} — home`}
-            className="min-w-0 rounded-lg py-1"
+            className="shrink-0 rounded-lg py-1"
           >
             <Logo size={36} className="max-[359px]:gap-1.5" textClassName="max-[359px]:text-[0.9375rem]" />
           </Link>
@@ -180,7 +180,7 @@ export default function Header() {
             <a
               href={business.phoneTel}
               aria-label={`Call ${business.name}`}
-              className="hidden h-11 w-11 items-center justify-center rounded-[10px] border border-line-strong bg-white text-ink-800 transition-colors hover:bg-paper-mute sm:inline-flex"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-[10px] border border-line-strong bg-white text-ink-800 transition-colors hover:bg-paper-mute"
             >
               <Icon name="phone" size={17} />
             </a>

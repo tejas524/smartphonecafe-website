@@ -192,7 +192,7 @@ function Toolbar({
             className="inline-flex h-11 shrink-0 items-center gap-2 rounded-[var(--radius-md)] border border-line px-3.5 text-[0.875rem] font-semibold text-ink-800 transition-colors hover:border-line-strong lg:hidden"
           >
             <Icon name="sliders" size={17} />
-            Filters{anyFilter && <span aria-hidden="true" className="h-2 w-2 rounded-full bg-accent-600" />}
+            Filters
           </button>
         </div>
       </div>
@@ -273,8 +273,7 @@ function Toolbar({
           </label>
         ) : null}
 
-      </div>
-      <div className="mt-3 flex min-h-11 flex-wrap items-center justify-between gap-x-4 gap-y-1 border-t border-line pt-2">
+        <div className="flex items-center gap-4 lg:ml-auto">
           <p className="text-[0.8125rem] text-ink-500" aria-live="polite">
             {count === total ? (
               <>
@@ -292,13 +291,14 @@ function Toolbar({
             <button
               type="button"
               onClick={onClear}
-              className="inline-flex min-h-11 items-center gap-1.5 text-[0.8125rem] font-semibold text-accent-600 transition-colors hover:text-accent-700"
+              className="inline-flex items-center gap-1.5 text-[0.8125rem] font-semibold text-accent-600 transition-colors hover:text-accent-700"
             >
               <Icon name="x" size={15} />
               Clear filters
             </button>
           ) : null}
         </div>
+      </div>
     </div>
   );
 }
@@ -434,12 +434,11 @@ export default function Accessories() {
   return (
     <>
       <PageHero
-        compact
         eyebrow="Accessories"
-        title="The extras your phone needs"
-        lead="Covers, chargers, earphones and more. Check what’s in store or ask us to help you choose."
+        title="Everyday Accessories, Fitted at the Counter"
+        lead="Browse the covers, glass, chargers, earphones and power banks available at SmartphoneCafe. Message us on WhatsApp or call the store to confirm the latest price and availability."
       >
-        <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:gap-3">
+        <div className="flex flex-wrap gap-2.5">
           <Button
             href={waLink(waMessages.accessories())}
             external
@@ -447,11 +446,11 @@ export default function Accessories() {
             size="lg"
             icon="whatsapp"
           >
-            Check stock
+            Ask what's in stock
           </Button>
           {business.phoneTel ? (
             <Button href={business.phoneTel} variant="outline" size="lg" icon="phone">
-              Call the store
+              Call {business.phoneDisplay}
             </Button>
           ) : null}
         </div>
@@ -461,7 +460,7 @@ export default function Accessories() {
         <h2 id="accessory-catalog-heading" className="sr-only">
           Accessories catalog
         </h2>
-        <div className="shell py-6 sm:py-8 lg:py-12">
+        <div className="shell py-10 lg:py-14">
           {loading ? (
             <LoadingSkeleton />
           ) : errored && !hasCatalog ? (

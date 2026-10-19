@@ -37,33 +37,3 @@ No unexpected overflowing controls or JavaScript page errors were found.
 Screenshots were reviewed at 320px and 640px. Preview and normal production
 builds passed. Real iOS/Android device and physical safe-area behavior still
 benefit from a final device check.
-
-## Frontend refinement — 19 October 2026
-
-The homepage now gives the real store photograph a clearer desktop composition,
-with readable copy on the left and a direct directions link over the photo.
-The hero uses fluid mobile typography, tighter spacing and a responsive image
-size matched to the desktop split. Store highlights form a compact two-column
-strip from 360px instead of a long vertical list.
-
-Catalog introductions are shorter, with compact page headings and two aligned
-contact actions on phones. At 390px, the first product row starts about 170px
-earlier than before. Result counts and Clear filters remain visible when the
-filter panel is collapsed; applied filters have a visual indicator.
-
-Carousel arrows and indicator buttons have 44px targets. The first/last indicator
-now maps to the actual scroll range, including partially filled final groups.
-The privacy panel is smaller, has equal-width choices and can scroll internally
-on short landscape screens. The header wordmark can shrink and wrap with enlarged
-text. Below 640px, Call remains in the fixed quick-actions bar while the header
-keeps the logo and menu uncluttered.
-
-Validation: 45 layout checks across home, smartphones, accessories, contact and
-gallery at 320, 360, 390, 640, 768, 844 (landscape), 1024, 1280 and 1440px.
-Catalog search, filters, collapsed-panel reset, carousel endpoints/44px targets,
-and a 20px root text size at 320px passed, with no runtime errors or page overflow.
-Menu focus/Escape/navigation/resize checks passed at 320, 390, 640 and landscape
-844px. The public-page accessibility scan at 320/1440px found zero WCAG A/AA
-violations, and 26 internal links checked successfully. Final screenshots were
-reviewed at 390/1440px and with enlarged text at 320px. Physical-device testing
-remains useful for platform-specific browser and safe-area behavior.

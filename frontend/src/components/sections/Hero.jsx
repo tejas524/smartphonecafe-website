@@ -41,19 +41,23 @@ export default function Hero() {
       <img
         src={HERO_PHOTO.src}
         srcSet={HERO_PHOTO.srcset}
-        sizes="(min-width: 1024px) 55vw, 100vw"
+        sizes="100vw"
         width={HERO_PHOTO.width}
         height={HERO_PHOTO.height}
         alt={HERO_PHOTO.alt}
         fetchpriority="high"
         decoding="sync"
-        className="hero-img absolute inset-0 -z-10 h-full w-full object-cover lg:left-auto lg:w-[55%] lg:object-[60%_center]"
+        className="hero-img absolute inset-0 -z-10 h-full w-full object-cover"
       />
 
       {/* Legibility gradient — heavier on the left where the copy sits */}
       <div
         aria-hidden="true"
-        className="hero-overlay hero-shade absolute inset-0 -z-10"
+        className="hero-overlay absolute inset-0 -z-10"
+        style={{
+          background:
+            "linear-gradient(90deg, rgb(6 8 12 / 0.95) 0%, rgb(6 8 12 / 0.82) 44%, rgb(6 8 12 / 0.58) 72%, rgb(6 8 12 / 0.40) 100%)",
+        }}
       />
       <div
         aria-hidden="true"
@@ -64,8 +68,8 @@ export default function Hero() {
         }}
       />
 
-      <div className="shell relative flex flex-col justify-center py-9 sm:min-h-[34rem] sm:py-14 lg:min-h-[38rem] lg:py-20">
-        <div className="max-w-2xl lg:max-w-[54%] lg:pr-12">
+      <div className="shell flex min-h-[23rem] flex-col justify-center py-11 sm:min-h-[36rem] sm:py-14 lg:min-h-[42rem] lg:py-28">
+        <div className="max-w-2xl">
           {/* Rating chip */}
           {reviewsSummary?.rating ? (
             <a
@@ -94,14 +98,14 @@ export default function Hero() {
 
           <h1
             id="hero-heading"
-            className="hero-rise mt-5 max-w-[19ch] text-[clamp(1.875rem,7.8vw,2.75rem)] font-extrabold leading-[1.08] tracking-[-0.035em] text-white sm:text-[2.75rem] lg:text-[clamp(2.75rem,3.7vw,3.5rem)]"
+            className="hero-rise mt-4 max-w-[18ch] text-[1.875rem] font-extrabold leading-[1.05] tracking-[-0.03em] text-white sm:mt-5 sm:text-[2.75rem] lg:text-[3.5rem]"
             style={{ animationDelay: "240ms" }}
           >
             {hero.heading || "Your trusted mobile destination in Talegaon Dabhade"}
           </h1>
 
           <p
-            className="hero-rise mt-4 max-w-[48ch] text-[0.9375rem] leading-[1.65] text-white/80 sm:mt-5 sm:text-[1.0625rem]"
+            className="hero-rise mt-4 max-w-xl text-[1rem] leading-[1.55] text-white/78 sm:mt-5 sm:text-[1.125rem] sm:leading-relaxed"
             style={{ animationDelay: "360ms" }}
           >
             {hero.body ||
@@ -136,7 +140,7 @@ export default function Hero() {
 
           {/* Trust / location row */}
           <div
-            className="hero-rise mt-6 flex flex-wrap items-center gap-x-5 gap-y-3 border-t border-white/15 pt-5 text-[0.75rem] text-white/80 sm:mt-8 sm:text-[0.8125rem]"
+            className="hero-rise mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 text-[0.875rem] text-white/70 sm:mt-8 sm:text-[0.8125rem] lg:mt-10"
             style={{ animationDelay: "600ms" }}
           >
             <span className="inline-flex items-center gap-2">
@@ -151,7 +155,7 @@ export default function Hero() {
                     : undefined
                 }
               />
-              {status.known ? (isOpen ? "Open now" : "Currently closed") : "Open daily"} · {business.hours.label}
+              {isOpen === false ? "Currently closed" : "Open now"} · {business.hours.label}
             </span>
             <span className="inline-flex items-center gap-2">
               <Icon name="mapPin" size={15} className="text-white/50" />
@@ -163,11 +167,6 @@ export default function Hero() {
             </span>
           </div>
         </div>
-        <a href={business.google.shortUrl} target="_blank" rel="noopener noreferrer" className="absolute bottom-8 right-10 hidden max-w-[22rem] items-center gap-4 rounded-2xl border border-white/20 bg-ink-950/85 p-5 text-white backdrop-blur-md transition-colors hover:bg-ink-950 lg:flex">
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/10"><Icon name="mapPin" size={21} /></span>
-          <span><span className="block text-[0.9375rem] font-semibold">Come by the store</span><span className="mt-1 block text-[0.8125rem] leading-relaxed text-white/80">Talegaon Station Road · Get directions</span></span>
-          <Icon name="arrowUpRight" size={18} className="shrink-0" />
-        </a>
       </div>
     </section>
   );

@@ -192,7 +192,7 @@ function Toolbar({
             className="inline-flex h-11 shrink-0 items-center gap-2 rounded-[var(--radius-md)] border border-line px-3.5 text-[0.875rem] font-semibold text-ink-800 transition-colors hover:border-line-strong lg:hidden"
           >
             <Icon name="sliders" size={17} />
-            Filters{anyFilter && <span aria-hidden="true" className="h-2 w-2 rounded-full bg-accent-600" />}
+            Filters
           </button>
         </div>
       </div>
@@ -275,8 +275,7 @@ function Toolbar({
           </label>
         ) : null}
 
-      </div>
-      <div className="mt-3 flex min-h-11 flex-wrap items-center justify-between gap-x-4 gap-y-1 border-t border-line pt-2">
+        <div className="flex items-center gap-4 lg:ml-auto">
           <p className="text-[0.8125rem] text-ink-500" aria-live="polite">
             {count === total ? (
               <>
@@ -294,13 +293,14 @@ function Toolbar({
             <button
               type="button"
               onClick={onClear}
-              className="inline-flex min-h-11 items-center gap-1.5 text-[0.8125rem] font-semibold text-accent-600 transition-colors hover:text-accent-700"
+              className="inline-flex items-center gap-1.5 text-[0.8125rem] font-semibold text-accent-600 transition-colors hover:text-accent-700"
             >
               <Icon name="x" size={15} />
               Clear filters
             </button>
           ) : null}
         </div>
+      </div>
     </div>
   );
 }
@@ -313,7 +313,7 @@ export default function Smartphones() {
   usePageMeta({
     title: "Smartphones in Talegaon Dabhade",
     description:
-      "Browse smartphones currently available at SmartphoneCafe, Talegaon Dabhade — Apple, Samsung, Motorola, Redmi, Realme, Vivo, OPPO, POCO, Tecno and Lava. Check stock on WhatsApp or visit the store.",
+      "Browse smartphones currently available at SmartphoneCafe, Talegaon Dabhade — Apple, Samsung, Motorola, Redmi, Realme, Vivo, OPPO, POCO, Tecno and Lava. Check availability on WhatsApp or visit the store.",
     path: "/smartphones",
   });
 
@@ -432,12 +432,11 @@ export default function Smartphones() {
   return (
     <>
       <PageHero
-        compact
         eyebrow="Smartphones"
-        title="Find your next smartphone"
-        lead="Find a phone that fits your day and your budget. Ask us for today’s price and availability."
+        title="Find Your Next Smartphone"
+        lead="Browse the smartphones currently available at SmartphoneCafe. Message us on WhatsApp or call the store to confirm the latest price and availability."
       >
-        <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:gap-3">
+        <div className="flex flex-wrap gap-2.5">
           <Button
             href={waLink(waMessages.smartphones())}
             external
@@ -445,11 +444,11 @@ export default function Smartphones() {
             size="lg"
             icon="whatsapp"
           >
-            Check stock
+            Check availability
           </Button>
           {business.phoneTel ? (
             <Button href={business.phoneTel} variant="outline" size="lg" icon="phone">
-              Call the store
+              Call {business.phoneDisplay}
             </Button>
           ) : null}
         </div>
@@ -459,7 +458,7 @@ export default function Smartphones() {
         <h2 id="catalog-heading" className="sr-only">
           Smartphone catalog
         </h2>
-        <div className="shell py-6 sm:py-8 lg:py-12">
+        <div className="shell py-10 lg:py-14">
           {loading ? (
             <LoadingSkeleton />
           ) : errored && !hasCatalog ? (
