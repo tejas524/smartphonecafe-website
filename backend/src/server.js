@@ -56,9 +56,9 @@ async function main() {
 
   const app = await createApp();
 
-  const server = app.listen(config.server.port, () => {
-    console.log(`[boot] listening on http://localhost:${config.server.port}`);
-    console.log(`[boot] health: http://localhost:${config.server.port}/api/health`);
+  const server = app.listen(config.server.port, "0.0.0.0", () => {
+    console.log(`[boot] listening on 0.0.0.0:${config.server.port} (PORT from environment, or development fallback)`);
+    console.log(`[boot] health path: /api/health`);
     console.log(`[boot] cors origins: ${config.server.allowedOrigins.join(", ")}`);
   });
 
