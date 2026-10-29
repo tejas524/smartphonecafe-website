@@ -28,6 +28,14 @@ import config from "../config/env.js";
 import { badRequest, payloadTooLarge, unsupportedMedia } from "../lib/errors.js";
 import { slugify } from "../lib/validate.js";
 
+// Avoid retaining libvips' operation cache between admin uploads. A single
+// native worker and one active image keep simultaneous decodes from multiplying
+// memory use on small hosts. Image dimensions, quality and validation stay intact.
+sharp.cache(false);
+sharp.concurrency(1);
+
+let imageTurn = Promise.resolve();
+
 /** Formats sharp can decode AND that are sensible for a shop website. */
 const ALLOWED_FORMATS = new Set(["jpeg", "png", "webp", "avif", "tiff", "heif"]);
 
@@ -110,6 +118,19 @@ export const uploadSingle = multer({
  *                    bytes: number, format: string, variants: object[]}>}
  */
 export async function processImage(buffer, { bucket, baseName = "image" } = {}) {
+  const previous = imageTurn;
+  let release;
+  imageTurn = new Promise((resolve) => { release = resolve; });
+  await previous;
+  try {
+    return await processImageNow(buffer, { bucket, baseName });
+  } finally {
+    // A rejected/corrupt upload must never block the next image.
+    release();
+  }
+}
+
+async function processImageNow(buffer, { bucket, baseName }) {
   if (!buffer || !buffer.length) {
     throw badRequest("No image data was received.");
   }

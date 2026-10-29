@@ -76,6 +76,7 @@ const db = {
   user: required("DB_USER"),
   password: required("DB_PASSWORD"),
   database: required("DB_NAME"),
+  connectionLimit: integer("DB_POOL_SIZE", 3, { min: 1, max: 20 }),
 };
 
 // -------------------------------------------------------------------- auth --

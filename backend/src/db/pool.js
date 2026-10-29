@@ -26,7 +26,12 @@ export function getPool() {
     database: config.db.database,
 
     waitForConnections: true,
-    connectionLimit: 10,
+    connectionLimit: config.db.connectionLimit,
+    maxIdle: 1,
+    idleTimeout: 60_000,
+    // Bound the per-connection prepared-statement cache (mysql2 defaults to
+    // 16,000). Evicted statements are prepared again when needed.
+    maxPreparedStatements: 100,
     queueLimit: 0,
 
     // Return DECIMAL as a string rather than a JS float. Money must not pick up
