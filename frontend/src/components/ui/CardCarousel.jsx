@@ -77,14 +77,14 @@ export default function CardCarousel({
         ref={trackRef}
         tabIndex={0}
         aria-label={`${ariaLabel} cards`}
-        className={`no-scrollbar -mx-1 flex snap-x snap-mandatory ${gapClass} overflow-x-auto scroll-smooth px-1 pb-1`}
+        className={`no-scrollbar -mx-1 flex snap-x snap-mandatory ${gapClass} overflow-x-auto overflow-y-hidden scroll-smooth px-1 pb-3 pt-2`}
       >
         {items.map((item, i) => (
           <li
             key={item.id ?? i}
             className={`flex shrink-0 snap-start ${cardBasis}`}
           >
-            <Reveal delay={Math.min(i, 4) * 80} className="flex h-full w-full">
+            <Reveal y={0} delay={Math.min(i, 4) * 80} className="flex h-full w-full">
               {renderItem(item, i)}
             </Reveal>
           </li>
