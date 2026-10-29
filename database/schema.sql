@@ -191,6 +191,7 @@ CREATE TABLE `repair_services` (
   `warranty_note`   VARCHAR(160)  NULL DEFAULT NULL COMMENT 'NULL = no warranty promised',
   `tags`            VARCHAR(255)  NULL DEFAULT NULL COMMENT 'comma-separated, mirrors the UI tags',
   `icon`            VARCHAR(40)   NULL DEFAULT NULL COMMENT 'key into the site icon set',
+  `image_path`      VARCHAR(255)  NULL DEFAULT NULL,
   `is_enquiry_only` TINYINT(1)    NOT NULL DEFAULT 1 COMMENT '1 = assessment only, no quote implied',
   `is_active`       TINYINT(1)    NOT NULL DEFAULT 1,
   `display_order`   INT           NOT NULL DEFAULT 0,
