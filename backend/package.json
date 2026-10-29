@@ -11,7 +11,8 @@
     "create-admin": "node src/scripts/create-admin.js",
     "extend-accessories": "node src/scripts/extend-accessories.js",
     "analytics-tables": "node src/scripts/create-analytics-tables.js",
-    "db:migrate": "node src/scripts/create-analytics-tables.js && node src/scripts/extend-accessories.js"
+    "reviews-table": "node src/scripts/create-reviews-table.js",
+    "db:migrate": "node src/scripts/create-analytics-tables.js && node src/scripts/extend-accessories.js && node src/scripts/create-reviews-table.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",

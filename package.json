@@ -5,6 +5,8 @@
   "type": "module",
   "description": "SmartphoneCafe - website and CMS monorepo (React/Vite frontend, Node/Express backend, MySQL).",
   "scripts": {
+    "postinstall": "npm --prefix frontend ci && npm --prefix backend ci",
+    "start": "node backend/src/server.js",
     "dev": "npm --prefix frontend run dev",
     "dev:api": "npm --prefix backend run dev",
     "build": "npm --prefix frontend run build",

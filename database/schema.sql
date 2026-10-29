@@ -1,7 +1,7 @@
 -- ============================================================================
 --  SmartphoneCafe - MySQL 8 schema
 -- ============================================================================
---  Creates the `smartphonecafe` database and its twelve tables
+--  Creates the `smartphonecafe` database and its thirteen tables
 --  (ten public/CMS tables plus the private sales + expenses analytics ledgers).
 --
 --  Design rules applied throughout:
@@ -31,6 +31,7 @@ USE `smartphonecafe`;
 
 -- Tables are dropped child-first so foreign keys never block the drop, which
 -- makes this file safely re-runnable during development.
+DROP TABLE IF EXISTS `reviews`;
 DROP TABLE IF EXISTS `sales`;
 DROP TABLE IF EXISTS `expenses`;
 DROP TABLE IF EXISTS `homepage_content`;
@@ -391,6 +392,31 @@ CREATE TABLE `expenses` (
   KEY `idx_expenses_category` (`category`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
   COMMENT='Private expense ledger for Business Analytics. Never served publicly.';
+
+
+-- ---------------------------------------------------------------------------
+-- 13. reviews - customer reviews shown on the homepage (fully CMS-managed)
+-- ---------------------------------------------------------------------------
+-- The owner adds, edits, hides and reorders reviews from Admin -> Reviews. There
+-- is deliberately NO reviewer photo column: the public card renders an avatar
+-- from the first letter of the name, so no image is uploaded or fetched from a
+-- third party. The publicly displayed review COUNT and RATING are NOT computed
+-- from these rows; they are editable `business_info` values (review_count,
+-- review_rating), so the owner can show real Google totals while curating which
+-- individual reviews appear.
+CREATE TABLE `reviews` (
+  `id`            INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `reviewer_name` VARCHAR(120)  NOT NULL,
+  `review_text`   TEXT          NOT NULL,
+  `rating`        TINYINT UNSIGNED NOT NULL DEFAULT 5 COMMENT 'whole stars 1-5, validated in the API',
+  `is_active`     TINYINT(1)    NOT NULL DEFAULT 1,
+  `display_order` INT           NOT NULL DEFAULT 0,
+  `created_at`    TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at`    TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_reviews_active_order` (`is_active`, `display_order`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+  COMMENT='Customer reviews for the homepage; count/rating live in business_info.';
 
 
 -- ---------------------------------------------------------------------------

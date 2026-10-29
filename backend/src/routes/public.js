@@ -137,6 +137,15 @@ router.get("/gallery", async (_req, res, next) => {
   }
 });
 
+router.get("/reviews", async (_req, res, next) => {
+  try {
+    const rows = await selectPublic("reviews", { where: " WHERE `is_active` = 1" });
+    return ok(res, rows, { count: rows.length });
+  } catch (err) {
+    return next(err);
+  }
+});
+
 router.get("/smartphones", async (req, res, next) => {
   try {
     const params = [];
@@ -160,7 +169,7 @@ router.get("/smartphones", async (req, res, next) => {
  */
 router.get("/bootstrap", async (_req, res, next) => {
   try {
-    const [home, business, brands, offers, repairs, gallery, smartphoneRows, accessoryRows, categories] =
+    const [home, business, brands, offers, repairs, gallery, reviews, smartphoneRows, accessoryRows, categories] =
       await Promise.all([
         query(
           `SELECT section_key, eyebrow, heading, subheading, body, cta_label, cta_url, image_path
@@ -173,6 +182,7 @@ router.get("/bootstrap", async (_req, res, next) => {
         selectPublic("offers", { where: " WHERE `is_active` = 1" }),
         selectPublic("repair-services", { where: " WHERE `is_active` = 1" }),
         selectPublic("gallery", { where: " WHERE `is_active` = 1" }),
+        selectPublic("reviews", { where: " WHERE `is_active` = 1" }),
         selectPublic("smartphones", { where: " WHERE `is_active` = 1" }),
         selectPublic("accessories", { where: " WHERE `is_active` = 1" }),
         selectPublic("accessory-categories", { where: " WHERE `is_active` = 1" }),
@@ -188,6 +198,7 @@ router.get("/bootstrap", async (_req, res, next) => {
       offers,
       repairs,
       gallery,
+      reviews,
       smartphones: smartphoneRows,
       accessories: { categories, items: accessoryRows },
     });

@@ -130,6 +130,7 @@ w("TRUNCATE TABLE `smartphones`;");
 w("TRUNCATE TABLE `brands`;");
 w("TRUNCATE TABLE `offers`;");
 w("TRUNCATE TABLE `business_info`;");
+w("TRUNCATE TABLE `reviews`;");
 w("SET FOREIGN_KEY_CHECKS = 1;");
 w();
 
@@ -204,6 +205,13 @@ bi("listing_description", business.listingDescription, "listing",
 bi("service_areas", serviceAreas.join(", "), "listing", "Service areas", "textarea",
    "Nearby localities listed in the shop brief");
 bi("site_url", siteUrl, "listing", "Canonical site URL", "url", "Shop brief");
+// Publicly displayed review totals. These are editable values, NOT computed
+// from the reviews table, so the owner can show the real Google totals while
+// curating which individual reviews appear on the site.
+bi("review_count", "324", "listing", "Review count (shown on site)", "number",
+   "Displayed Google review total; edited by the owner, not computed.");
+bi("review_rating", "4.9", "listing", "Review rating (shown on site)", "number",
+   "Displayed Google aggregate rating; edited by the owner.");
 
 w(insert("business_info",
   ["info_key", "info_value", "info_group", "label", "value_type", "source_note", "is_public", "display_order"],
@@ -514,6 +522,32 @@ w(insert("homepage_content",
   hp));
 w();
 
+/* ----------------------------------------------------------- N. reviews -- */
+// Verified customer reviews from the Google Business Profile, transcribed
+// exactly. No reviewer photo is stored (the card shows a first-letter avatar);
+// the displayed count/rating are the business_info values above.
+w("-- ---------------------------------------------------------------------------");
+w("-- reviews - verified customer reviews from the Google Business Profile");
+w("-- ---------------------------------------------------------------------------");
+w("-- Transcribed exactly as published. No review, name or star value is invented.");
+w();
+
+const REVIEWS = [
+  ["Sampat Shinde", "This shop really impressed me with their selection and financing options. They had a wide range of brands like Oppo, Vivo, Samsung, iPhone, Realme, Motorola, and Nokia, which made it easy to find exactly what I was looking for. Plus, they …", 5],
+  ["Shivaji Ghardale", "I recently visited this mobile shop, and I have to say, I was really impressed! The owner was super friendly and took the time to help me find exactly what I needed, all at very reasonable prices. It’s definitely my go-to place for anything mobile!", 5],
+  ["Sujata Jadhav", "Very fast service, change my mobile display touch glass in one hour, rate are very reasonable, recommended for mobile repair.", 5],
+  ["Jijaram Kaldoke", "Very nice service and cooperative staff, good product rang also repair service available here, must visit for any mobile phone related problem.", 5],
+  ["Alom Hoque", "Very good service, Repair my OnePlus mobile here, rate are very reasonable, mobile wrap also available here, recommended for your all mobile needs, keep it up 😊 …", 5],
+  ["Pappu", "Good Shop, fast service and owner is also very cooperative.", 5],
+];
+const reviewRows = REVIEWS.map(([name, text, rating], i) => [
+  q(name), q(text), n(rating), b(1), n(i * 10),
+]);
+w(insert("reviews",
+  ["reviewer_name", "review_text", "rating", "is_active", "display_order"],
+  reviewRows));
+w();
+
 /* ------------------------------------------------------------- footer note */
 
 w("-- ---------------------------------------------------------------------------");
@@ -541,6 +575,7 @@ console.log(`  accessory_categories: ${acRows.length} rows`);
 console.log(`  gallery       : ${galleryRows.length} rows`);
 console.log(`  offers        : ${offerRows.length} rows`);
 console.log(`  homepage_content: ${hp.length} rows`);
+console.log(`  reviews       : ${reviewRows.length} rows`);
 console.log("  smartphones   : 0 rows (intentionally empty - no verified data)");
 console.log("  accessories   : 0 rows (intentionally empty - no verified data)");
 console.log("  users         : 0 rows (created by the operator, not seeded)");

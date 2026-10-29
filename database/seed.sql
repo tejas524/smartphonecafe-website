@@ -30,6 +30,7 @@ TRUNCATE TABLE `smartphones`;
 TRUNCATE TABLE `brands`;
 TRUNCATE TABLE `offers`;
 TRUNCATE TABLE `business_info`;
+TRUNCATE TABLE `reviews`;
 SET FOREIGN_KEY_CHECKS = 1;
 
 -- ---------------------------------------------------------------------------
@@ -67,7 +68,9 @@ INSERT INTO `business_info` (
   ('longitude', '73.6780695', 'location', 'Longitude', 'number', 'Google Maps listing', 1, 270),
   ('listing_description', 'Discover the ultimate mobile experience at Smart Phone Cafe! Whether you''re looking for the latest smartphones, reliable accessories, or expert advice, our friendly team is here to help you find exactly what you need. Enjoy exclusive deals, quick repairs, and personalized service—all in one stop. Visit Smart Phone Cafe today and let us upgrade your digital lifestyle!', 'listing', 'Description published on the Google listing', 'textarea', 'Google Business Profile, quoted verbatim', 1, 280),
   ('service_areas', 'Talegaon Dabhade, Talegaon Station, Vatan Nagar, Vadgaon Maval, Urse, Kamshet, Lonavala, Chakan', 'listing', 'Service areas', 'textarea', 'Nearby localities listed in the shop brief', 1, 290),
-  ('site_url', 'https://smartphonecafe.in', 'listing', 'Canonical site URL', 'url', 'Shop brief', 1, 300);
+  ('site_url', 'https://smartphonecafe.in', 'listing', 'Canonical site URL', 'url', 'Shop brief', 1, 300),
+  ('review_count', '324', 'listing', 'Review count (shown on site)', 'number', 'Displayed Google review total; edited by the owner, not computed.', 1, 310),
+  ('review_rating', '4.9', 'listing', 'Review rating (shown on site)', 'number', 'Displayed Google aggregate rating; edited by the owner.', 1, 320);
 
 
 -- ---------------------------------------------------------------------------
@@ -132,12 +135,12 @@ INSERT INTO `repair_services` (
 INSERT INTO `accessory_categories` (
   `slug`,   `title`,   `description`,   `icon`,   `image_path`,   `is_active`,   `display_order`
 ) VALUES
-  ('protection', 'Covers & cases', 'Back covers and protective cases to keep a new handset safe from day one.', 'shield', NULL, 1, 10),
-  ('glass', 'Screen protection', 'Screen guards and tempered glass, fitted at the counter so it lines up properly.', 'screenCrack', NULL, 1, 20),
-  ('power', 'Chargers & cables', 'Chargers and data cables for the common handsets people bring in every day.', 'charge', NULL, 1, 30),
+  ('protection', 'Mobile covers', 'Back covers and protective cases to keep a new handset safe from day one.', 'shield', NULL, 1, 10),
+  ('power', 'Chargers & cables', 'Chargers and data cables for the common handsets people bring in every day.', 'charge', NULL, 1, 20),
+  ('glass', 'Tempered glass', 'Screen guards and tempered glass, fitted at the counter so it lines up properly.', 'screenCrack', NULL, 1, 30),
   ('audio', 'Earphones & audio', 'Wired and wireless earphones for calls, music and everything in between.', 'headphones', NULL, 1, 40),
   ('backup', 'Power banks', 'Portable backup power for long days, travel and load-shedding hours.', 'battery', NULL, 1, 50),
-  ('storage', 'Memory cards & storage', 'Memory cards and storage extras to give your phone more room.', 'chip', NULL, 1, 60);
+  ('storage', 'More accessories', 'SIM & memory cards, phone stands, car accessories, cleaning kits and more.', 'chip', NULL, 1, 60);
 
 
 -- ---------------------------------------------------------------------------
@@ -208,6 +211,22 @@ INSERT INTO `homepage_content` (
   ('gallery', 'Gallery', 'A look inside the store', 'Real photographs of SmartphoneCafe - the counter, the displays and the people behind it. Photographed in the shop, not borrowed from a stock library.', NULL, 'Open gallery', '/gallery', '/shop-images/smartphonecafe-interior-wide-2000.jpg', 1, 70),
   ('visit', 'Find the store', 'On Talegaon Station Road, easy to reach.', NULL, 'We are on the main Station Road stretch near Umang Medical - a short walk from Talegaon station and easy to pull up to on a two-wheeler.', 'Get Directions', 'https://maps.app.goo.gl/XwvLKCfxm1MawvcT8', NULL, 1, 80),
   ('cta', 'Ready when you are', 'Message the store and get an answer today.', NULL, 'Ask about a phone, check a price or describe a fault. We reply on WhatsApp during shop hours, every day of the week.', 'WhatsApp Us', 'https://wa.me/919922599577', NULL, 1, 90);
+
+
+-- ---------------------------------------------------------------------------
+-- reviews - verified customer reviews from the Google Business Profile
+-- ---------------------------------------------------------------------------
+-- Transcribed exactly as published. No review, name or star value is invented.
+
+INSERT INTO `reviews` (
+  `reviewer_name`,   `review_text`,   `rating`,   `is_active`,   `display_order`
+) VALUES
+  ('Sampat Shinde', 'This shop really impressed me with their selection and financing options. They had a wide range of brands like Oppo, Vivo, Samsung, iPhone, Realme, Motorola, and Nokia, which made it easy to find exactly what I was looking for. Plus, they …', 5, 1, 0),
+  ('Shivaji Ghardale', 'I recently visited this mobile shop, and I have to say, I was really impressed! The owner was super friendly and took the time to help me find exactly what I needed, all at very reasonable prices. It’s definitely my go-to place for anything mobile!', 5, 1, 10),
+  ('Sujata Jadhav', 'Very fast service, change my mobile display touch glass in one hour, rate are very reasonable, recommended for mobile repair.', 5, 1, 20),
+  ('Jijaram Kaldoke', 'Very nice service and cooperative staff, good product rang also repair service available here, must visit for any mobile phone related problem.', 5, 1, 30),
+  ('Alom Hoque', 'Very good service, Repair my OnePlus mobile here, rate are very reasonable, mobile wrap also available here, recommended for your all mobile needs, keep it up 😊 …', 5, 1, 40),
+  ('Pappu', 'Good Shop, fast service and owner is also very cooperative.', 5, 1, 50);
 
 
 -- ---------------------------------------------------------------------------

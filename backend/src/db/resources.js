@@ -311,6 +311,31 @@ export const RESOURCES = {
     },
   },
 
+  // ------------------------------------------------------------- reviews --
+  // Customer reviews shown on the homepage. Fully CMS-managed: the owner adds,
+  // edits, hides and reorders them. There is deliberately NO reviewer photo
+  // column — the public card renders an avatar from the first letter of the
+  // name, so no image is ever uploaded, stored or fetched from a third party.
+  // The public *review count* is NOT derived from these rows; it is a separate
+  // editable business_info value (info_key = "review_count").
+  reviews: {
+    table: "reviews",
+    label: "Reviews",
+    defaultOrder: { column: "display_order", direction: "asc" },
+    searchable: ["reviewer_name", "review_text"],
+    columns: {
+      id: { type: "int", editable: false, sortable: true },
+      reviewer_name: { type: "string", max: 120, required: true, listable: true, sortable: true },
+      review_text: { type: "text", max: 4000, required: true },
+      // Whole stars only, validated 1–5 on the server.
+      rating: { type: "int", min: 1, max: 5, default: 5, required: true, listable: true, sortable: true },
+      is_active: { type: "bool", listable: true, default: 1 },
+      display_order: { type: "int", min: 0, max: 100000, default: 0, sortable: true },
+      created_at: { type: "datetime", editable: false, sortable: true },
+      updated_at: { type: "datetime", editable: false, sortable: true },
+    },
+  },
+
   // --------------------------------------------------------------- sales --
   // Business Analytics. The owner records the ACTUAL money that changed hands,
   // never a figure derived from the catalog price/MRP: a sale can be discounted,
@@ -360,7 +385,7 @@ export const RESOURCES = {
   },
 };
 
-/** The eight sections named in the brief, for API/docs ordering. */
+/** The CMS sections named in the brief, for API/docs ordering. */
 export const CMS_RESOURCE_KEYS = [
   "offers",
   "smartphones",
@@ -368,6 +393,7 @@ export const CMS_RESOURCE_KEYS = [
   "repair-services",
   "accessories",
   "gallery",
+  "reviews",
   "business-info",
   "homepage-content",
 ];
