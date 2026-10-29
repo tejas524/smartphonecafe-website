@@ -8,6 +8,8 @@ The Express server serves the built React website, API, admin and uploads togeth
 
 - Runtime: Node.js 22.
 - Install: `npm install` (the root postinstall installs both locked dependency sets).
+- The frontend install explicitly includes build tools even when the host omits
+  development dependencies. Backend installation includes production dependencies only.
 - Build: `npm run build`.
 - Start: `npm start`.
 - Entry file, if requested instead of a start command: `backend/src/server.js`.

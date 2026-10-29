@@ -3,9 +3,13 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "main": "backend/src/server.js",
+  "engines": {
+    "node": "22.x"
+  },
   "description": "SmartphoneCafe - website and CMS monorepo (React/Vite frontend, Node/Express backend, MySQL).",
   "scripts": {
-    "postinstall": "npm --prefix frontend ci && npm --prefix backend ci",
+    "postinstall": "npm --prefix frontend ci --include=dev && npm --prefix backend ci --omit=dev",
     "start": "node backend/src/server.js",
     "dev": "npm --prefix frontend run dev",
     "dev:api": "npm --prefix backend run dev",
